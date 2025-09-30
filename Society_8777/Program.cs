@@ -1,0 +1,127 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Society_8777.DataBaseContext;
+using Society_8777.Interface;
+using Society_8777.Models;
+using SqlBankApi7.Repository;
+using System.Text;
+var builder = WebApplication.CreateBuilder(args);
+var sqlcon = builder.Configuration.GetConnectionString("Con");
+
+builder.Services.AddDbContext<DataBaseContext>
+(options => options.UseSqlServer(sqlcon));
+
+builder.Services.AddTransient<Token>();
+
+builder.Services.AddTransient<ISocietyUser, SocietyUserRepository>();
+//builder.Services.AddTransient<ISbankAccount, Cls_AccDATA>();
+//builder.Services.AddTransient<ICustomer, CustomerRepository>();
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+
+        };
+
+
+    });
+builder.Services.AddSwaggerGen(c =>
+{
+
+
+    OpenApiSecurityScheme securityDefinition = new OpenApiSecurityScheme()
+    {
+        Name = "Bearer",
+        BearerFormat = "JWT",
+        Scheme = "bearer",
+        Description = "this token generation is for security purpose",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+    };
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example :\"Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+
+
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+     {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                   Type = ReferenceType.SecurityScheme,
+                   Id="Bearer"
+                }
+            },
+            Array.Empty<string>()
+
+        }
+
+    });
+    //c.OperationFilter<AddRequiredHeaders>();
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "Dev",
+        Title = "Society 8777 API",
+        Description = "Society7 API for Swagger integration",
+        TermsOfService = new Uri("http://sbank7.somee.com/"), // Add url of term of service details
+        Contact = new OpenApiContact
+        {
+            Name = "Society7 Web Application",
+            Url = new Uri("http://sbank7.somee.com/") // Add url of contact details
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Society7 License",
+            Url = new Uri("http://sbank7.somee.com/") // Add url of license details
+        }
+    });
+}
+    );
+
+var app = builder.Build();
+app.UseSwagger();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+{
+
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+
+app.UseAuthorization();
+//app.UseMiddleware<ApiKeyMiddleware>();
+app.MapControllers();
+
+app.Run();
