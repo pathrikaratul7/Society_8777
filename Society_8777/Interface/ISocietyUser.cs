@@ -9,5 +9,6 @@ namespace Society_8777.Interface
         Task<IActionResult> AddUser(Tbl_User objCust);
 
         Task<IActionResult> UpdateUser(Tbl_User objCust);
+        Task<IActionResult> DeleteUser(Tbl_User objCust);
     }
 }
