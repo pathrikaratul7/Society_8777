@@ -33,5 +33,37 @@ namespace Society_8777.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        [HttpPost("AddUser")]
+        public async Task<IActionResult> AddUser(Tbl_User objCust)
+        {
+            try
+            {
+                // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
+                 // Replace with actual repository initialization
+                var result = await _repository.AddUser(objCust);
+                return result ?? NotFound();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (ex) as needed
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        [HttpPut("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(Tbl_User objCust)
+        {
+            try
+            {
+                // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
+                 // Replace with actual repository initialization
+                var result = await _repository.UpdateUser(objCust);
+                return result ?? NotFound();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (ex) as needed
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

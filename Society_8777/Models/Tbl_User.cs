@@ -11,7 +11,7 @@ namespace Society_8777.Models
         public string? UEmail { get; set; }          // nvarchar(max) -> string
         public string? UPass { get; set; }           // nvarchar(max) -> string
         public string? UMobile { get; set; }         // nvarchar -> string
-        public bool? IsDeleted { get; set; }        // bit -> bool?
+        public bool? IsDeleted { get; set; } = false;      // bit -> bool?
         public string? CreatedBy { get; set; }       // nvarchar(max) -> string
         public DateTime? CreatedDateTime { get; set; }  // datetime -> DateTime?
         public string? UpdatedBy { get; set; }       // nvarchar(max) -> string
