@@ -7,8 +7,9 @@ using Microsoft.OpenApi.Models;
 using Society_8777.DataBaseContext;
 using Society_8777.Interface;
 using Society_8777.Models;
-using SqlBankApi7.Repository;
+using Society_8777.Repository;
 using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 var sqlcon = builder.Configuration.GetConnectionString("Con");
 
@@ -18,6 +19,7 @@ builder.Services.AddDbContext<DataBaseContext>
 builder.Services.AddTransient<Token>();
 
 builder.Services.AddTransient<ISocietyUser, SocietyUserRepository>();
+builder.Services.AddTransient<IFlat, FlatRepo>();
 //builder.Services.AddTransient<ISbankAccount, Cls_AccDATA>();
 //builder.Services.AddTransient<ICustomer, CustomerRepository>();
 

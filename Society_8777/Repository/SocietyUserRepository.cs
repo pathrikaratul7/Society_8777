@@ -6,7 +6,7 @@ using Society_8777.DataBaseContext;
 using Society_8777.Interface;
 using Society_8777.Models;
 
-namespace SqlBankApi7.Repository
+namespace Society_8777.Repository
 {
     public class SocietyUserRepository : ISocietyUser
     {
@@ -41,6 +41,7 @@ namespace SqlBankApi7.Repository
                 {
                     return new OkObjectResult(_tbl_User);
                 }
+                
             }
             catch (Exception ex)
             {

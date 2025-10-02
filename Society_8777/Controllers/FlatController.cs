@@ -2,29 +2,28 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Society_8777.Interface;
-using Society_8777.Models;
-
 
 namespace Society_8777.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class SocietyUserController : ControllerBase
+    public class FlatController : ControllerBase
     {
-       private readonly ISocietyUser _repository;
-        public SocietyUserController(ISocietyUser repository)
+        readonly private IFlat _repository;
+        public FlatController(IFlat flat)
         {
-            _repository = repository;
+            _repository = flat;
+
         }
-        [HttpPost("GetLogin")]
-        public async Task<IActionResult> GetLogin(Tbl_User objCust)
+        [HttpPost("AddFlat")]
+        public async Task<IActionResult> AddFlat(Models.Tbl_Flat objFlat)
         {
             try
             {
-                // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
+                // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                  // Replace with actual repository initialization
-                var result = await _repository.GetLogin(objCust);
+                var result = await _repository.AddFlat(objFlat);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -33,14 +32,14 @@ namespace Society_8777.Controllers
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
         }
-        [HttpPost("AddUser")]
-        public async Task<IActionResult> AddUser(Tbl_User objCust)
+        [HttpPost("GetAllFlat")]
+        public async Task<IActionResult> GetAllFlat(Models.Tbl_Flat objFlat)
         {
             try
             {
-                // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
+                // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                  // Replace with actual repository initialization
-                var result = await _repository.AddUser(objCust);
+                var result = await _repository.GetAllFlat(objFlat);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -49,14 +48,14 @@ namespace Society_8777.Controllers
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
         }
-        [HttpPut("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(Tbl_User objCust)
+        [HttpPut("UpdateFlat")]
+        public async Task<IActionResult> UpdateFlat(Models.Tbl_Flat objFlat)
         {
             try
             {
-                // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
+                // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                  // Replace with actual repository initialization
-                var result = await _repository.UpdateUser(objCust);
+                var result = await _repository.UpdateFlat(objFlat);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -65,14 +64,14 @@ namespace Society_8777.Controllers
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
         }
-        [HttpDelete("DeleteUser")]
-        public async Task<IActionResult> DeleteUser(Tbl_User objCust)
+        [HttpDelete("DeleteFlat")]
+        public async Task<IActionResult> DeleteFlat(Models.Tbl_Flat objFlat)
         {
             try
             {
-                // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
+                // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                  // Replace with actual repository initialization
-                var result = await _repository.DeleteUser(objCust);
+                var result = await _repository.DeleteFlat(objFlat);
                 return result ?? NotFound();
             }
             catch (Exception ex)
