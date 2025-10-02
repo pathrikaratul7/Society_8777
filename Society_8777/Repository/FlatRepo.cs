@@ -109,11 +109,12 @@ namespace Society_8777.Repository
         {
             try
             {
-                SqlParameter[] p = new SqlParameter[2];
+                SqlParameter[] p = new SqlParameter[3];
                 p[0] = new SqlParameter("@FID", objFlat.FID);
                 p[1] = new SqlParameter("@Flag", objFlat.Flag ?? (object)DBNull.Value);
+                p[2] = new SqlParameter("@IsDeleted",objFlat.IsDeleted ?? (object)DBNull.Value);
                 var _tbl_Flat = _dbcontex.tbl_Flat
-                    .FromSqlRaw("EXEC USP_Tbl_Flat @FID=@FID, @Flag=@Flag", p)
+                    .FromSqlRaw("EXEC USP_Tbl_Flat @FID=@FID, @Flag=@Flag, @IsDeleted=@IsDeleted", p)
                     .AsEnumerable().FirstOrDefault();
                 await _dbcontex.SaveChangesAsync();
                 return new OkObjectResult(_tbl_Flat);
