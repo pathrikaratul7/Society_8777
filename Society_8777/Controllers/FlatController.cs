@@ -23,6 +23,7 @@ namespace Society_8777.Controllers
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                  // Replace with actual repository initialization
+
                 var result = await _repository.AddFlat(objFlat);
                 return result ?? NotFound();
             }
@@ -54,8 +55,9 @@ namespace Society_8777.Controllers
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements IFlat
-                 // Replace with actual repository initialization
-                var result = await _repository.UpdateFlat(objFlat);
+                // Replace with actual repository initialization
+         
+        var result = await _repository.UpdateFlat(objFlat);
                 return result ?? NotFound();
             }
             catch (Exception ex)

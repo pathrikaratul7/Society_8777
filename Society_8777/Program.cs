@@ -20,8 +20,8 @@ builder.Services.AddTransient<Token>();
 
 builder.Services.AddTransient<ISocietyUser, SocietyUserRepository>();
 builder.Services.AddTransient<IFlat, FlatRepo>();
-//builder.Services.AddTransient<ISbankAccount, Cls_AccDATA>();
-//builder.Services.AddTransient<ICustomer, CustomerRepository>();
+builder.Services.AddTransient<IGuest, GuestRepo>();
+
 
 // Add services to the container.
 

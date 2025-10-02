@@ -9,5 +9,7 @@ namespace Society_8777.Interface
         Task<IActionResult> GetAllFlat(Tbl_Flat objFlat);
         Task<IActionResult> UpdateFlat(Tbl_Flat objFlat);
         Task<IActionResult> DeleteFlat(Tbl_Flat objFlat);
+        
+        
     }
 }
