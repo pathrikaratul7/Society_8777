@@ -21,6 +21,8 @@ namespace Society_8777.DataBaseContext
         public virtual DbSet<Tbl_Guest>? Tbl_Guest { get; set; }
         public virtual DbSet<Tbl_Parking>? Tbl_Parking { get; set; }
 
+        public virtual DbSet<Tbl_Incident>? Tbl_Incidents { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tbl_User>(user =>
@@ -88,6 +90,19 @@ namespace Society_8777.DataBaseContext
                 parking.Property(p => p.UpdatedDateTime);
                 
 
+            });
+            modelBuilder.Entity<Tbl_Incident>(incident =>
+            {
+                incident.HasKey(i => i.INCID);
+                incident.Property(i => i.INCType);
+                incident.Property(i => i.INCImage);
+                incident.Property(i => i.INCImagePath);
+                incident.Property(i => i.INCReportedBy);
+                incident.Property(i => i.IsDeleted);
+                incident.Property(i => i.INCStatus);
+                incident.Property(i => i.INCReportedDateTime);
+                incident.Property(i => i.INCAssignTo);
+                
             });
 
 
