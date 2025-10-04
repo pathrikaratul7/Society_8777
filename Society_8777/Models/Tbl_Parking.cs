@@ -16,6 +16,7 @@ namespace Society_8777.Models
         public DateTime? CreatedDateTime { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime? UpdatedDateTime { get; set; }
+        [NotMapped]
         public long? LoginID { get; set; }
         [NotMapped]
         public string? Flag { get; set; }

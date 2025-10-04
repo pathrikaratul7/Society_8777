@@ -86,7 +86,7 @@ namespace Society_8777.DataBaseContext
                 parking.Property(p => p.CreatedDateTime);
                 parking.Property(p => p.UpdatedBy);
                 parking.Property(p => p.UpdatedDateTime);
-                parking.Property(p => p.LoginID);
+                
 
             });
 
