@@ -55,6 +55,7 @@ namespace Society_8777.Controllers
             
             try
             {
+                tbl_Guest.GImage = _guest.ConvertImageToByteArray(tbl_Guest.GImagePath);
                 var result = await _guest.UpdateGuest(tbl_Guest);
                 return result ?? NotFound();
             }

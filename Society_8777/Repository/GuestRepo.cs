@@ -18,11 +18,12 @@ namespace Society_8777.Repository
             try
             {
                 SqlParameter[] sp = new SqlParameter[2];
-                sp[0] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
+                sp[0] = new SqlParameter("@FID", tbl_Guest.FID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
 
-                var _tbl_Guest = await _context.Tbl_Guests.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @LoginID=@LoginID,@Flag=@Flag", sp).ToListAsync();
-
+                var _tbl_Guest =  _context.Tbl_Guest.FromSqlRaw
+                    ("EXEC [dbo].[USP_Tbl_Guest] @FID=@FID,@Flag=@Flag", sp).AsNoTracking().AsEnumerable().FirstOrDefault();
+                
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
@@ -47,7 +48,7 @@ namespace Society_8777.Repository
                 sp[6] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
                 sp[7] = new SqlParameter("@GImage", tbl_Guest.GImage ?? (object)DBNull.Value);
                 sp[8] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest =  _context.Tbl_Guests
+                var _tbl_Guest =  _context.Tbl_Guest
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail," +
                     "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID,@GImage=@GImage,@Flag=@Flag"
                     , sp).AsEnumerable().FirstOrDefault();
@@ -76,12 +77,14 @@ namespace Society_8777.Repository
                 sp[7] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
                 sp[8] = new SqlParameter("@GImage", tbl_Guest.GImage ?? (object)DBNull.Value);
                 sp[9] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = await _context.Tbl_Guests
-                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail,@OutDateTime=@OutDateTime,@FID=@FID,@UpdatedBy=@UpdatedBy,@LoginID=@LoginID,@GImage=@GImage,@Flag=@Flag", sp)
-                    .ToListAsync();
+                var _tbl_Guest = _context.Tbl_Guest
+                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@GName=@GName,@GMobile=@GMobile," +
+                    "@GEmail=@GEmail,@OutDateTime=@OutDateTime,@FID=@FID,@UpdatedBy=@UpdatedBy,@LoginID=@LoginID,@GImage=@GImage,@Flag=@Flag", sp)
+                    .AsEnumerable().FirstOrDefault();
+                await _context.SaveChangesAsync();  
                 return new OkObjectResult(_tbl_Guest);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
             return null;
@@ -95,7 +98,7 @@ namespace Society_8777.Repository
                 sp[1] = new SqlParameter("@IsDeleted", tbl_Guest.IsDeleted ?? (object)DBNull.Value);
                 sp[2] = new SqlParameter("@UpdatedBy", tbl_Guest.UpdatedBy ?? (object)DBNull.Value);
                 sp[3] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = await _context.Tbl_Guests.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@IsDeleted=@IsDeleted,@UpdatedBy=@UpdatedBy,@Flag=@Flag", sp).ToListAsync();
+                var _tbl_Guest = await _context.Tbl_Guest.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@IsDeleted=@IsDeleted,@UpdatedBy=@UpdatedBy,@Flag=@Flag", sp).ToListAsync();
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
@@ -110,7 +113,7 @@ namespace Society_8777.Repository
                 SqlParameter[] sp = new SqlParameter[2];
                 sp[0] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = await _context.Tbl_Guests.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @LoginID=@LoginID,@Flag=@Flag", sp).ToListAsync();
+                var _tbl_Guest = await _context.Tbl_Guest.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @LoginID=@LoginID,@Flag=@Flag", sp).ToListAsync();
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)

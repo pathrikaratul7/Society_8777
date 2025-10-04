@@ -19,7 +19,7 @@ namespace Society_8777.DataBaseContext
         public virtual DbSet<Tbl_User>? tbl_User { get; set; }
         public virtual DbSet<Tbl_Flat>? tbl_Flat { get; set; }
 
-        public virtual DbSet<Tbl_Guest>? Tbl_Guests { get; set; }
+        public virtual DbSet<Tbl_Guest>? Tbl_Guest { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
