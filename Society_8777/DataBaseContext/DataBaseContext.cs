@@ -18,8 +18,8 @@ namespace Society_8777.DataBaseContext
         }
         public virtual DbSet<Tbl_User>? tbl_User { get; set; }
         public virtual DbSet<Tbl_Flat>? tbl_Flat { get; set; }
-
         public virtual DbSet<Tbl_Guest>? Tbl_Guest { get; set; }
+        public virtual DbSet<Tbl_Parking>? Tbl_Parking { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,14 +70,25 @@ namespace Society_8777.DataBaseContext
                 guest.Property(g => g.CreatedDateTime  );
                 guest.Property(g => g.UpdatedBy  );
                 guest.Property(g => g.UpdatedDateTime  );
-                
                 guest.Property(g => g.GImagePath  );
-                
-                
-                
-                
             });
+            modelBuilder.Entity<Tbl_Parking>(parking =>
+            {
+                parking.HasKey(p => p.ParkingId);
+                parking.Property(p => p.FID);
+                parking.Property(p => p.VehicleNumber);
+                parking.Property(p => p.VehicleType);
+                parking.Property(p => p.SlotNumber);
+                parking.Property(p => p.IsOccupied);
+                parking.Property(p => p.StartTime);
+                parking.Property(p => p.EndTime);
+                parking.Property(p => p.CreatedBy);
+                parking.Property(p => p.CreatedDateTime);
+                parking.Property(p => p.UpdatedBy);
+                parking.Property(p => p.UpdatedDateTime);
+                parking.Property(p => p.LoginID);
 
+            });
 
 
             OnModelCreatingPartial(modelBuilder);
