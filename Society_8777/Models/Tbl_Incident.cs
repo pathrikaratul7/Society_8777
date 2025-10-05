@@ -7,6 +7,7 @@ namespace Society_8777.Models
     {
         public long? INCID { get; set; }
         public string? INCType { get; set; }
+        [NotMapped]
         public object? INCImage { get; set; }
         public string? INCImagePath { get; set; }
         public string? INCReportedBy { get; set; }

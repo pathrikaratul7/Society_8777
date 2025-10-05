@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Society_8777.Interface;
+using Society_8777.Models;
 
 namespace Society_8777.Controllers
 {
@@ -33,6 +34,7 @@ namespace Society_8777.Controllers
         {
             try
             {
+                tbl_INC.INCImage = _IInc.ConvertImageToByteArray(tbl_INC.INCImagePath);
                 var addInc = await _IInc.AddIncident(tbl_INC);
                 return addInc ?? NotFound();
             }

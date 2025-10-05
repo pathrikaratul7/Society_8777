@@ -22,6 +22,7 @@ builder.Services.AddTransient<ISocietyUser, SocietyUserRepository>();
 builder.Services.AddTransient<IFlat, FlatRepo>();
 builder.Services.AddTransient<IGuest, GuestRepo>();
 builder.Services.AddTransient<IPark, ParkRepo>();
+builder.Services.AddTransient<IInc, INCRepo>();
 
 
 // Add services to the container.

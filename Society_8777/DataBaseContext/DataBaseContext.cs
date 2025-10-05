@@ -95,7 +95,7 @@ namespace Society_8777.DataBaseContext
             {
                 incident.HasKey(i => i.INCID);
                 incident.Property(i => i.INCType);
-                incident.Property(i => i.INCImage);
+                //incident.Property(i => i.INCImage);
                 incident.Property(i => i.INCImagePath);
                 incident.Property(i => i.INCReportedBy);
                 incident.Property(i => i.IsDeleted);
