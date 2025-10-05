@@ -30,8 +30,7 @@ namespace Society_8777.Models
 
         public DateTime? UpdatedDateTime { get; set; }
 
-        [NotMapped]
-        public object? GImage { get; set; }  // varbinary(max) → byte[]
+        
 
         public string? GImagePath { get; set; }
 

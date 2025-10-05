@@ -18,17 +18,16 @@ namespace Society_8777.Repository
         {
             try
             {
-                SqlParameter[] p = new SqlParameter[10];
+                SqlParameter[] p = new SqlParameter[9];
                 p[0] = new SqlParameter("@INCID", tbl_INC.INCID ?? (object)DBNull.Value);
                 p[1] = new SqlParameter("@INCType", tbl_INC.INCType ?? (object)DBNull.Value);
-                p[2] = new SqlParameter("@INCImage", tbl_INC.INCImage ?? (object)DBNull.Value);
-                p[3] = new SqlParameter("@INCImagePath", tbl_INC.INCImagePath ?? (object)DBNull.Value);
-                p[4] = new SqlParameter("@INCReportedBy", tbl_INC.INCReportedBy ?? (object)DBNull.Value);
-                p[5] = new SqlParameter("@IsDeleted", tbl_INC.IsDeleted ?? (object)DBNull.Value);
-                p[6] = new SqlParameter("@INCStatus", tbl_INC.INCStatus ?? (object)DBNull.Value);
-                p[7] = new SqlParameter("@INCReportedDateTime", tbl_INC.INCReportedDateTime ?? (object)DBNull.Value);
-                p[8] = new SqlParameter("@INCAssignTo", tbl_INC.INCAssignTo ?? (object)DBNull.Value);
-                p[9] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
+                p[2] = new SqlParameter("@INCImagePath", tbl_INC.INCImagePath ?? (object)DBNull.Value);
+                p[3] = new SqlParameter("@INCReportedBy", tbl_INC.INCReportedBy ?? (object)DBNull.Value);
+                p[4] = new SqlParameter("@IsDeleted", tbl_INC.IsDeleted ?? (object)DBNull.Value);
+                p[5] = new SqlParameter("@INCStatus", tbl_INC.INCStatus ?? (object)DBNull.Value);
+                p[6] = new SqlParameter("@INCReportedDateTime", tbl_INC.INCReportedDateTime ?? (object)DBNull.Value);
+                p[7] = new SqlParameter("@INCAssignTo", tbl_INC.INCAssignTo ?? (object)DBNull.Value);
+                p[8] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
 
 
                 var data = _context.Tbl_Incidents.FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @INCType=@INCType," +
@@ -73,22 +72,22 @@ namespace Society_8777.Repository
 
             try
             {
-                SqlParameter[] p = new SqlParameter[10];
+                SqlParameter[] p = new SqlParameter[9];
                 p[0] = new SqlParameter("@INCID", tbl_INC.INCID ?? (object)DBNull.Value);
                 p[1] = new SqlParameter("@INCType", tbl_INC.INCType ?? (object)DBNull.Value);
-                p[2] = new SqlParameter("@INCImage", tbl_INC.INCImage ?? (object)DBNull.Value);
-                p[3] = new SqlParameter("@INCImagePath", tbl_INC.INCImagePath ?? (object)DBNull.Value);
-                p[4] = new SqlParameter("@INCReportedBy", tbl_INC.INCReportedBy ?? (object)DBNull.Value);
-                p[5] = new SqlParameter("@IsDeleted", tbl_INC.IsDeleted ?? (object)DBNull.Value);
-                p[6] = new SqlParameter("@INCStatus", tbl_INC.INCStatus ?? (object)DBNull.Value);
-                p[7] = new SqlParameter("@INCReportedDateTime", tbl_INC.INCReportedDateTime ?? (object)DBNull.Value);
-                p[8] = new SqlParameter("@INCAssignTo", tbl_INC.INCAssignTo ?? (object)DBNull.Value);
-                p[9] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
+                p[2] = new SqlParameter("@INCImagePath", tbl_INC.INCImagePath ?? (object)DBNull.Value);
+                p[3] = new SqlParameter("@INCReportedBy", tbl_INC.INCReportedBy ?? (object)DBNull.Value);
+                p[4] = new SqlParameter("@IsDeleted", tbl_INC.IsDeleted ?? (object)DBNull.Value);
+                p[5] = new SqlParameter("@INCStatus", tbl_INC.INCStatus ?? (object)DBNull.Value);
+                p[6] = new SqlParameter("@INCReportedDateTime", tbl_INC.INCReportedDateTime ?? (object)DBNull.Value);
+                p[7] = new SqlParameter("@INCAssignTo", tbl_INC.INCAssignTo ?? (object)DBNull.Value);
+                p[8] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
 
                 var data = _context.Tbl_Incidents.FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @INCType=@INCType," +
                    " @INCImage=@INCImage, @INCImagePath=@INCImagePath, @INCReportedBy=@INCReportedBy," +
                    " @IsDeleted=@IsDeleted, @INCStatus=@INCStatus," +
-                   " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p).AsEnumerable().FirstOrDefault();
+                   " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p)
+                    .AsEnumerable().FirstOrDefault();
                 await _context.SaveChangesAsync();
                 return new OkObjectResult(data);
 
