@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Society_8777.DataBaseContext;
 using Society_8777.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Society_8777.DataBaseContext;
-using Microsoft.EntityFrameworkCore;
 
 namespace Society_8777.Controllers
 {
@@ -39,7 +40,7 @@ namespace Society_8777.Controllers
 
                 if (_userInfo != null && !string.IsNullOrEmpty(_userInfo.UEmail) && !string.IsNullOrEmpty(_userInfo.UPass))
                 {
-                    var user = await GetUser(_userInfo.UEmail, _userInfo.UPass);
+                    var user = await GetUser(_userInfo.UEmail, _userInfo.UPass,_userInfo.Flag);
                     if (user != null)
                     {
                         var claims = new[]
@@ -108,9 +109,35 @@ namespace Society_8777.Controllers
             return _ts;
         }
         [AllowAnonymous]
-        private async Task<Tbl_User> GetUser(string email, string password)
+        private async Task<Tbl_User> GetUser(string email, string password, string Flag)
         {
-            return await _Context.tbl_User.FirstOrDefaultAsync(u => u.UEmail == email && u.UPass == password);
+            //return await _Context.tbl_User.FirstOrDefaultAsync(u => u.UEmail == email && u.UPass == password);
+            try
+            {
+               
+
+                SqlParameter[] sqlpara = new SqlParameter[3];
+                sqlpara[0] = new SqlParameter("@UEmail", email ?? (object)DBNull.Value);
+                sqlpara[1] = new SqlParameter("@UPass", password ?? (object)DBNull.Value);
+                sqlpara[2] = new SqlParameter("@Flag", Flag ?? (object)DBNull.Value);
+
+                var _tbl_User = _Context.tbl_User
+       .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass, @Flag=@Flag", sqlpara)
+       .AsNoTracking()
+       .AsEnumerable()
+       .FirstOrDefault();
+
+                if (_tbl_User != null)
+                {
+                    return _tbl_User;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
+            return null;
         }
     }
 }

@@ -16,9 +16,15 @@ namespace Society_8777.Models
         public DateTime? CreatedDateTime { get; set; }  // datetime -> DateTime?
         public string? UpdatedBy { get; set; }       // nvarchar(max) -> string
         public DateTime? UpdatedDateTime { get; set; }  // datetime -> DateTime?
-        
 
+        
+        public long? FID { get; set; }
+        
+       public string? FlatNumber { get; set; }
+        
+        public string? FlatType { get; set; }
         [NotMapped]
+        
         public string? Flag { get; set; }
     }
 }

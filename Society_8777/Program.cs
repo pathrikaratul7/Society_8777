@@ -111,8 +111,17 @@ builder.Services.AddSwaggerGen(c =>
     });
 }
     );
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy => policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
+
 
 var app = builder.Build();
+app.UseCors("AllowAll");
 app.MapSwagger();
 app.UseSwagger();
 // Configure the HTTP request pipeline.
@@ -124,6 +133,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseStaticFiles();
 
 app.UseAuthorization();
 //app.UseMiddleware<ApiKeyMiddleware>();
