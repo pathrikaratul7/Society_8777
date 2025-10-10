@@ -36,8 +36,8 @@ namespace Society_8777.DataBaseContext
                 user.Property(u => u.CreatedDateTime).IsUnicode(false);
                 user.Property(u => u.UpdatedBy);
                 user.Property(u => u.UpdatedDateTime).IsUnicode(false);
-                //user.Property(u => u.FID);
-                //user.Property(u => u.FlatNumber);
+                user.Property(u => u.DeviceID);
+                user.Property(u => u.PrivList);
                 //user.Property(u => u.FlatType);
                 
 

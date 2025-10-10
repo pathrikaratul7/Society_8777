@@ -58,13 +58,15 @@ namespace Society_8777.Repository
                 {
                     return new NotFoundResult();
                 }
-                SqlParameter[] sqlpara = new SqlParameter[6];
+                SqlParameter[] sqlpara = new SqlParameter[8];
                 sqlpara[0] = new SqlParameter("@UName", objCust.UName ?? (object)DBNull.Value);
                 sqlpara[1] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@UPass", objCust.UPass ?? (object)DBNull.Value);
                 sqlpara[3] = new SqlParameter("@UMobile", objCust.UMobile ?? (object)DBNull.Value);
                 sqlpara[4] = new SqlParameter("@IsDeleted", objCust.IsDeleted ?? (object)DBNull.Value);
-                sqlpara[5] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
+                sqlpara[5] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
+                sqlpara[6] = new SqlParameter("@PrivList", objCust.PrivList ?? (object)DBNull.Value);
+                sqlpara[7] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
                 var _tbl_User =  _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UName=@UName, @UEmail=@UEmail, @UPass=@UPass, @UMobile=@UMobile, @IsDeleted=@IsDeleted, @Flag=@Flag", sqlpara)
                      .AsEnumerable().FirstOrDefault();

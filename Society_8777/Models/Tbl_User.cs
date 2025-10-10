@@ -20,9 +20,11 @@ namespace Society_8777.Models
         
         public long? FID { get; set; }
         
-       public string? FlatNumber { get; set; }
+        public string? FlatNumber { get; set; }
         
         public string? FlatType { get; set; }
+        public string? DeviceID { get; set; }
+	    public string? PrivList { get; set; }
         [NotMapped]
         
         public string? Flag { get; set; }
