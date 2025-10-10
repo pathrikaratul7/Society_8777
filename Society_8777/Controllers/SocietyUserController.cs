@@ -49,7 +49,7 @@ namespace Society_8777.Controllers
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
         }
-        [HttpPut("UpdateUser")]
+        [HttpPost("UpdateUser")]
         public async Task<IActionResult> UpdateUser(Tbl_User objCust)
         {
             try
@@ -80,6 +80,24 @@ namespace Society_8777.Controllers
                 // Log the exception (ex) as needed
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
+        }
+        [HttpPost("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers(Tbl_User objcust)
+        {
+           
+
+            try
+            {
+                var result = await _repository.GetAllUsers(objcust);
+                return result ?? NotFound();
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+
         }
     }
 }

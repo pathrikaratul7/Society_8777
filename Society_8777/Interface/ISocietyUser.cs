@@ -10,5 +10,6 @@ namespace Society_8777.Interface
 
         Task<IActionResult> UpdateUser(Tbl_User objCust);
         Task<IActionResult> DeleteUser(Tbl_User objCust);
+        Task<IActionResult> GetAllUsers(Tbl_User objcust);
     }
 }
