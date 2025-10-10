@@ -26,13 +26,14 @@ namespace Society_8777.Repository
                     return new NotFoundResult();
                 }
 
-                SqlParameter[] sqlpara = new SqlParameter[3];
+                SqlParameter[] sqlpara = new SqlParameter[4];
                 sqlpara[0] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
                 sqlpara[1] = new SqlParameter("@UPass", objCust.UPass ?? (object)DBNull.Value);
-                sqlpara[2] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
+                sqlpara[2] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
+                sqlpara[3] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
 
                 var _tbl_User = _dbcontex.tbl_User
-       .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass, @Flag=@Flag", sqlpara)
+       .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
        .AsNoTracking()
        .AsEnumerable()
        .FirstOrDefault();
