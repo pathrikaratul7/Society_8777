@@ -41,12 +41,12 @@ namespace Society_8777.Controllers
             {
                 //tbl_Guest.GImage = _guest.ConvertImageToByteArray(tbl_Guest.GImagePath);
                 
-                if (!string.IsNullOrEmpty(tbl_Guest.GImagePath))
-                {
-                   FullPath =  UploadImage(tbl_Guest);
+                //if (!string.IsNullOrEmpty(tbl_Guest.GImagePath))
+                //{
+                //   FullPath =  UploadImage(tbl_Guest);
 
-                }
-                tbl_Guest.GImagePath = FullPath;
+                //}
+                //tbl_Guest.GImagePath = FullPath;
                 var result = await _guest.AddGuest(tbl_Guest);
                 return result ?? NotFound();
             }
@@ -150,5 +150,26 @@ namespace Society_8777.Controllers
             }
             return string.Empty;
         }
+        [HttpPost("guestimg")]
+        public async Task<IActionResult> UploadGuestImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images", "GuestImg");
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var filePath = Path.Combine(uploadsFolder, file.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok(new { filePath });
+        }
+
     }
 }

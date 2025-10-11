@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Society_8777.DataBaseContext;
@@ -133,7 +134,24 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseStaticFiles();
+app.UseStaticFiles(); // For wwwroot
+
+// Serve files from Images folder
+var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "Images");
+
+if (Directory.Exists(imagePath))
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(imagePath),
+        RequestPath = "/Images"
+    });
+}
+else
+{
+    Console.WriteLine($"[ERROR] Images directory not found at {imagePath}");
+}
+
 
 app.UseAuthorization();
 //app.UseMiddleware<ApiKeyMiddleware>();
