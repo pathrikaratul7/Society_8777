@@ -46,11 +46,12 @@ namespace Society_8777.Repository
                 sp[4] = new SqlParameter("@FID", tbl_Guest.FID ?? (object)DBNull.Value);
                 sp[5] = new SqlParameter("@CreatedBy", tbl_Guest.CreatedBy ?? (object)DBNull.Value);
                 sp[6] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
+                sp[7] = new SqlParameter("@GImagePath", tbl_Guest.GImagePath ?? (object)DBNull.Value);
                 
                 sp[8] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
                 var _tbl_Guest =  _context.Tbl_Guest
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail," +
-                    "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID,@GImage=@GImage,@Flag=@Flag"
+                    "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID,@GImagePath=@GImagePath,@Flag=@Flag"
                     , sp).AsEnumerable().FirstOrDefault();
                 await _context.SaveChangesAsync();
                 return new OkObjectResult(_tbl_Guest);
