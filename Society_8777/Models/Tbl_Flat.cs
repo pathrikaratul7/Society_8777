@@ -38,6 +38,7 @@ namespace Society_8777.Models
         public DateTime? UpdatedDateTime { get; set; }
 
         public long? LoginID { get; set; } // Foreign Key
+        public long? UID { get; set; }
         [NotMapped]
         public string? Flag { get;set; }
     }

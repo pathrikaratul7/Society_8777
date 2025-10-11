@@ -49,7 +49,7 @@ namespace Society_8777.Controllers
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
         }
-        [HttpPut("UpdateFlat")]
+        [HttpPost("UpdateFlat")]
         public async Task<IActionResult> UpdateFlat(Models.Tbl_Flat objFlat)
         {
             try
