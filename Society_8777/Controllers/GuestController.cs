@@ -56,7 +56,7 @@ namespace Society_8777.Controllers
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
         }
-        [HttpPut]
+        [HttpPost]
         [Route("UpdateGuest")]
         public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest)
         {
@@ -64,14 +64,8 @@ namespace Society_8777.Controllers
             
             try
             {
-                //tbl_Guest.GImage = _guest.ConvertImageToByteArray(tbl_Guest.GImagePath);
-                
-                if (!string.IsNullOrEmpty(tbl_Guest.GImagePath))
-                {
-                    Fullpath= UploadImage(tbl_Guest);
-
-                }
-                tbl_Guest.GImagePath = Fullpath;
+               
+               
                 var result = await _guest.UpdateGuest(tbl_Guest);
                 return result ?? NotFound();
             }
