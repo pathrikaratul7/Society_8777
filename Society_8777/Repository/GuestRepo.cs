@@ -114,7 +114,8 @@ namespace Society_8777.Repository
                 SqlParameter[] sp = new SqlParameter[2];
                 sp[0] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = await _context.Tbl_Guest.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @LoginID=@LoginID,@Flag=@Flag", sp).ToListAsync();
+                var _tbl_Guest = await _context.Tbl_Guest.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest]" +
+                    " @LoginID=@LoginID,@Flag=@Flag", sp).ToListAsync();
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
