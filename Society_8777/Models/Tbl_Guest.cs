@@ -30,7 +30,11 @@ namespace Society_8777.Models
 
         public DateTime? UpdatedDateTime { get; set; }
 
-        
+        public string? FloorNumber { get; set; }
+
+        public string? FlatNumber { get; set; }
+
+        public string? FlatType { get; set; }
 
         public string? GImagePath { get; set; }
 
