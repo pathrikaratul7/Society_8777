@@ -28,5 +28,7 @@ namespace Society_8777.Models
         [NotMapped]
         
         public string? Flag { get; set; }
+        public int GuestVisitor { get; set; }
+        public int IncidentCount { get; set; }
     }
 }
