@@ -84,7 +84,7 @@ namespace Society_8777.Repository
                 p[8] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
 
                 var data = _context.Tbl_Incidents.FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @INCType=@INCType," +
-                   " @INCImage=@INCImage, @INCImagePath=@INCImagePath, @INCReportedBy=@INCReportedBy," +
+                   " @INCImagePath=@INCImagePath, @INCReportedBy=@INCReportedBy," +
                    " @IsDeleted=@IsDeleted, @INCStatus=@INCStatus," +
                    " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p)
                     .AsEnumerable().FirstOrDefault();

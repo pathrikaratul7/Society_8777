@@ -54,13 +54,7 @@ namespace Society_8777.Controllers
             string FullPath = string.Empty;
             try
             {
-                //tbl_INC.INCImage = _IInc.ConvertImageToByteArray(tbl_INC.INCImagePath);
-                if (!string.IsNullOrEmpty(tbl_INC.INCImagePath))
-                {
-                  FullPath =    UploadImage(tbl_INC);
-
-                }
-                tbl_INC.INCImagePath = FullPath;
+                
                 var updateInc = await _IInc.UpdateIncident(tbl_INC);
                
                 return updateInc ?? NotFound();
