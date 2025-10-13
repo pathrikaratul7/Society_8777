@@ -31,7 +31,7 @@ namespace Society_8777.Repository
 
 
                 var data = _context.Tbl_Incidents.FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @INCType=@INCType," +
-                    " @INCImage=@INCImage, @INCImagePath=@INCImagePath, @INCReportedBy=@INCReportedBy," +
+                    "  @INCImagePath=@INCImagePath, @INCReportedBy=@INCReportedBy," +
                     " @IsDeleted=@IsDeleted, @INCStatus=@INCStatus," +
                     " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p).AsEnumerable().FirstOrDefault();
                 await _context.SaveChangesAsync();
@@ -123,9 +123,10 @@ namespace Society_8777.Repository
         {
             try
             {
-                SqlParameter[] p = new SqlParameter[1];
-                p[0] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
-                var data = await _context.Tbl_Incidents.FromSqlRaw("EXEC USP_Tbl_Incident  @Flag=@Flag", p).ToListAsync();
+                SqlParameter[] p = new SqlParameter[2];
+                p[0] = new SqlParameter("@UID", tbl_INC.UID);
+                p[1] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
+                var data = await _context.Tbl_Incidents.FromSqlRaw("EXEC USP_Tbl_Incident @UID=@UID,  @Flag=@Flag", p).ToListAsync();
                 return new OkObjectResult(data);
             }
             catch (Exception ex)

@@ -13,11 +13,11 @@ namespace Society_8777.Controllers
     public class IncidentController : ControllerBase
     {
         readonly private IInc _IInc;
-        private readonly IWebHostEnvironment _environment;
-        public IncidentController(IInc inc, IWebHostEnvironment environment)
+        
+        public IncidentController(IInc inc)
         {
                 _IInc = inc;
-            _environment = environment;
+            
         }
         [HttpPost("GetNotification")]
         public async Task<IActionResult> GetNotification(Models.Tbl_Incident tbl_INC)
@@ -39,14 +39,7 @@ namespace Society_8777.Controllers
             try
             {
                
-                //tbl_INC.INCImage =  _IInc.ConvertImageToByteArray(tbl_INC.INCImagePath);
-
-                if (!string.IsNullOrEmpty(tbl_INC.INCImagePath))
-                {
-                   fullpath = UploadImage(tbl_INC);
-                }
-
-                tbl_INC.INCImagePath = fullpath;
+                
                 var addInc = await _IInc.AddIncident(tbl_INC);
                 return addInc ?? NotFound();
             }
@@ -139,6 +132,26 @@ namespace Society_8777.Controllers
                 
             }
             return string.Empty;
+        }
+        [HttpPost("incimg")]
+        public async Task<IActionResult> UploadGuestImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images", "INCImg");
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var filePath = Path.Combine(uploadsFolder, file.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok(new { filePath });
         }
 
 
