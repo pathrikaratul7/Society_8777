@@ -19,6 +19,10 @@ namespace Society_8777.Models
         [NotMapped]
         public long? LoginID { get; set; }
         public string ? VImagePath { get; set; }
+        public string? Ownername { get; set; }
+        public string? FlatNumber { get; set; }
+        [NotMapped]
+        public long ? UID { get; set; }
         [NotMapped]
         public string? Flag { get; set; }
     }

@@ -80,10 +80,11 @@ namespace Society_8777.Repository
                     return new NotFoundResult();
                 }
                 SqlParameter[] sp = new SqlParameter[2];
-                sp[0] = new SqlParameter("@ParkingID", tbl_Parking.ParkingId ?? (object)DBNull.Value);
+                sp[0] = new SqlParameter("@UID", tbl_Parking.UID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
-                var _tbl_Parking = _context.Tbl_Parking.FromSqlRaw
-                    ("EXEC [dbo].[USP_Tbl_Parking] @ParkingID=@ParkingID,@Flag=@Flag", sp).AsNoTracking().AsEnumerable().FirstOrDefault();
+                var _tbl_Parking = await _context.Tbl_Parking.FromSqlRaw
+                    ("EXEC [dbo].[USP_Tbl_Parking] @UID=@UID,@Flag=@Flag", sp)
+                    .AsNoTracking().ToListAsync();
                 if (_tbl_Parking != null)
                 {
                     return new OkObjectResult(_tbl_Parking);

@@ -10,5 +10,6 @@ namespace Society_8777.Interface
         Task<IActionResult> DeleteParking(Tbl_Parking tbl_Parking);
         Task<IActionResult> GetAllParkingList(Tbl_Parking tbl_Parking);
         Task<IActionResult> GetParkingDetailsById(Tbl_Parking tbl_Parking);
+        Task<IActionResult> GetParking(Tbl_Parking tbl_Parking);
     }
 }

@@ -113,5 +113,21 @@ namespace Society_8777.Controllers
 
             return Ok(new { filePath });
         }
+        [HttpPost("GetParking")]
+
+        public async Task<IActionResult> GetParking(Tbl_Parking tbl_Parking)
+        {
+
+            try
+            {
+                var GetParkingDetails = await _Ipark.GetParking(tbl_Parking);
+                return GetParkingDetails ?? NotFound();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"Internal server error=>> {ex.Message}");
+            }
+        }
     }
 }
