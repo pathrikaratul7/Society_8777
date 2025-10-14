@@ -146,7 +146,8 @@ namespace Society_8777.Repository
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking] @ParkingID=@ParkingID, @FID=@FID," +
                      "@VehicleNumber=@VehicleNumber,@VehicleType=@VehicleType,@SlotNumber=@SlotNumber," +
                      "@IsOccupied=@IsOccupied," +
-                     "@UpdatedBy=@UpdatedBy,@UpdatedDateTime=@UpdatedDateTime,@LoginID=@LoginID,@VImagePath=@VImagePath," +
+                     "@UpdatedBy=@UpdatedBy,@UpdatedDateTime=@UpdatedDateTime,@LoginID=@LoginID," +
+                     "@VImagePath=@VImagePath," +
                      "@Flag=@Flag", sp).AsEnumerable().
                         FirstOrDefault();
                 await _context.SaveChangesAsync();
