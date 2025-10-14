@@ -18,26 +18,26 @@ namespace Society_8777.Repository
         {
             try
             {
-                SqlParameter[] sp = new SqlParameter[14];
-                sp[0] = new SqlParameter("@ParkingID", tbl_Parking.ParkingId ?? (object)DBNull.Value);
-                sp[1] = new SqlParameter("@FID", tbl_Parking.FID ?? (object)DBNull.Value);
-                sp[2] = new SqlParameter("@VehicleNumber", tbl_Parking.VehicleNumber ?? (object)DBNull.Value);
-                sp[3] = new SqlParameter("@VehicleType", tbl_Parking.VehicleType ?? (object)DBNull.Value);
-                sp[4] = new SqlParameter("@SlotNumber", tbl_Parking.SlotNumber ?? (object)DBNull.Value);
-                sp[5] = new SqlParameter("@IsOccupied", tbl_Parking.IsOccupied ?? (object)DBNull.Value);
-                sp[6] = new SqlParameter("@StartTime", tbl_Parking.StartTime ?? (object)DBNull.Value);
-                sp[7] = new SqlParameter("@EndTime", tbl_Parking.EndTime ?? (object)DBNull.Value);
-                sp[8] = new SqlParameter("@CreatedBy", tbl_Parking.CreatedBy ?? (object)DBNull.Value);
-                sp[9] = new SqlParameter("@CreatedDateTime", tbl_Parking.CreatedDateTime ?? (object)DBNull.Value);
-                sp[10] = new SqlParameter("@UpdatedBy", tbl_Parking.UpdatedBy ?? (object)DBNull.Value);
-                sp[11] = new SqlParameter("@UpdatedDateTime", tbl_Parking.UpdatedDateTime ?? (object)DBNull.Value);
-                sp[12] = new SqlParameter("@LoginID", tbl_Parking.LoginID ?? (object)DBNull.Value);
-                sp[13] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
+                SqlParameter[] sp = new SqlParameter[10];
+               // sp[0] = new SqlParameter("@ParkingID", tbl_Parking.ParkingId ?? (object)DBNull.Value);
+                sp[0] = new SqlParameter("@FID", tbl_Parking.FID ?? (object)DBNull.Value);
+                sp[1] = new SqlParameter("@VehicleNumber", tbl_Parking.VehicleNumber ?? (object)DBNull.Value);
+                sp[2] = new SqlParameter("@VehicleType", tbl_Parking.VehicleType ?? (object)DBNull.Value);
+                sp[3] = new SqlParameter("@SlotNumber", tbl_Parking.SlotNumber ?? (object)DBNull.Value);
+                sp[4] = new SqlParameter("@IsOccupied", tbl_Parking.IsOccupied ?? (object)DBNull.Value);
+               // sp[6] = new SqlParameter("@StartTime", tbl_Parking.StartTime ?? (object)DBNull.Value);
+               // sp[7] = new SqlParameter("@EndTime", tbl_Parking.EndTime ?? (object)DBNull.Value);
+                sp[5] = new SqlParameter("@CreatedBy", tbl_Parking.CreatedBy ?? (object)DBNull.Value);
+                sp[6] = new SqlParameter("@CreatedDateTime", tbl_Parking.CreatedDateTime ?? (object)DBNull.Value);
+                sp[7] = new SqlParameter("@LoginID", tbl_Parking.LoginID ?? (object)DBNull.Value);
+                sp[8] = new SqlParameter("@VImagePath", tbl_Parking.VImagePath ?? (object)DBNull.Value);
+                sp[9] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
                 var _tbl_Parking = _context.Tbl_Parking
-                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking] @ParkingID=@ParkingID, @FID=@FID," +
-                     "@VehicleNumber=@VehicleNumber,@VehicleType=@VehicleType,@SlotNumber=@SlotNumber,@IsOccupied=@IsOccupied," +
-                     "@StartTime=@StartTime,@EndTime=@EndTime,@CreatedBy=@CreatedBy,@CreatedDateTime=@CreatedDateTime," +
-                     "@UpdatedBy=@UpdatedBy,@UpdatedDateTime=@UpdatedDateTime,@LoginID=@LoginID,@Flag=@Flag"
+                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking] @FID=@FID," +
+                     "@VehicleNumber=@VehicleNumber,@VehicleType=@VehicleType,@SlotNumber=@SlotNumber," +
+                     "@IsOccupied=@IsOccupied," +
+                     "@CreatedBy=@CreatedBy,@CreatedDateTime=@CreatedDateTime," +
+                     "@LoginID=@LoginID,@VImagePath=@VImagePath,@Flag=@Flag"
                     , sp).AsEnumerable().FirstOrDefault();
                 await _context.SaveChangesAsync();
                 return new OkObjectResult(_tbl_Parking);
@@ -125,26 +125,28 @@ namespace Society_8777.Repository
         {
             try
             {
-                SqlParameter[] sp = new SqlParameter[14];
+                SqlParameter[] sp = new SqlParameter[11];
                 sp[0] = new SqlParameter("@ParkingID", tbl_Parking.ParkingId ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@FID", tbl_Parking.FID ?? (object)DBNull.Value);
                 sp[2] = new SqlParameter("@VehicleNumber", tbl_Parking.VehicleNumber ?? (object)DBNull.Value);
                 sp[3] = new SqlParameter("@VehicleType", tbl_Parking.VehicleType ?? (object)DBNull.Value);
                 sp[4] = new SqlParameter("@SlotNumber", tbl_Parking.SlotNumber ?? (object)DBNull.Value);
                 sp[5] = new SqlParameter("@IsOccupied", tbl_Parking.IsOccupied ?? (object)DBNull.Value);
-                sp[6] = new SqlParameter("@StartTime", tbl_Parking.StartTime ?? (object)DBNull.Value);
-                sp[7] = new SqlParameter("@EndTime", tbl_Parking.EndTime ?? (object)DBNull.Value);
-                sp[8] = new SqlParameter("@CreatedBy", tbl_Parking.CreatedBy ?? (object)DBNull.Value);
-                sp[9] = new SqlParameter("@CreatedDateTime", tbl_Parking.CreatedDateTime ?? (object)DBNull.Value);
-                sp[10] = new SqlParameter("@UpdatedBy", tbl_Parking.UpdatedBy ?? (object)DBNull.Value);
-                sp[11] = new SqlParameter("@UpdatedDateTime", tbl_Parking.UpdatedDateTime ?? (object)DBNull.Value);
-                sp[12] = new SqlParameter("@LoginID", tbl_Parking.LoginID ?? (object)DBNull.Value);
-                sp[13] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
+               // sp[6] = new SqlParameter("@StartTime", tbl_Parking.StartTime ?? (object)DBNull.Value);
+               // sp[7] = new SqlParameter("@EndTime", tbl_Parking.EndTime ?? (object)DBNull.Value);
+               // sp[8] = new SqlParameter("@CreatedBy", tbl_Parking.CreatedBy ?? (object)DBNull.Value);
+               // sp[9] = new SqlParameter("@CreatedDateTime", tbl_Parking.CreatedDateTime ?? (object)DBNull.Value);
+                sp[6] = new SqlParameter("@UpdatedBy", tbl_Parking.UpdatedBy ?? (object)DBNull.Value);
+                sp[7] = new SqlParameter("@UpdatedDateTime", tbl_Parking.UpdatedDateTime ?? (object)DBNull.Value);
+                sp[8] = new SqlParameter("@LoginID", tbl_Parking.LoginID ?? (object)DBNull.Value);
+                sp[9] = new SqlParameter("@VImagePath", tbl_Parking.VImagePath ?? (object)DBNull.Value);
+                sp[10] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
                 var _tbl_Parking = _context.Tbl_Parking
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking] @ParkingID=@ParkingID, @FID=@FID," +
-                     "@VehicleNumber=@VehicleNumber,@VehicleType=@VehicleType,@SlotNumber=@SlotNumber,@IsOccupied=@IsOccupied," +
-                     "@StartTime=@StartTime,@EndTime=@EndTime,@CreatedBy=@CreatedBy,@CreatedDateTime=@CreatedDateTime," +
-                     "@UpdatedBy=@UpdatedBy,@UpdatedDateTime=@UpdatedDateTime,@LoginID=@LoginID,@Flag=@Flag", sp).AsEnumerable().
+                     "@VehicleNumber=@VehicleNumber,@VehicleType=@VehicleType,@SlotNumber=@SlotNumber," +
+                     "@IsOccupied=@IsOccupied," +
+                     "@UpdatedBy=@UpdatedBy,@UpdatedDateTime=@UpdatedDateTime,@LoginID=@LoginID,@VImagePath=@VImagePath," +
+                     "@Flag=@Flag", sp).AsEnumerable().
                         FirstOrDefault();
                 await _context.SaveChangesAsync();
                 return new OkObjectResult(_tbl_Parking);

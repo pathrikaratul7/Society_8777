@@ -59,7 +59,7 @@ namespace Society_8777.Repository
                 {
                     return new NotFoundResult();
                 }
-                SqlParameter[] sqlpara = new SqlParameter[8];
+                SqlParameter[] sqlpara = new SqlParameter[9];
                 sqlpara[0] = new SqlParameter("@UName", objCust.UName ?? (object)DBNull.Value);
                 sqlpara[1] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@UPass", objCust.UPass ?? (object)DBNull.Value);
@@ -67,10 +67,11 @@ namespace Society_8777.Repository
                 sqlpara[4] = new SqlParameter("@IsDeleted", objCust.IsDeleted ?? (object)DBNull.Value);
                 sqlpara[5] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
                 sqlpara[6] = new SqlParameter("@PrivList", objCust.PrivList ?? (object)DBNull.Value);
-                sqlpara[7] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
+                sqlpara[7] = new SqlParameter("@ImagePath", objCust.ImagePath ?? (object)DBNull.Value);
+                sqlpara[8] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
                 var _tbl_User =  _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UName=@UName, @UEmail=@UEmail, @UPass=@UPass, @UMobile=@UMobile," +
-                    " @IsDeleted=@IsDeleted,@DeviceID=@DeviceID,@PrivList=@PrivList , @Flag=@Flag", sqlpara)
+                    " @IsDeleted=@IsDeleted,@DeviceID=@DeviceID,@PrivList=@PrivList ,@ImagePath=@ImagePath, @Flag=@Flag", sqlpara)
                      .AsEnumerable().FirstOrDefault();
 
                 await _dbcontex.SaveChangesAsync();
@@ -90,7 +91,7 @@ namespace Society_8777.Repository
                 {
                     return new NotFoundResult();
                 }
-                SqlParameter[] sqlpara = new SqlParameter[10];
+                SqlParameter[] sqlpara = new SqlParameter[11];
                 sqlpara[0] = new SqlParameter("@UID", objCust.UID);
                 sqlpara[1] = new SqlParameter("@UName", objCust.UName ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
@@ -100,10 +101,12 @@ namespace Society_8777.Repository
                 sqlpara[6] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
                 sqlpara[7] = new SqlParameter("@PrivList", objCust.PrivList ?? (object)DBNull.Value);
                 sqlpara[8] = new SqlParameter("@UpdatedBy",objCust.UpdatedBy ?? (object)DBNull.Value);
-                sqlpara[9] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
+                sqlpara[9] = new SqlParameter("@ImagePath", objCust.ImagePath ?? (object)DBNull.Value);
+                sqlpara[10] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
                 var _tbl_User = _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UID=@UID, @UName=@UName, @UEmail=@UEmail, @UPass=@UPass," +
-                    " @UMobile=@UMobile, @IsDeleted=@IsDeleted,@DeviceID=@DeviceID,@PrivList=@PrivList,@UpdatedBy=@UpdatedBy, @Flag=@Flag", sqlpara)
+                    " @UMobile=@UMobile, @IsDeleted=@IsDeleted,@DeviceID=@DeviceID,@PrivList=@PrivList," +
+                    "@UpdatedBy=@UpdatedBy,@ImagePath=@ImagePath, @Flag=@Flag", sqlpara)
                      .AsEnumerable().FirstOrDefault();
                 await _dbcontex.SaveChangesAsync();
                 return new OkObjectResult(_tbl_User);

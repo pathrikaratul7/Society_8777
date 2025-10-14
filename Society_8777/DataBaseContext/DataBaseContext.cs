@@ -86,8 +86,8 @@ namespace Society_8777.DataBaseContext
                 parking.Property(p => p.VehicleType);
                 parking.Property(p => p.SlotNumber);
                 parking.Property(p => p.IsOccupied);
-                parking.Property(p => p.StartTime);
-                parking.Property(p => p.EndTime);
+               // parking.Property(p => p.StartTime);
+               // parking.Property(p => p.EndTime);
                 parking.Property(p => p.CreatedBy);
                 parking.Property(p => p.CreatedDateTime);
                 parking.Property(p => p.UpdatedBy);

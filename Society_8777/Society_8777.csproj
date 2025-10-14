@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\INCImg\" />
-    <Folder Include="Images\GuestImg\" />
+    <Folder Include="UserImg\ParkImg\" />
   </ItemGroup>
 
 </Project>
