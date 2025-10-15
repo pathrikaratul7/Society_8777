@@ -4,6 +4,7 @@ namespace Society_8777.Models
 {
     public class Tbl_Guest
     {
+        public string? CreatorMobile { get; set; }
         public long? GID { get; set; }
 
         public string? GName { get; set; }
