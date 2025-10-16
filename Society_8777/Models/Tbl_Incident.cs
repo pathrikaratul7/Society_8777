@@ -18,7 +18,9 @@ namespace Society_8777.Models
         
         public string? INCAssignTo { get; set; }
         public string? AssigneeToName { get; set; }
-        [NotMapped]
+        public string? AssignToMobileNumber { get; set; }
+        public string? ReportedBYMobileNumber { get; set; }
+        [NotMapped] 
         public string? Flag { get; set; }
         [NotMapped]
         public long UID { get; set; }
