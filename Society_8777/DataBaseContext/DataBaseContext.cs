@@ -22,6 +22,7 @@ namespace Society_8777.DataBaseContext
         public virtual DbSet<Tbl_Parking>? Tbl_Parking { get; set; }
 
         public virtual DbSet<Tbl_Incident>? Tbl_Incidents { get; set; }
+        public virtual DbSet<Tbl_ErrorLogs>? Tbl_ErrorLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -107,6 +108,15 @@ namespace Society_8777.DataBaseContext
                 incident.Property(i => i.INCReportedDateTime);
                 incident.Property(i => i.INCAssignTo);
                 
+            });
+            modelBuilder.Entity<Tbl_ErrorLogs>(errorLog =>
+            {
+                errorLog.HasKey(e => e.ERRID);
+                errorLog.Property(e => e.ErrorMessage);
+                errorLog.Property(e => e.ErrorStack);
+                errorLog.Property(e => e.ErrorPage);
+                errorLog.Property(e => e.ErrorLoggedByID);
+                errorLog.Property(e => e.ErrorLoggedByName);
             });
 
 

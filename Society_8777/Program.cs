@@ -25,6 +25,7 @@ builder.Services.AddTransient<IGuest, GuestRepo>();
 builder.Services.AddTransient<IPark, ParkRepo>();
 builder.Services.AddTransient<IInc, INCRepo>();
 builder.Services.AddTransient<IFireBaseNotification, FirebaseNotificationService>();
+builder.Services.AddTransient<IErrorLog, ErrorLogRepo>();
 
 
 // Add services to the container.
