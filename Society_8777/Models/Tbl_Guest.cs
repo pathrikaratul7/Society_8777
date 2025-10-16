@@ -4,7 +4,7 @@ namespace Society_8777.Models
 {
     public class Tbl_Guest
     {
-        public string? CreatorMobile { get; set; }
+        
         public long? GID { get; set; }
 
         public string? GName { get; set; }
@@ -38,6 +38,9 @@ namespace Society_8777.Models
         public string? FlatType { get; set; }
 
         public string? GImagePath { get; set; }
+        public string? FlatOwnerMobile { get; set; }
+
+        public string? CreatorMobile { get; set; }
 
         [NotMapped]
         public long? LoginID { get; set; }
