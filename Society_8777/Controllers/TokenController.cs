@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Society_8777.CommonLogic;
 using Society_8777.DataBaseContext;
 using Society_8777.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -118,7 +119,7 @@ namespace Society_8777.Controllers
 
                 SqlParameter[] sqlpara = new SqlParameter[3];
                 sqlpara[0] = new SqlParameter("@UEmail", email ?? (object)DBNull.Value);
-                sqlpara[1] = new SqlParameter("@UPass", password ?? (object)DBNull.Value);
+                sqlpara[1] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(password) ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@Flag", Flag ?? (object)DBNull.Value);
 
                 var _tbl_User = _Context.tbl_User

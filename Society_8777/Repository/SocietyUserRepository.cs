@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Society_8777.DataBaseContext;
 using Society_8777.Interface;
 using Society_8777.Models;
+using Society_8777.CommonLogic;
 
 namespace Society_8777.Repository
 {
@@ -28,7 +29,7 @@ namespace Society_8777.Repository
 
                 SqlParameter[] sqlpara = new SqlParameter[4];
                 sqlpara[0] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
-                sqlpara[1] = new SqlParameter("@UPass", objCust.UPass ?? (object)DBNull.Value);
+                sqlpara[1] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass) ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
                 sqlpara[3] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
 
@@ -62,7 +63,7 @@ namespace Society_8777.Repository
                 SqlParameter[] sqlpara = new SqlParameter[9];
                 sqlpara[0] = new SqlParameter("@UName", objCust.UName ?? (object)DBNull.Value);
                 sqlpara[1] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
-                sqlpara[2] = new SqlParameter("@UPass", objCust.UPass ?? (object)DBNull.Value);
+                sqlpara[2] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass) ?? (object)DBNull.Value);
                 sqlpara[3] = new SqlParameter("@UMobile", objCust.UMobile ?? (object)DBNull.Value);
                 sqlpara[4] = new SqlParameter("@IsDeleted", objCust.IsDeleted ?? (object)DBNull.Value);
                 sqlpara[5] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
@@ -95,7 +96,7 @@ namespace Society_8777.Repository
                 sqlpara[0] = new SqlParameter("@UID", objCust.UID);
                 sqlpara[1] = new SqlParameter("@UName", objCust.UName ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
-                sqlpara[3] = new SqlParameter("@UPass", objCust.UPass ?? (object)DBNull.Value);
+                sqlpara[3] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass) ?? (object)DBNull.Value);
                 sqlpara[4] = new SqlParameter("@UMobile", objCust.UMobile ?? (object)DBNull.Value);
                 sqlpara[5] = new SqlParameter("@IsDeleted", objCust.IsDeleted ?? (object)DBNull.Value);
                 sqlpara[6] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
