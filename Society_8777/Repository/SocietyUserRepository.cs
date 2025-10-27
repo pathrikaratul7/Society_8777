@@ -118,6 +118,31 @@ namespace Society_8777.Repository
             }
             return null;
         }
+        
+            public async Task<IActionResult> UpdateDeviceID(Tbl_User objCust)
+        {
+            try
+            {
+                if (_dbcontex.tbl_User == null)
+                {
+                    return new NotFoundResult();
+                }
+                SqlParameter[] sqlpara = new SqlParameter[3];
+                sqlpara[0] = new SqlParameter("@UID", objCust.UID);
+                sqlpara[1] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
+                sqlpara[2] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
+                var _tbl_User = _dbcontex.tbl_User.FromSqlRaw(
+                    "EXEC USP_Tbl_User @UID=@UID,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
+                     .AsEnumerable().FirstOrDefault();
+                await _dbcontex.SaveChangesAsync();
+                return new OkObjectResult(_tbl_User);
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
+            return null;
+        }
         public async Task<IActionResult> DeleteUser(Tbl_User objCust)
         {
             try
