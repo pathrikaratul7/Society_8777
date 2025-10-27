@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Society_8777.CommonLogic;
 using Society_8777.DataBaseContext;
 using Society_8777.Interface;
 using Society_8777.Models;
@@ -15,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 var sqlcon = builder.Configuration.GetConnectionString("Con");
 
 builder.Services.AddDbContext<DataBaseContext>
-(options => options.UseSqlServer(sqlcon));
+(options => options.UseSqlServer(CommomFunction.Encrypt_Dycrypt_Bank.DecryptString(sqlcon)));
 
 builder.Services.AddTransient<Token>();
 
