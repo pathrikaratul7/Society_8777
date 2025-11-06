@@ -31,7 +31,9 @@ namespace Society_8777.Models
         public int GuestVisitor { get; set; }
         public int IncidentCount { get; set; }
         public string? ImagePath { get; set; }
+        public string? UserType { get; set; }
 
-        
+
+
     }
 }
