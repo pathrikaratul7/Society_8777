@@ -8,6 +8,7 @@ namespace Society_8777.Models
         [Key]
         public long UID { get; set; }              // bigint -> long? (nullable)
         public string? UName { get; set; }           // nvarchar(max) -> string
+        [EmailAddress]
         public string? UEmail { get; set; }          // nvarchar(max) -> string
         public string? UPass { get; set; }           // nvarchar(max) -> string
         public string? UMobile { get; set; }         // nvarchar -> string

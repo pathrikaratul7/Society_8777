@@ -1,16 +1,23 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
 using Society_8777.CommonLogic;
 using Society_8777.DataBaseContext;
 using Society_8777.Interface;
+using Society_8777.MiddleWare;
 using Society_8777.Models;
 using Society_8777.Repository;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Text;
+using static Serilog.Sinks.MSSqlServer.ColumnOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 var sqlcon = builder.Configuration.GetConnectionString("Con");
@@ -29,7 +36,43 @@ builder.Services.AddTransient<IFireBaseNotification, FirebaseNotificationService
 builder.Services.AddTransient<IErrorLog, ErrorLogRepo>();
 builder.Services.AddTransient<IFCMToken, FCMTokenRepo>();
 
+var columnOptions = new ColumnOptions();
 
+// Example: remove standard columns you don’t need
+columnOptions.Store.Remove(StandardColumn.Properties);
+
+// Optional: add custom columns
+columnOptions.AdditionalColumns = new Collection<SqlColumn>
+{
+    new SqlColumn { ColumnName = "UserId", DataType = SqlDbType.Int },
+    new SqlColumn { ColumnName = "Module", DataType = SqlDbType.NVarChar, DataLength = 50 }
+};
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+
+    // 1️⃣ Always-on logging (safe)
+    .WriteTo.Console()
+    .WriteTo.File(
+        path: "Logs/api-.log",
+        rollingInterval: RollingInterval.Day)
+
+    // 2️⃣ Database logging (may fail, but app won't)
+    .WriteTo.MSSqlServer(
+        connectionString: CommomFunction.Encrypt_Dycrypt_Bank.DecryptString(sqlcon),
+        sinkOptions: new MSSqlServerSinkOptions
+        {
+            TableName = "Tbl_ErrorLog",
+            AutoCreateSqlTable = true
+        },
+        columnOptions: columnOptions,
+        restrictedToMinimumLevel: LogEventLevel.Error)
+
+    .CreateLogger();
+
+// Replace default logger
+builder.Host.UseSerilog();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -126,6 +169,7 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseCors("AllowAll");
 app.MapSwagger();
 app.UseSwagger();
