@@ -26,6 +26,8 @@ builder.Services.AddDbContext<DataBaseContext>
 (options => options.UseSqlServer(CommomFunction.Encrypt_Dycrypt_Bank.DecryptString(sqlcon)));
 
 builder.Services.AddTransient<Token>();
+builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+
 
 builder.Services.AddTransient<ISocietyUser, SocietyUserRepository>();
 builder.Services.AddTransient<IFlat, FlatRepo>();

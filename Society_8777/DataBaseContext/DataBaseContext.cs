@@ -24,6 +24,7 @@ namespace Society_8777.DataBaseContext
         public virtual DbSet<Tbl_Incident>? Tbl_Incidents { get; set; }
         public virtual DbSet<Tbl_ErrorLogs>? Tbl_ErrorLogs { get; set; }
         public virtual DbSet<Tbl_FCMToken>? tbl_FCMToken { get; set; }
+        public virtual DbSet<Tbl_RefreshTokens>? tbl_RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

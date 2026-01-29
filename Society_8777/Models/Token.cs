@@ -3,6 +3,7 @@
     public class Token
     {
         public string? token { get; set; }
+        public string? refreshToken { get; set; }
         public DateTime? tokenexpiry { get; set; }
         public string? Message { get; set; }
         public int? StatusCode { get; set; }
