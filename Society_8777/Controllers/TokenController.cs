@@ -118,7 +118,7 @@ namespace Society_8777.Controllers
         [HttpPost]
         [AllowAnonymous]
         
-        public async Task<Token> Post(Tbl_User _userInfo, [FromHeader] string clientType = "web")
+        public async Task<Token> Post(Tbl_User _userInfo, [FromHeader] string clientType = "web") //, CancellationToken cancellationToken=default
         {
             bool IsMiniprofileRequired = Convert.ToBoolean(_configuration["IsMiniprofileRequired"]);
             if (IsMiniprofileRequired)
