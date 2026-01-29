@@ -168,18 +168,28 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 });
+builder.Services.AddMiniProfiler(options =>
+{
+    options.RouteBasePath = "/profiler";
 
+    options.ResultsAuthorize = request => true;
+    options.ResultsListAuthorize = request => true;
+    options.EnableServerTimingHeader = true;
+})
+.AddEntityFramework();
 
 var app = builder.Build();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseCors("AllowAll");
 app.MapSwagger();
 app.UseSwagger();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
 
     app.UseSwaggerUI();
+    app.UseMiniProfiler();
 }
 
 app.UseHttpsRedirection();
