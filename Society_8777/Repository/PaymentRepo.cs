@@ -40,9 +40,22 @@ namespace Society_8777.Repository
             }
         }
 
-        public Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag)
+        public async Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag)
         {
-            throw new NotImplementedException();
+            try
+            {
+                SqlParameter[] p = new SqlParameter[2];
+                p[0] = new SqlParameter("@FlatID", FlatID);
+                p[1] = new SqlParameter("@Flag", Flag);
+
+                var result = await _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @FlatID=@FlatID, @Flag=@Flag", p).ToListAsync();
+                return new OkObjectResult(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<IActionResult> UpdatePayment(Tbl_PaymentTransaction objPaymentTransaction)
