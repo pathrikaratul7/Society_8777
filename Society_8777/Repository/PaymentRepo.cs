@@ -18,7 +18,7 @@ namespace Society_8777.Repository
         {
             try
             {
-                SqlParameter[] p = new SqlParameter[8];
+                SqlParameter[] p = new SqlParameter[9];
                 p[0] = new SqlParameter("@Amount", objPaymentTransaction.Amount ?? (object)DBNull.Value);
                 p[1] = new SqlParameter("@Utr", objPaymentTransaction.Utr ?? (object)DBNull.Value);
                 p[2] = new SqlParameter("@PaidTo", objPaymentTransaction.PaidTo ?? (object)DBNull.Value);
@@ -26,10 +26,11 @@ namespace Society_8777.Repository
                 p[4] = new SqlParameter("@SourceApp", objPaymentTransaction.SourceApp ?? (object)DBNull.Value);
                 p[5] = new SqlParameter("@RawText", objPaymentTransaction.RawText ?? (object)DBNull.Value);
                 p[6] = new SqlParameter("@FlatId", objPaymentTransaction.FlatId ?? (object)DBNull.Value);
-                p[7] = new SqlParameter("@Flag", objPaymentTransaction.Flag ?? (object)DBNull.Value);
+                p[7] = new SqlParameter("@TranStatus", objPaymentTransaction.TranStatus ?? (object)DBNull.Value);
+                p[8] = new SqlParameter("@Flag", objPaymentTransaction.Flag ?? (object)DBNull.Value);
 
                 var result = _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @Amount=@Amount, @Utr=@Utr," +
-                    " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId, @Flag=@Flag", p).AsEnumerable().FirstOrDefault();
+                    " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId,@TranStatus=@TranStatus, @Flag=@Flag", p).AsEnumerable().FirstOrDefault();
                 await _context.SaveChangesAsync();
                 return new OkObjectResult(result);
             }
@@ -62,7 +63,7 @@ namespace Society_8777.Repository
         {
             try
             {
-                SqlParameter[] p = new SqlParameter[9];
+                SqlParameter[] p = new SqlParameter[10];
                 p[0] = new SqlParameter("@Amount", objPaymentTransaction.Amount ?? (object)DBNull.Value);
                 p[1] = new SqlParameter("@Utr", objPaymentTransaction.Utr ?? (object)DBNull.Value);
                 p[2] = new SqlParameter("@PaidTo", objPaymentTransaction.PaidTo ?? (object)DBNull.Value);
@@ -72,9 +73,10 @@ namespace Society_8777.Repository
                 p[6] = new SqlParameter("@FlatId", objPaymentTransaction.FlatId ?? (object)DBNull.Value);
                 p[7] = new SqlParameter("@Flag", objPaymentTransaction.Flag ?? (object)DBNull.Value);
                 p[8] = new SqlParameter("@Id", objPaymentTransaction.Id ?? (object)DBNull.Value);
+                p[9] = new SqlParameter("@TranStatus", objPaymentTransaction.TranStatus ?? (object)DBNull.Value);
 
                 var result = _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @Amount=@Amount, @Utr=@Utr," +
-                    " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId, @Flag=@Flag,@Id=@Id", p).AsEnumerable().FirstOrDefault();
+                    " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId, @Flag=@Flag,@Id=@Id,@TranStatus=@TranStatus", p).AsEnumerable().FirstOrDefault();
                 await _context.SaveChangesAsync();
                 return new OkObjectResult(result);
             }

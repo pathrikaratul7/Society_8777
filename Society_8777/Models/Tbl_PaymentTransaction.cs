@@ -13,6 +13,7 @@ namespace Society_8777.Models
         public string? RawText { get; set; }
         public DateTime? CreatedOn { get; set; }
         public long? FlatId { get; set; }
+        public string? TranStatus { get; set; }
         [NotMapped]
         public string? Flag { get; set; }
     }
