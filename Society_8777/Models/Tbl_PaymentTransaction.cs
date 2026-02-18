@@ -15,6 +15,7 @@ namespace Society_8777.Models
         public long? FlatId { get; set; }
         public string? TranStatus { get; set; }
         public string? Remark { get; set; }
+        public string? FlatMobile { get; set; }  
         [NotMapped]
         public long? UID { get; set; }
         [NotMapped]
