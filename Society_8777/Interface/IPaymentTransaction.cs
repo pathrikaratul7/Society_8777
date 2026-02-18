@@ -7,6 +7,6 @@ namespace Society_8777.Interface
     {
         Task<IActionResult> AddPaymentTransaction(Tbl_PaymentTransaction objPaymentTransaction);
         Task<IActionResult> UpdatePayment(Tbl_PaymentTransaction tbl_PaymentTransaction);
-        Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag);
+        Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag, long UID);
     }
 }

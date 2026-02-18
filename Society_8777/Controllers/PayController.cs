@@ -46,11 +46,11 @@ namespace Society_8777.Controllers
         }
         [Route("GetAllPaymentTransaction")]
         [HttpGet]
-        public async Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag)
+        public async Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag, long UID)
         {
             try
             {
-                var result = await _paymentTransaction.GetAllPaymentTransaction(FlatID, Flag);
+                var result = await _paymentTransaction.GetAllPaymentTransaction(FlatID, Flag, UID);
                 return result ?? NotFound();
             }
             catch (Exception ex)
