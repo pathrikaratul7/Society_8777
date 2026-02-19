@@ -33,6 +33,10 @@ namespace Society_8777.Models
         public int IncidentCount { get; set; }
         public string? ImagePath { get; set; }
         public string? UserType { get; set; }
+        public decimal? OwnReconcileAmt { get; set; }
+        public decimal? OwnFailedReconcile { get; set; }
+        public decimal? OverallTotalReconcile { get; set; }
+        public decimal? OverallFailedTotalReconcile { get; set; }
 
 
 
