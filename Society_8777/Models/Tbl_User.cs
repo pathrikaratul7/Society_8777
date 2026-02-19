@@ -38,6 +38,8 @@ namespace Society_8777.Models
         public decimal? OverallTotalReconcile { get; set; } = 0;
         public decimal? OverallFailedTotalReconcile { get; set; } = 0;
 
+        public int? PendingTranCount { get; set; } = 0; 
+
 
 
     }
