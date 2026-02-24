@@ -38,6 +38,7 @@ builder.Services.AddTransient<IFireBaseNotification, FirebaseNotificationService
 builder.Services.AddTransient<IErrorLog, ErrorLogRepo>();
 builder.Services.AddTransient<IFCMToken, FCMTokenRepo>();
 builder.Services.AddTransient<IPaymentTransaction, PaymentRepo>();
+builder.Services.AddTransient<IBotService, BotRepo>();
 
 var columnOptions = new ColumnOptions();
 

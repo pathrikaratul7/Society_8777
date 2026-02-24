@@ -27,6 +27,14 @@ namespace Society_8777.DataBaseContext
         public virtual DbSet<Tbl_RefreshTokens>? tbl_RefreshTokens { get; set; }
         public DbSet<Tbl_PaymentTransaction> Tbl_PaymentTransactions { get; set; }
 
+        public DbSet<Tbl_BotIntentKeywords> Tbl_BotIntentKeywords { get; set; }
+
+        public DbSet<Tbl_BotIntentAction> Tbl_BotIntentAction { get; set; }
+
+        public DbSet<Tbl_BotAction> Tbl_BotActions { get; set; }
+
+        public DbSet<Tbl_BotResponseTemplate> Tbl_BotResponseTemplate { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tbl_User>(user =>
@@ -121,6 +129,26 @@ namespace Society_8777.DataBaseContext
                 errorLog.Property(e => e.ErrorLoggedByID);
                 errorLog.Property(e => e.ErrorLoggedByName);
             });
+            modelBuilder.Entity<Tbl_BotAction>(bb =>
+            { 
+               bb.HasKey(b => b.ActionId);
+            }
+            );
+            modelBuilder.Entity<Tbl_BotIntentAction>(bb =>
+            {
+                bb.HasKey(b => b.IntentId);
+            }
+            );
+            modelBuilder.Entity<Tbl_BotIntentKeywords>(bb =>
+            {
+                bb.HasKey(b => b.KeywordID);
+            }
+            );
+            modelBuilder.Entity<Tbl_BotResponseTemplate>(bb =>
+            {
+                bb.HasKey(b => b.IntentId);
+            }
+            );
 
 
             OnModelCreatingPartial(modelBuilder);
