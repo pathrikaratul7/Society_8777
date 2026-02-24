@@ -35,6 +35,8 @@ namespace Society_8777.DataBaseContext
 
         public DbSet<Tbl_BotResponseTemplate> Tbl_BotResponseTemplate { get; set; }
 
+        public DbSet<Tbl_BotIntentContext> Tbl_BotIntentContext { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Tbl_User>(user =>
@@ -147,6 +149,11 @@ namespace Society_8777.DataBaseContext
             modelBuilder.Entity<Tbl_BotResponseTemplate>(bb =>
             {
                 bb.HasKey(b => b.IntentId);
+            }
+            );
+            modelBuilder.Entity<Tbl_BotIntentContext>(bb =>
+            {
+                bb.HasKey(b => b.ContextId);
             }
             );
 

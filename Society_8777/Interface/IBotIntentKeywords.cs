@@ -9,5 +9,6 @@ namespace Society_8777.Interface
         Task<string> ExecuteActionAsync(int intentId, int userId);
         Task<string> BuildResponseAsync(int intentId, string value);
         Task<string> GenerateResponseAsync(string message, string userId);
+        Task<Dictionary<int, List<string>>> GetIntentContextsAsync();
     }
 }

@@ -22,7 +22,19 @@ namespace Society_8777.Repository
                 .AsNoTracking()
                 .ToListAsync();
         }
+        public async Task<Dictionary<int, List<string>>> GetIntentContextsAsync()
+        {
+            var contexts = await _context.Tbl_BotIntentContext
+                .AsNoTracking()
+                .ToListAsync();
 
+            return contexts
+                .GroupBy(c => c.IntentId)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(c => c.ContextWord.ToLowerInvariant()).ToList()
+                );
+        }
         // 2️⃣ Detect intent dynamically (NO hardcoded keywords)
         public async Task<int?> DetectIntentAsync(string message)
         {
@@ -30,13 +42,50 @@ namespace Society_8777.Repository
                 return null;
 
             message = message.Trim().ToLowerInvariant();
-            var keywords = await GetIntentKeywordsAsync();
 
-            return keywords
-                .FirstOrDefault(k =>
-                    !string.IsNullOrEmpty(k.Keyword) &&
-                    message.Contains(k.Keyword.ToLowerInvariant()))
-                ?.IntentId;
+            var keywords = await GetIntentKeywordsAsync();
+            if (!keywords.Any()) return null;
+
+            var contexts = await GetIntentContextsAsync();
+
+            // Group keywords by IntentId and calculate match score
+            var intentGroups = keywords
+                .Where(k => !string.IsNullOrWhiteSpace(k.Keyword))
+                .GroupBy(k => k.IntentId)
+                .Select(g => new
+                {
+                    IntentId = g.Key,
+                    TotalKeywords = g.Count(),
+                    MatchCount = g.Count(k => message.Contains(k.Keyword.ToLowerInvariant()))
+                })
+                .Select(x => new
+                {
+                    x.IntentId,
+                    Score = x.TotalKeywords == 0 ? 0 : x.MatchCount / (double)x.TotalKeywords
+                })
+                .ToList();
+
+            // Boost score dynamically using context words from DB
+            for (int i = 0; i < intentGroups.Count; i++)
+            {
+                if (contexts.TryGetValue(intentGroups[i].IntentId, out var contextWords))
+                {
+                    var boost = contextWords.Count(w => message.Contains(w));
+                    intentGroups[i] = new
+                    {
+                        intentGroups[i].IntentId,
+                        Score = intentGroups[i].Score + (0.2 * boost)
+                    };
+                }
+            }
+
+            // Pick the highest scoring intent
+            var bestMatch = intentGroups.OrderByDescending(x => x.Score).FirstOrDefault();
+            const double threshold = 0.5;
+            if (bestMatch == null || bestMatch.Score < threshold)
+                return null;
+
+            return bestMatch.IntentId;
         }
 
         // 3️⃣ Execute DB-defined action dynamically
