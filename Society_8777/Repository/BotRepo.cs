@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Society_8777.Interface;
 using Society_8777.Models;
+using System.Text.RegularExpressions;
 
 namespace Society_8777.Repository
 {
@@ -14,123 +15,131 @@ namespace Society_8777.Repository
             _context = context;
         }
 
-        // 1️⃣ Load intent keywords dynamically from DB
+        // -------------------- LOAD DATA --------------------
+
         public async Task<IReadOnlyList<Tbl_BotIntentKeywords>> GetIntentKeywordsAsync()
         {
             return await _context.Tbl_BotIntentKeywords
-                .FromSqlRaw("EXEC Usp_DynamicChatBot")
                 .AsNoTracking()
                 .ToListAsync();
         }
+
         public async Task<Dictionary<int, List<string>>> GetIntentContextsAsync()
         {
-            var contexts = await _context.Tbl_BotIntentContext
+            return await _context.Tbl_BotIntentContext
                 .AsNoTracking()
-                .ToListAsync();
-
-            return contexts
-                .GroupBy(c => c.IntentId)
-                .ToDictionary(
+                .GroupBy(x => x.IntentId)
+                .ToDictionaryAsync(
                     g => g.Key,
-                    g => g.Select(c => c.ContextWord.ToLowerInvariant()).ToList()
+                    g => g.Select(x => x.ContextWord.ToLowerInvariant()).ToList()
                 );
         }
-        // 2️⃣ Detect intent dynamically (NO hardcoded keywords)
+
+        // -------------------- TEXT HELPERS --------------------
+
+        private static string Normalize(string input)
+        {
+            input = input.ToLowerInvariant();
+            input = Regex.Replace(input, @"[^\w\s]", "");
+            return input.Trim();
+        }
+
+        private static HashSet<string> Tokenize(string input)
+        {
+            return input.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                        .ToHashSet();
+        }
+
+        private static double KeywordMatchScore(HashSet<string> tokens, string keyword)
+        {
+            var keywordTokens = keyword.Split(' ');
+            var matches = keywordTokens.Count(tokens.Contains);
+            return (double)matches / keywordTokens.Length;
+        }
+
+        // -------------------- INTENT DETECTION --------------------
+
         public async Task<int?> DetectIntentAsync(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
                 return null;
 
-            message = message.Trim().ToLowerInvariant();
+            message = Normalize(message);
+            var tokens = Tokenize(message);
 
             var keywords = await GetIntentKeywordsAsync();
-            if (!keywords.Any()) return null;
-
             var contexts = await GetIntentContextsAsync();
 
-            // Group keywords by IntentId and calculate match score
-            var intentGroups = keywords
-                .Where(k => !string.IsNullOrWhiteSpace(k.Keyword))
+            var intentScores = keywords
                 .GroupBy(k => k.IntentId)
-                .Select(g => new
+                .Select(intentGroup =>
                 {
-                    IntentId = g.Key,
-                    TotalKeywords = g.Count(),
-                    MatchCount = g.Count(k => message.Contains(k.Keyword.ToLowerInvariant()))
+                    // ---------- KEYWORD SCORE ----------
+                    double keywordScore = intentGroup
+                        .Select(k => KeywordMatchScore(tokens, k.Keyword))
+                        .Max(); // Best keyword match
+
+                    // ---------- CONTEXT SCORE ----------
+                    double contextScore = 0;
+                    if (contexts.TryGetValue(intentGroup.Key, out var contextList))
+                    {
+                        contextScore = contextList
+                            .Select(ctx =>
+                            {
+                                var ctxTokens = Tokenize(ctx);
+                                var matchCount = ctxTokens.Count(tokens.Contains);
+                                return (double)matchCount / ctxTokens.Count;
+                            })
+                            .DefaultIfEmpty(0)
+                            .Max();
+                    }
+
+                    // ---------- FINAL SCORE ----------
+                    var finalScore = (keywordScore * 0.7) + (contextScore * 0.3);
+
+                    return new
+                    {
+                        IntentId = intentGroup.Key,
+                        Score = finalScore
+                    };
                 })
-                .Select(x => new
-                {
-                    x.IntentId,
-                    Score = x.TotalKeywords == 0 ? 0 : x.MatchCount / (double)x.TotalKeywords
-                })
+                .OrderByDescending(x => x.Score)
                 .ToList();
 
-            // Boost score dynamically using context words from DB
-            for (int i = 0; i < intentGroups.Count; i++)
-            {
-                if (contexts.TryGetValue(intentGroups[i].IntentId, out var contextWords))
-                {
-                    var boost = contextWords.Count(w => message.Contains(w));
-                    intentGroups[i] = new
-                    {
-                        intentGroups[i].IntentId,
-                        Score = intentGroups[i].Score + (0.2 * boost)
-                    };
-                }
-            }
+            var bestMatch = intentScores.FirstOrDefault();
 
-            // Pick the highest scoring intent
-            var bestMatch = intentGroups.OrderByDescending(x => x.Score).FirstOrDefault();
-            const double threshold = 0.5;
-            if (bestMatch == null || bestMatch.Score < threshold)
-                return null;
-
-            return bestMatch.IntentId;
+            return bestMatch != null && bestMatch.Score >= 0.35
+                ? bestMatch.IntentId
+                : null;
         }
 
-        // 3️⃣ Execute DB-defined action dynamically
+        // -------------------- ACTION EXECUTION --------------------
+
         public async Task<string> ExecuteActionAsync(int intentId, int userId)
         {
-            // Step 1: Get the SQL query from SP
-            //var action = await _context.Tbl_BotIntentAction
-            //    .FromSqlRaw("EXEC Usp_ExecuteAction @IntentId", new SqlParameter("@IntentId", intentId))
-            //    .AsNoTracking()
-            //    .FirstOrDefaultAsync();
-
             var actions = await _context.Tbl_BotIntentAction
-    .FromSqlRaw("EXEC Usp_ExecuteAction @IntentId", new SqlParameter("@IntentId", intentId))
-    .AsNoTracking()
-    .ToListAsync(); // Materialize SP results
+                .FromSqlRaw("EXEC Usp_ExecuteAction @IntentId",
+                    new SqlParameter("@IntentId", intentId))
+                .AsNoTracking()
+                .ToListAsync();
 
-            var action = actions.FirstOrDefault(); // Now safe
-
+            var action = actions.FirstOrDefault();
             if (action == null || string.IsNullOrWhiteSpace(action.SqlQuery))
                 return "0";
 
-            var sqlQuery = action.SqlQuery;
+            using var command = _context.Database.GetDbConnection().CreateCommand();
+            command.CommandText = action.SqlQuery;
+            command.Parameters.Add(new SqlParameter("@UserId", userId));
 
-            // Step 2: Execute the SQL query dynamically
-            // ⚡ Assumes the SQL returns a single scalar value
-            var userParam = new SqlParameter("@UserId", userId);
-            string result = null;
+            await _context.Database.OpenConnectionAsync();
+            var result = await command.ExecuteScalarAsync();
+            await _context.Database.CloseConnectionAsync();
 
-            // Use a raw ADO.NET command for scalar execution
-            using (var command = _context.Database.GetDbConnection().CreateCommand())
-            {
-                command.CommandText = sqlQuery;
-                command.Parameters.Add(userParam);
-                command.CommandType = System.Data.CommandType.Text;
-
-                await _context.Database.OpenConnectionAsync();
-                var dbResult = await command.ExecuteScalarAsync();
-                result = dbResult?.ToString();
-                await _context.Database.CloseConnectionAsync();
-            }
-
-            return string.IsNullOrWhiteSpace(result) ? "0" : result;
+            return result?.ToString() ?? "0";
         }
 
-        // 4️⃣ Build response dynamically using template
+        // -------------------- RESPONSE TEMPLATE --------------------
+
         public async Task<string> BuildResponseAsync(int intentId, string value)
         {
             var template = await _context.Tbl_BotResponseTemplate
@@ -143,7 +152,8 @@ namespace Society_8777.Repository
                 : template.Replace("{value}", value);
         }
 
-        // 5️⃣ Final chatbot response (PURE orchestration)
+        // -------------------- FINAL ORCHESTRATION --------------------
+
         public async Task<string> GenerateResponseAsync(string message, string userId)
         {
             if (!int.TryParse(userId, out int uid))
@@ -151,7 +161,7 @@ namespace Society_8777.Repository
 
             var intentId = await DetectIntentAsync(message);
             if (!intentId.HasValue)
-                return "🤖 Sorry, I couldn't understand your question.";
+                return "🤖 Sorry, I couldn’t understand your request.";
 
             var value = await ExecuteActionAsync(intentId.Value, uid);
             return await BuildResponseAsync(intentId.Value, value);
