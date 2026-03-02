@@ -1,8 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Society_8777.Interface;
 using Society_8777.Models;
 using System.Text.RegularExpressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Society_8777.Repository
 {
@@ -79,27 +81,36 @@ namespace Society_8777.Repository
                 {
                     var intentId = intentGroup.Key;
 
+                    // ---------------- PRIMARY KEYWORD CHECK ----------------
+                    var primaryKeywords = intentGroup
+                        .Where(k => k.IsPrimary)
+                        .Select(k => k.Keyword.ToLowerInvariant())
+                        .ToList();
+
+                    bool hasPrimaryMatch = primaryKeywords
+                        .Any(pk => tokens.Contains(pk));
+
+                    if (!hasPrimaryMatch)
+                    {
+                        return new
+                        {
+                            IntentId = intentId,
+                            Score = 0.0
+                        };
+                    }
+
+                    // ---------------- KEYWORD SCORE ----------------
                     double keywordScore = 0;
-                    double totalPossibleWeight = intentGroup.Sum(k => k.Weight);
 
                     foreach (var keyword in intentGroup)
                     {
-                        if (string.IsNullOrWhiteSpace(keyword.Keyword))
-                            continue;
+                        var score = KeywordMatchScore(tokens, keyword.Keyword);
 
-                        var matchScore = KeywordMatchScore(tokens, keyword.Keyword);
-
-                        if (matchScore > 0)
-                        {
-                            keywordScore += keyword.Weight * matchScore;
-                        }
+                        if (keyword.IsPrimary)
+                            keywordScore += score * 2.0;   // Primary weight
+                        else
+                            keywordScore += score * 0.8;   // Secondary weight
                     }
-
-                    // Normalize keyword score
-                    double normalizedKeywordScore =
-                        totalPossibleWeight == 0
-                        ? 0
-                        : keywordScore / totalPossibleWeight;
 
                     // ---------------- CONTEXT SCORE ----------------
                     double contextScore = 0;
@@ -116,29 +127,34 @@ namespace Society_8777.Repository
                                 contextScore += (double)matchCount / ctxTokens.Count;
                             }
                         }
-
-                        contextScore = contextScore / contextList.Count;
                     }
 
-                    // Final Score (Keyword dominant, Context supportive)
-                    double finalScore = normalizedKeywordScore + (contextScore * 0.4);
+                    // Normalize context weight
+                    contextScore *= 0.5;
+
+                    // ---------------- FINAL SCORE ----------------
+                    double finalScore = keywordScore + contextScore;
 
                     return new
                     {
                         IntentId = intentId,
-                        Score = finalScore,
-                        RawScore = keywordScore
+                        Score = finalScore
                     };
                 })
                 .OrderByDescending(x => x.Score)
-                .ThenByDescending(x => x.RawScore)
-                .FirstOrDefault();
+                .ToList();
 
-            if (intentScores == null || intentScores.Score < 0.15)
+            var bestMatch = intentScores.FirstOrDefault();
+
+            // ---------------- SAFE THRESHOLD ----------------
+            if (bestMatch == null || bestMatch.Score < 1.0)
                 return null;
 
-            return intentScores.IntentId;
+            return bestMatch.IntentId;
         }
+
+        
+        
 
         // -------------------- ACTION EXECUTION --------------------
 
