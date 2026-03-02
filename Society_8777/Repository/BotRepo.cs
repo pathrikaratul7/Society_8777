@@ -68,38 +68,74 @@ namespace Society_8777.Repository
             var tokens = Tokenize(message);
 
             var keywords = await GetIntentKeywordsAsync();
+            if (!keywords.Any())
+                return null;
+
             var contexts = await GetIntentContextsAsync();
 
             var intentScores = keywords
                 .GroupBy(k => k.IntentId)
                 .Select(intentGroup =>
                 {
-                    // ---------- KEYWORD SCORE ----------
-                    double keywordScore = intentGroup
-                        .Select(k => KeywordMatchScore(tokens, k.Keyword))
-                        .Max(); // Best keyword match
+                    var intentId = intentGroup.Key;
 
-                    // ---------- CONTEXT SCORE ----------
-                    double contextScore = 0;
-                    if (contexts.TryGetValue(intentGroup.Key, out var contextList))
+                    // ---------------- PRIMARY KEYWORD CHECK ----------------
+                    var primaryKeywords = intentGroup
+                        .Where(k => k.IsPrimary)
+                        .Select(k => k.Keyword.ToLowerInvariant())
+                        .ToList();
+
+                    bool hasPrimaryMatch = primaryKeywords
+                        .Any(pk => tokens.Contains(pk));
+
+                    if (!hasPrimaryMatch)
                     {
-                        contextScore = contextList
-                            .Select(ctx =>
-                            {
-                                var ctxTokens = Tokenize(ctx);
-                                var matchCount = ctxTokens.Count(tokens.Contains);
-                                return (double)matchCount / ctxTokens.Count;
-                            })
-                            .DefaultIfEmpty(0)
-                            .Max();
+                        return new
+                        {
+                            IntentId = intentId,
+                            Score = 0.0
+                        };
                     }
 
-                    // ---------- FINAL SCORE ----------
-                    var finalScore = (keywordScore * 0.7) + (contextScore * 0.3);
+                    // ---------------- KEYWORD SCORE ----------------
+                    double keywordScore = 0;
+
+                    foreach (var keyword in intentGroup)
+                    {
+                        var score = KeywordMatchScore(tokens, keyword.Keyword);
+
+                        if (keyword.IsPrimary)
+                            keywordScore += score * 2.0;   // Primary weight
+                        else
+                            keywordScore += score * 0.8;   // Secondary weight
+                    }
+
+                    // ---------------- CONTEXT SCORE ----------------
+                    double contextScore = 0;
+
+                    if (contexts.TryGetValue(intentId, out var contextList))
+                    {
+                        foreach (var ctx in contextList)
+                        {
+                            var ctxTokens = Tokenize(ctx);
+                            var matchCount = ctxTokens.Count(tokens.Contains);
+
+                            if (ctxTokens.Count > 0)
+                            {
+                                contextScore += (double)matchCount / ctxTokens.Count;
+                            }
+                        }
+                    }
+
+                    // Normalize context weight
+                    contextScore *= 0.5;
+
+                    // ---------------- FINAL SCORE ----------------
+                    double finalScore = keywordScore + contextScore;
 
                     return new
                     {
-                        IntentId = intentGroup.Key,
+                        IntentId = intentId,
                         Score = finalScore
                     };
                 })
@@ -108,9 +144,11 @@ namespace Society_8777.Repository
 
             var bestMatch = intentScores.FirstOrDefault();
 
-            return bestMatch != null && bestMatch.Score >= 0.35
-                ? bestMatch.IntentId
-                : null;
+            // ---------------- SAFE THRESHOLD ----------------
+            if (bestMatch == null || bestMatch.Score < 1.0)
+                return null;
+
+            return bestMatch.IntentId;
         }
 
         // -------------------- ACTION EXECUTION --------------------
