@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Society_8777.Interface;
+using Society_8777.Repository;
 
 namespace Society_8777.Controllers
 {
@@ -16,12 +17,10 @@ namespace Society_8777.Controllers
                 _botService = botService;
         }
         [HttpGet("MySocApp7GenerateResponse")]
-        public Task<string> GenerateResponse(string message, string userId)
-       
+        public async Task<BotResponse> GenerateResponse(string message, string userId)
         {
-           var response = _botService.GenerateResponseAsync(message, userId);
+            var response = await _botService.GenerateResponseAsync(message, userId);
             return response;
         }
-
     }
 }

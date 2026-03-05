@@ -31,11 +31,15 @@ namespace Society_8777.DataBaseContext
 
         public DbSet<Tbl_BotIntentAction> Tbl_BotIntentAction { get; set; }
 
-        public DbSet<Tbl_BotAction> Tbl_BotActions { get; set; }
+        public DbSet<Tbl_BotAction> Tbl_BotAction { get; set; }
 
         public DbSet<Tbl_BotResponseTemplate> Tbl_BotResponseTemplate { get; set; }
 
         public DbSet<Tbl_BotIntentContext> Tbl_BotIntentContext { get; set; }
+
+        public DbSet<Tbl_BotIntentMaster> Tbl_BotIntentMaster { get; set; }
+
+        public DbSet<Tbl_BotLearningLog> Tbl_BotLearningLog { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -156,7 +160,14 @@ namespace Society_8777.DataBaseContext
                 bb.HasKey(b => b.ContextId);
             }
             );
-
+            modelBuilder.Entity<Tbl_BotIntentMaster>(bb =>
+            {
+                bb.HasKey(b => b.IntentId);
+            });
+            modelBuilder.Entity<Tbl_BotLearningLog>(bb =>
+            {
+                bb.HasKey(b => b.LogId);
+            });
 
             OnModelCreatingPartial(modelBuilder);
 
