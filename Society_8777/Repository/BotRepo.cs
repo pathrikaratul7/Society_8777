@@ -321,33 +321,5 @@ namespace Society_8777.Repository
         #endregion
     }
 
-    #region ================= SUPPORT MODELS =================
-
-    public class IntentResult
-    {
-        public int IntentId { get; set; }
-        public double Confidence { get; set; }
-    }
-
-    public class IntentScore
-    {
-        public int IntentId { get; set; }
-        public double Score { get; set; }
-        public int PrimaryMatchCount { get; set; }
-        public int TotalMatchCount { get; set; }
-    }
-
-    public class BotResponse
-    {
-        public string Message { get; set; }
-        public double Confidence { get; set; }
-
-        public BotResponse(string message, double confidence)
-        {
-            Message = message;
-            Confidence = confidence;
-        }
-    }
-
-    #endregion
+   
 }
