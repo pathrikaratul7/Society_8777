@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Society_8777.Interface;
+using Society_8777.Models;
 using Society_8777.Repository;
 
 namespace Society_8777.Controllers

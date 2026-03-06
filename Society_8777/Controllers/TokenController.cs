@@ -23,12 +23,12 @@ namespace Society_8777.Controllers
     {
         public IConfiguration _configuration;
         private readonly DataBaseContext.DataBaseContext _Context;
-        private Token _ts;
-        public TokenController(IConfiguration configuration, DataBaseContext.DataBaseContext context, Token ts)
+     //   private Token _ts;
+        public TokenController(IConfiguration configuration, DataBaseContext.DataBaseContext context)
         {
             _configuration = configuration;
             _Context = context;
-            _ts = ts;
+         //   _ts = ts;
 
 
         }

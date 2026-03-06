@@ -1,4 +1,5 @@
-﻿using Society_8777.Repository;
+﻿using Society_8777.Models;
+using Society_8777.Repository;
 using System.Threading.Tasks;
 
 namespace Society_8777.Interface
