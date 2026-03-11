@@ -11,86 +11,76 @@ namespace Society_8777.Repository
     {
         private readonly DataBaseContext.DataBaseContext _context;
 
-        private const double MIN_THRESHOLD = 3.0;
-        private const double PRIMARY_MULTIPLIER = 3.0;
+        private const double MIN_THRESHOLD = 12;
+        private const double PRIMARY_MULTIPLIER = 3;
         private const double SECONDARY_MULTIPLIER = 1.5;
-        private const double CONTEXT_BOOST = 1.5;
-        private const double PRIORITY_MULTIPLIER = 0.3;
-        private const int LEARNING_RATE = 1;
-        private const int HIGH_CONFIDENCE_THRESHOLD = 85;
-        private const int LOW_CONFIDENCE_THRESHOLD = 45;
+        private const double CONTEXT_BOOST = 2;
+        private const double PRIORITY_MULTIPLIER = 0.4;
+
+        private static readonly HashSet<string> StopWords = new()
+        {
+            "is","am","are","the","a","an","please","can","you",
+            "me","my","tell","show","what","which","do","does",
+            "i","want","to","know","give","provide"
+        };
 
         public BotRepo(DataBaseContext.DataBaseContext context)
         {
             _context = context;
         }
         public async Task AutoLearnAsync(
-     string message,
-     int detectedIntentId,
-     double confidence,
-     int? correctIntentId = null)
+    string message,
+    int detectedIntentId,
+    double confidence,
+    int? correctIntentId = null)
         {
-            // ===================== GET PRIMARY KEYWORDS =====================
+            var tokens = Tokenize(Normalize(message));
 
-            var primaryKeywords = await _context.Tbl_BotIntentKeywords
-                .Where(x => x.IntentId == detectedIntentId && x.IsPrimary)
+            var keywords = await _context.Tbl_BotIntentKeywords
+                .Where(x => x.IntentId == detectedIntentId)
                 .ToListAsync();
 
-            if (!primaryKeywords.Any())
+            if (!keywords.Any())
                 return;
 
-            // ===================== SUPERVISED LEARNING =====================
-
-            if (correctIntentId.HasValue)
+            foreach (var keyword in keywords)
             {
-                foreach (var keyword in primaryKeywords)
+                var keyTokens = keyword.Keyword
+                    .ToLower()
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                bool matched = keyTokens.Any(k => tokens.Contains(k));
+
+                if (!matched)
+                    continue;
+
+                if (correctIntentId.HasValue)
                 {
                     if (correctIntentId.Value == detectedIntentId)
-                    {
-                        // User confirmed correct → reward
-                        keyword.Weight += LEARNING_RATE;
-                    }
+                        keyword.Weight += 1;
                     else
-                    {
-                        // User corrected → penalize
-                        keyword.Weight = Math.Max(1, keyword.Weight - LEARNING_RATE);
-                    }
+                        keyword.Weight = Math.Max(1, keyword.Weight - 1);
                 }
-            }
-            else
-            {
-                // ===================== AUTOMATIC CONFIDENCE-BASED LEARNING =====================
-
-                foreach (var keyword in primaryKeywords)
+                else
                 {
-                    if (confidence >= HIGH_CONFIDENCE_THRESHOLD)          // 85+
-                    {
-                        keyword.Weight += LEARNING_RATE;                  // strong reward
-                    }
-                    else if (confidence >= LOW_CONFIDENCE_THRESHOLD)      // 45–84
-                    {
-                        keyword.Weight += 1;                              // medium reward
-                    }
-                    else                                                  // below 45
-                    {
-                        keyword.Weight = Math.Max(1, keyword.Weight - LEARNING_RATE);
-                    }
+                    if (confidence >= 85)
+                        keyword.Weight += 1;
+                    else if (confidence < 40)
+                        keyword.Weight = Math.Max(1, keyword.Weight - 1);
                 }
             }
-
-            // ===================== INSERT LEARNING LOG =====================
 
             _context.Tbl_BotLearningLog.Add(new Tbl_BotLearningLog
             {
                 Message = message,
                 DetectedIntentId = detectedIntentId,
-                CorrectIntentId = correctIntentId, // null if no correction
+                CorrectIntentId = correctIntentId,
                 CreatedDate = DateTime.UtcNow
             });
 
             await _context.SaveChangesAsync();
         }
-        #region ================= TEXT HELPERS =================
+        #region TEXT HELPERS
 
         private static string Normalize(string input)
         {
@@ -102,18 +92,19 @@ namespace Society_8777.Repository
         private static HashSet<string> Tokenize(string input)
         {
             return input.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                        .ToHashSet();
+                .Where(x => !StopWords.Contains(x))
+                .ToHashSet();
         }
 
         #endregion
 
-        #region ================= LOAD DATA =================
+        #region LOAD DATA
 
         private async Task<List<Tbl_BotIntentKeywords>> GetKeywordsAsync()
         {
             return await _context.Tbl_BotIntentKeywords
-                                 .AsNoTracking()
-                                 .ToListAsync();
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         private async Task<Dictionary<int, List<string>>> GetContextsAsync()
@@ -130,13 +121,13 @@ namespace Society_8777.Repository
         private async Task<Dictionary<long, int>> GetIntentPrioritiesAsync()
         {
             return await _context.Tbl_BotIntentMaster
-                                 .AsNoTracking()
-                                 .ToDictionaryAsync(x => x.IntentId, x => x.IntentPriority);
+                .AsNoTracking()
+                .ToDictionaryAsync(x => x.IntentId, x => x.IntentPriority);
         }
 
         #endregion
 
-        #region ================= INTENT DETECTION =================
+        #region INTENT DETECTION
 
         public async Task<IntentResult?> DetectIntentAsync(string message)
         {
@@ -150,12 +141,9 @@ namespace Society_8777.Repository
             var contexts = await GetContextsAsync();
             var priorities = await GetIntentPrioritiesAsync();
 
-            if (!keywords.Any())
-                return null;
-
             var scores = new List<IntentScore>();
 
-            foreach (var group in keywords.GroupBy(k => k.IntentId))
+            foreach (var group in keywords.GroupBy(x => x.IntentId))
             {
                 int intentId = group.Key;
 
@@ -165,11 +153,11 @@ namespace Society_8777.Repository
 
                 foreach (var keyword in group)
                 {
-                    string key = keyword.Keyword.ToLower();
+                    var keyTokens = keyword.Keyword
+                        .ToLower()
+                        .Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                    bool matched =
-                        message.Contains(key) ||
-                        key.Split(' ').All(p => tokens.Contains(p));
+                    bool matched = keyTokens.Any(k => tokens.Contains(k));
 
                     if (!matched)
                         continue;
@@ -187,21 +175,22 @@ namespace Society_8777.Repository
                     }
                 }
 
-                // 🚨 Enforce at least one primary match
                 if (primaryMatch == 0)
                     continue;
 
-                // Context boost (fully DB driven)
                 if (contexts.TryGetValue(intentId, out var ctxList))
                 {
                     foreach (var ctx in ctxList)
                     {
-                        if (message.Contains(ctx))
-                            score += CONTEXT_BOOST;
+                        var ctxTokens = Tokenize(ctx);
+
+                        int matchCount = ctxTokens.Count(t => tokens.Contains(t));
+
+                        if (matchCount >= ctxTokens.Count / 2)
+                            score += CONTEXT_BOOST * matchCount;
                     }
                 }
 
-                // Intent priority boost (DB driven)
                 if (priorities.TryGetValue(intentId, out int priority))
                     score += priority * PRIORITY_MULTIPLIER;
 
@@ -232,31 +221,38 @@ namespace Society_8777.Repository
             };
         }
 
-        private double CalculateConfidence(double bestScore, List<IntentScore> allScores)
+        private double CalculateConfidence(double bestScore, List<IntentScore> scores)
         {
-            double totalScore = allScores.Sum(x => x.Score);
-            if (totalScore == 0) return 0;
+            double secondBest = scores
+                .Where(x => x.Score != bestScore)
+                .OrderByDescending(x => x.Score)
+                .Select(x => x.Score)
+                .FirstOrDefault();
 
-            return Math.Round((bestScore / totalScore) * 100, 2);
+            if (secondBest == 0)
+                return 100;
+
+            double confidence = ((bestScore - secondBest) / bestScore) * 100;
+
+            return Math.Round(confidence, 2);
         }
 
         #endregion
 
-        #region ================= EXECUTE STORED PROCEDURE =================
+        #region EXECUTE ACTION
 
         public async Task<string> ExecuteActionAsync(int intentId, int userId)
         {
             var action = await (
                 from ia in _context.Tbl_BotIntentAction
                 join a in _context.Tbl_BotAction
-                    on ia.ActionId equals a.ActionId
+                on ia.ActionId equals a.ActionId
                 where ia.IntentId == intentId
                 select a
             ).AsNoTracking().FirstOrDefaultAsync();
 
-            if (action == null ||
-                !string.Equals(action.ActionType, "SP", StringComparison.OrdinalIgnoreCase))
-                return "⚠️ No valid stored procedure configured.";
+            if (action == null)
+                return "⚠️ Action not configured.";
 
             var connectionString = _context.Database.GetConnectionString();
 
@@ -275,14 +271,14 @@ namespace Society_8777.Repository
 
         #endregion
 
-        #region ================= RESPONSE TEMPLATE =================
+        #region RESPONSE TEMPLATE
 
         public async Task<string> BuildResponseAsync(int intentId, string value)
         {
             var template = await _context.Tbl_BotResponseTemplate
-                                         .Where(x => x.IntentId == intentId)
-                                         .Select(x => x.Template)
-                                         .FirstOrDefaultAsync();
+                .Where(x => x.IntentId == intentId)
+                .Select(x => x.Template)
+                .FirstOrDefaultAsync();
 
             if (string.IsNullOrWhiteSpace(template))
                 return value;
@@ -292,34 +288,33 @@ namespace Society_8777.Repository
 
         #endregion
 
-        #region ================= FINAL =================
+        #region FINAL
 
         public async Task<BotResponse> GenerateResponseAsync(string message, string userId)
         {
             if (!int.TryParse(userId, out int uid))
                 return new BotResponse("⚠️ Invalid user session.", 0);
 
-            var intentResult = await DetectIntentAsync(message);
+            var intent = await DetectIntentAsync(message);
 
-            if (intentResult == null)
+            if (intent == null)
                 return new BotResponse("🤖 Sorry, I couldn’t understand your request.", 0);
 
-            var value = await ExecuteActionAsync(intentResult.IntentId, uid);
-            var response = await BuildResponseAsync(intentResult.IntentId, value);
+            var value = await ExecuteActionAsync(intent.IntentId, uid);
 
-            // ✅ 🔥 CALL LEARNING HERE (AFTER SUCCESSFUL DETECTION)
+            var response = await BuildResponseAsync(intent.IntentId, value);
+
+            // Auto learning
             await AutoLearnAsync(
-    message,
-    intentResult.IntentId,
-    intentResult.Confidence,
-    null
-);
+                message,
+                intent.IntentId,
+                intent.Confidence,
+                null
+            );
 
-            return new BotResponse(response, intentResult.Confidence);
+            return new BotResponse(response, intent.Confidence);
         }
 
         #endregion
     }
-
-   
 }
