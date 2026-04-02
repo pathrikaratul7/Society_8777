@@ -23,7 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
 var sqlcon = builder.Configuration.GetConnectionString("Con");
 
 builder.Services.AddDbContext<DataBaseContext>
-(options => options.UseSqlServer(CommomFunction.Encrypt_Dycrypt_Bank.DecryptString(sqlcon)));
+(options => options.UseSqlServer(CommomFunction.Encrypt_Dycrypt_Bank.DecryptString(sqlcon?? "")));
 
 builder.Services.AddTransient<Token>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
@@ -64,7 +64,7 @@ Log.Logger = new LoggerConfiguration()
 
     // 2️⃣ Database logging (may fail, but app won't)
     .WriteTo.MSSqlServer(
-        connectionString: CommomFunction.Encrypt_Dycrypt_Bank.DecryptString(sqlcon),
+        connectionString: CommomFunction.Encrypt_Dycrypt_Bank.DecryptString(sqlcon ?? ""),
         sinkOptions: new MSSqlServerSinkOptions
         {
             TableName = "Tbl_ErrorLog",
@@ -95,7 +95,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]?? ""))
 
         };
 
