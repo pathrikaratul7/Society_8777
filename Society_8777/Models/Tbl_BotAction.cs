@@ -3,7 +3,7 @@
     public class Tbl_BotAction
     {
         public int ActionId { get; set; }
-        public string SqlQuery { get; set; }
-        public string ActionType { get; set; }
+        public string? SqlQuery { get; set; }
+        public string? ActionType { get; set; }
     }
 }

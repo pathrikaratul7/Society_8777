@@ -3,6 +3,6 @@
     public class RefreshRequestDTO
     {
         public long UserId { get; set; }
-        public string RefreshToken { get; set; }
+        public string? RefreshToken { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace Society_8777.Repository
 
 
 
-                var tbl_fcm =  _context.tbl_FCMToken.FromSqlRaw("EXEC dbo.USP_Tbl_FCMToken " +
+                var tbl_fcm =  _context.tbl_FCMToken!.FromSqlRaw("EXEC dbo.USP_Tbl_FCMToken " +
                     "@FcmToken=@FcmToken,@FlatID=@FlatID,@UpdatedOn=@UpdatedOn", parameters).AsEnumerable().FirstOrDefault();
                 if (tbl_fcm == null)
                 {

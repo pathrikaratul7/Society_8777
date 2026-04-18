@@ -32,7 +32,7 @@ namespace Society_8777.Repository
                 sp[7] = new SqlParameter("@LoginID", tbl_Parking.LoginID ?? (object)DBNull.Value);
                 sp[8] = new SqlParameter("@VImagePath", tbl_Parking.VImagePath ?? (object)DBNull.Value);
                 sp[9] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
-                var _tbl_Parking = _context.Tbl_Parking
+                var _tbl_Parking = _context.Tbl_Parking!
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking] @FID=@FID," +
                      "@VehicleNumber=@VehicleNumber,@VehicleType=@VehicleType,@SlotNumber=@SlotNumber," +
                      "@IsOccupied=@IsOccupied," +
@@ -42,13 +42,13 @@ namespace Society_8777.Repository
                 await _context.SaveChangesAsync();
                 return new OkObjectResult(_tbl_Parking);
             }
-            catch (Exception)
+            catch
             {
 
-
+                return new ObjectResult(new { Message = "Error while adding parking details", StatusCode = 500 });
 
             }
-            return null;
+            
         }
         public async Task<IActionResult> GetAllParking(Tbl_Parking tbl_Parking)
         {
@@ -66,10 +66,10 @@ namespace Society_8777.Repository
                    .ToListAsync();
                 return new OkObjectResult(_tbl_Parking);
             }
-            catch (Exception)
+            catch
             {
+                return new ObjectResult(new { Message = "Error while retrieving parking details", StatusCode = 500 });
             }
-            return null;
         }
         public async Task<IActionResult> GetParking(Tbl_Parking tbl_Parking)
         {
@@ -82,19 +82,18 @@ namespace Society_8777.Repository
                 SqlParameter[] sp = new SqlParameter[2];
                 sp[0] = new SqlParameter("@UID", tbl_Parking.UID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
-                var _tbl_Parking = await _context.Tbl_Parking.FromSqlRaw
+                var _tbl_Parking = await _context.Tbl_Parking!.FromSqlRaw
                     ("EXEC [dbo].[USP_Tbl_Parking] @UID=@UID,@Flag=@Flag", sp)
                     .AsNoTracking().ToListAsync();
-                if (_tbl_Parking != null)
-                {
+                
                     return new OkObjectResult(_tbl_Parking);
-                }
+                
             }
-            catch (Exception ex)
+            catch
             {
-                //throw;
+                return new ObjectResult(new { Message = "Error while getting parking details", StatusCode = 500 });
             }
-            return null;
+            
         }
 
         public async Task<IActionResult> DeleteParking(Tbl_Parking tbl_Parking)
@@ -108,18 +107,18 @@ namespace Society_8777.Repository
                 SqlParameter[] sp = new SqlParameter[2];
                 sp[0] = new SqlParameter("@ParkingID", tbl_Parking.ParkingId ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
-                var _tbl_Parking = _context.Tbl_Parking.FromSqlRaw
-                    ("EXEC [dbo].[USP_Tbl_Parking] @ParkingID=@ParkingID,@Flag=@Flag", sp).AsNoTracking().AsEnumerable().FirstOrDefault();
-                if (_tbl_Parking != null)
-                {
+                var _tbl_Parking = await _context.Tbl_Parking.FromSqlRaw
+                    ("EXEC [dbo].[USP_Tbl_Parking] @ParkingID=@ParkingID,@Flag=@Flag", sp)
+                    .AsNoTracking().FirstOrDefaultAsync();
+                
                     return new OkObjectResult(_tbl_Parking);
-                }
+                
             }
-            catch (Exception ex)
+            catch
             {
-                //throw;
+                return new ObjectResult(new { Message = "Error while deleting parking details", StatusCode = 500 });
             }
-            return null;
+            
         }
 
         public async Task<IActionResult> UpdateParking(Tbl_Parking tbl_Parking)
@@ -142,7 +141,7 @@ namespace Society_8777.Repository
                 sp[8] = new SqlParameter("@LoginID", tbl_Parking.LoginID ?? (object)DBNull.Value);
                 sp[9] = new SqlParameter("@VImagePath", tbl_Parking.VImagePath ?? (object)DBNull.Value);
                 sp[10] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
-                var _tbl_Parking = _context.Tbl_Parking
+                var _tbl_Parking = _context.Tbl_Parking!
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking] @ParkingID=@ParkingID, @FID=@FID," +
                      "@VehicleNumber=@VehicleNumber,@VehicleType=@VehicleType,@SlotNumber=@SlotNumber," +
                      "@IsOccupied=@IsOccupied," +
@@ -157,9 +156,9 @@ namespace Society_8777.Repository
             catch (Exception)
             {
 
-
+                return new ObjectResult(new { Message = "Error while updating parking details", StatusCode = 500 });
             }
-            return null;
+            
         }
         public async Task<IActionResult> GetParkingSlot(Tbl_Parking tbl_Parking)
         {
@@ -178,10 +177,11 @@ namespace Society_8777.Repository
                    .ToListAsync();
                 return new OkObjectResult(_tbl_Parking);
             }
-            catch (Exception)
+            catch 
             {
+                return new ObjectResult(new { Message = "Error while retrieving parking slot details", StatusCode = 500 });
             }
-            return null;
+            
         }
         public async Task<IActionResult> GetAllParkingList(Tbl_Parking tbl_Parking)
         {
@@ -199,10 +199,11 @@ namespace Society_8777.Repository
                    .ToListAsync();
                 return new OkObjectResult(_tbl_Parking);
             }
-            catch (Exception)
+            catch
             {
+                return new ObjectResult(new { Message = "Error while retrieving parking list", StatusCode = 500 });
             }
-            return null;
+            
         }
         public async Task<IActionResult> GetParkingDetailsById(Tbl_Parking tbl_Parking)
             {
@@ -215,18 +216,17 @@ namespace Society_8777.Repository
                 SqlParameter[] sp = new SqlParameter[2];
                 sp[0] = new SqlParameter("@FID", tbl_Parking.FID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
-                var _tbl_Parking = _context.Tbl_Parking.FromSqlRaw
-                    ("EXEC [dbo].[USP_Tbl_Parking] @FID=@FID,@Flag=@Flag", sp).AsNoTracking().AsEnumerable().FirstOrDefault();
-                if (_tbl_Parking != null)
-                {
+                var _tbl_Parking = await _context.Tbl_Parking.FromSqlRaw
+                    ("EXEC [dbo].[USP_Tbl_Parking] @FID=@FID,@Flag=@Flag", sp).AsNoTracking().FirstOrDefaultAsync();
+                
                     return new OkObjectResult(_tbl_Parking);
-                }
+                
             }
-            catch (Exception ex)
+            catch
             {
-                //throw;
+                return new ObjectResult(new { Message = "Error while retrieving parking details by ID", StatusCode = 500 });
             }
-            return null;
+            
         }
     }
 }

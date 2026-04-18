@@ -15,7 +15,7 @@ namespace Society_8777.Models
 
             [Required]
             [MaxLength(256)]
-            public string TokenHash { get; set; } // nvarchar(256)
+            public string? TokenHash { get; set; } // nvarchar(256)
 
             [Required]
             public DateTime ExpiresAt { get; set; } // datetime2(7)

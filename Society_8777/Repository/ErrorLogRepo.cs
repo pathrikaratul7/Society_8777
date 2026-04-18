@@ -61,10 +61,10 @@ public async Task<IActionResult> GetAllError(Tbl_ErrorLogs tbl_ErrorLogs)
 
             return new OkObjectResult(result);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-                return new StatusCodeResult(500);
-        }
+                return new ObjectResult("An error occurred while retrieving error logs.") { StatusCode = 500 };
+            }
     }
 }
 }

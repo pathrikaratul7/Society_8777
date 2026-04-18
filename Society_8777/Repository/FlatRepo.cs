@@ -32,7 +32,7 @@ namespace Society_8777.Repository
 
 
 
-                var _tbl_Flat = _dbcontex.tbl_Flat
+                var _tbl_Flat = _dbcontex.tbl_Flat!
                     .FromSqlRaw("EXEC USP_Tbl_Flat @OwnerName=@OwnerName, @FloorNumber=@FloorNumber," +
                     " @FlatNumber=@FlatNumber, @FlatType=@FlatType, @IsDeleted=@IsDeleted," +
                     " @CreatedBy=@CreatedBy, @CreatedDateTime=@CreatedDateTime," +
@@ -44,9 +44,9 @@ namespace Society_8777.Repository
             catch (Exception)
             {
 
-
+                return new ObjectResult(new { Message = "Error adding flat." }) { StatusCode = 500 };
             }
-            return null;
+            
         }
         public async Task<IActionResult> GetAllFlat(Tbl_Flat objFlat)
         {
@@ -72,12 +72,12 @@ namespace Society_8777.Repository
                     return new NotFoundResult();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log the exception (ex) as needed
+                return new ObjectResult(new { Message = "Error loading flat." }) { StatusCode = 500 };
 
             }
-            return null;
+            
 
 
         }
@@ -99,7 +99,7 @@ namespace Society_8777.Repository
                 p[8] = new SqlParameter("@LoginID", objFlat.LoginID ?? (object)DBNull.Value);
                 p[9] = new SqlParameter("@Flag", objFlat.Flag ?? (object)DBNull.Value);
 
-                var _tbl_Flat = _dbcontex.tbl_Flat
+                var _tbl_Flat = _dbcontex.tbl_Flat!
                     .FromSqlRaw("EXEC USP_Tbl_Flat @FID=@FID, @OwnerName=@OwnerName, @FloorNumber=@FloorNumber," +
                     " @FlatNumber=@FlatNumber, @FlatType=@FlatType, @IsDeleted=@IsDeleted, " +
                     " @UpdatedBy=@UpdatedBy," +
@@ -110,8 +110,9 @@ namespace Society_8777.Repository
             }
             catch (Exception)
             {
+                return new ObjectResult(new { Message = "Error updating flat." }) { StatusCode = 500 };
             }
-            return null;
+            
         }
         public async Task<IActionResult> DeleteFlat(Tbl_Flat objFlat)
         {
@@ -121,7 +122,7 @@ namespace Society_8777.Repository
                 p[0] = new SqlParameter("@FID", objFlat.FID);
                 p[1] = new SqlParameter("@Flag", objFlat.Flag ?? (object)DBNull.Value);
                 p[2] = new SqlParameter("@IsDeleted",objFlat.IsDeleted ?? (object)DBNull.Value);
-                var _tbl_Flat = _dbcontex.tbl_Flat
+                var _tbl_Flat = _dbcontex.tbl_Flat!
                     .FromSqlRaw("EXEC USP_Tbl_Flat @FID=@FID, @Flag=@Flag, @IsDeleted=@IsDeleted", p)
                     .AsEnumerable().FirstOrDefault();
                 await _dbcontex.SaveChangesAsync();
@@ -129,8 +130,9 @@ namespace Society_8777.Repository
             }
             catch (Exception)
             {
+                return new ObjectResult(new { Message = "Error deleting flat." }) { StatusCode = 500 };
             }
-            return null;
+            
         }
     }
 }

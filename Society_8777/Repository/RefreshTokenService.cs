@@ -17,11 +17,15 @@ namespace Society_8777.Repository
             _context = context;
         }
 
-        public async Task<Tbl_RefreshTokens> GetActiveRefreshTokenAsync(long userId, string token)
+        public async Task<Tbl_RefreshTokens?> GetActiveRefreshTokenAsync(long userId, string token)
         {
             var tokenHash = ComputeHash(token);
-            return await _context.tbl_RefreshTokens
-                .Where(t => t.UserId == userId && t.TokenHash == tokenHash && !t.IsRevoked && t.ExpiresAt > DateTime.UtcNow)
+
+            return await _context.tbl_RefreshTokens!
+                .Where(t => t.UserId == userId &&
+                            t.TokenHash == tokenHash &&
+                            !t.IsRevoked &&
+                            t.ExpiresAt > DateTime.UtcNow)
                 .FirstOrDefaultAsync();
         }
 
@@ -38,7 +42,7 @@ namespace Society_8777.Repository
                 CreatedAt = DateTime.UtcNow
             };
 
-            _context.tbl_RefreshTokens.Add(refreshToken);
+            _context.tbl_RefreshTokens!.Add(refreshToken);
             await _context.SaveChangesAsync();
 
             refreshToken.TokenHash = token; // return plain token for client
@@ -49,7 +53,7 @@ namespace Society_8777.Repository
         {
             token.IsRevoked = true;
             token.RevokedAt = DateTime.UtcNow;
-            _context.tbl_RefreshTokens.Update(token);
+            _context.tbl_RefreshTokens!.Update(token);
             await _context.SaveChangesAsync();
         }
 

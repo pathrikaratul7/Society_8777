@@ -21,17 +21,20 @@ namespace Society_8777.Repository
                 sp[0] = new SqlParameter("@FID", tbl_Guest.FID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
 
-                var _tbl_Guest =  _context.Tbl_Guest.FromSqlRaw
-                    ("EXEC [dbo].[USP_Tbl_Guest] @FID=@FID,@Flag=@Flag", sp).AsNoTracking().AsEnumerable().FirstOrDefault();
+                var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw
+                    ("EXEC [dbo].[USP_Tbl_Guest] @FID=@FID,@Flag=@Flag", sp)
+                    .AsNoTracking().ToListAsync();
+
+
                 
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
             {
 
-
+                return new ObjectResult(new { Message = "An error occurred while retrieving notifications." }) { StatusCode = 500 };
             }
-            return null;
+            
 
         }
         public async Task<IActionResult> AddGuest(Tbl_Guest tbl_Guest)
@@ -51,7 +54,7 @@ namespace Society_8777.Repository
                 sp[9] = new SqlParameter("@CreatorMobile",tbl_Guest.CreatorMobile ?? (object)DBNull.Value);
 
                 sp[10] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest =  _context.Tbl_Guest
+                var _tbl_Guest =  _context.Tbl_Guest!
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail," +
                     "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID," +
                     "@GImagePath=@GImagePath,@Status=@Status,@CreatorMobile=@CreatorMobile,@Flag=@Flag"
@@ -62,9 +65,9 @@ namespace Society_8777.Repository
             catch (Exception)
             {
 
-
+                return new ObjectResult(new { Message = "An error occurred while retrieving notifications." }) { StatusCode = 500 };
             }
-            return null;
+            
         }
         public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest)
         {
@@ -84,7 +87,7 @@ namespace Society_8777.Repository
                 
 
                 sp[10] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = _context.Tbl_Guest
+                var _tbl_Guest = _context.Tbl_Guest!
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@GName=@GName,@GMobile=@GMobile," +
                     "@GEmail=@GEmail,@OutDateTime=@OutDateTime,@FID=@FID,@UpdatedBy=@UpdatedBy,@LoginID=@LoginID," +
                     "@GImagePath=@GImagePath,@Status=@Status,@Flag=@Flag", sp)
@@ -92,10 +95,11 @@ namespace Society_8777.Repository
                 await _context.SaveChangesAsync();  
                 return new OkObjectResult(_tbl_Guest);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                return new ObjectResult(new { Message = "An error occurred while updating the guest." }) { StatusCode = 500 };
             }
-            return null;
+            
         }
         public async Task<IActionResult> DeleteGuest(Tbl_Guest tbl_Guest)
         {
@@ -106,13 +110,14 @@ namespace Society_8777.Repository
                 sp[1] = new SqlParameter("@IsDeleted", tbl_Guest.IsDeleted ?? (object)DBNull.Value);
                 sp[2] = new SqlParameter("@UpdatedBy", tbl_Guest.UpdatedBy ?? (object)DBNull.Value);
                 sp[3] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = await _context.Tbl_Guest.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@IsDeleted=@IsDeleted,@UpdatedBy=@UpdatedBy,@Flag=@Flag", sp).ToListAsync();
+                var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@IsDeleted=@IsDeleted,@UpdatedBy=@UpdatedBy,@Flag=@Flag", sp).ToListAsync();
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
             {
+                return new ObjectResult(new { Message = "An error occurred while deleting the guest." }) { StatusCode = 500 };
             }
-            return null;
+            
         }
         public async Task<IActionResult> GetAllGuestList(Tbl_Guest tbl_Guest)
         {
@@ -121,14 +126,15 @@ namespace Society_8777.Repository
                 SqlParameter[] sp = new SqlParameter[2];
                 sp[0] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = await _context.Tbl_Guest.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest]" +
+                var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest]" +
                     " @LoginID=@LoginID,@Flag=@Flag", sp).ToListAsync();
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
             {
+                return new ObjectResult(new {Message="Error While getting all guest", StatusCode=500 });
             }
-            return null;
+            
         }
         public byte[] ConvertImageToByteArray(string imagePath)
         {

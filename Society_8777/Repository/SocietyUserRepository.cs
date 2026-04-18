@@ -22,34 +22,25 @@ namespace Society_8777.Repository
         {
             try
             {
-                if (_dbcontex.tbl_User == null)
-                {
-                    return new NotFoundResult();
-                }
+                
 
                 SqlParameter[] sqlpara = new SqlParameter[4];
                 sqlpara[0] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
-                sqlpara[1] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass) ?? (object)DBNull.Value);
+                sqlpara[1] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass ?? "") ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
                 sqlpara[3] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
 
-                var _tbl_User = _dbcontex.tbl_User
-       .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
-       .AsNoTracking()
-       .AsEnumerable()
-       .FirstOrDefault();
+                var user = await _dbcontex.tbl_User!
+                    .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
-                if (_tbl_User != null)
-                {
-                    return new OkObjectResult(_tbl_User);
-                }
-                
+                return new ObjectResult(user);
             }
-            catch (Exception ex)
+            catch
             {
-                //throw;
+                return new ObjectResult(new { Message = "Error while retrieving user details", StatusCode = 500 });
             }
-            return null;
         }
 
         public async Task<IActionResult> AddUser(Tbl_User objCust)
@@ -63,7 +54,7 @@ namespace Society_8777.Repository
                 SqlParameter[] sqlpara = new SqlParameter[10];
                 sqlpara[0] = new SqlParameter("@UName", objCust.UName ?? (object)DBNull.Value);
                 sqlpara[1] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
-                sqlpara[2] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass) ?? (object)DBNull.Value);
+                sqlpara[2] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass ?? "") ?? (object)DBNull.Value);
                 sqlpara[3] = new SqlParameter("@UMobile", objCust.UMobile ?? (object)DBNull.Value);
                 sqlpara[4] = new SqlParameter("@IsDeleted", objCust.IsDeleted ?? (object)DBNull.Value);
                 sqlpara[5] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
@@ -80,11 +71,11 @@ namespace Society_8777.Repository
                 await _dbcontex.SaveChangesAsync();
                 return new OkObjectResult(_tbl_User);
             }
-            catch (Exception ex)
+            catch 
             {
-                //throw;
+                return new ObjectResult(new { Message = "Error while adding user", StatusCode = 500 });
             }
-            return null;
+            
         }
         public async Task<IActionResult> UpdateUser(Tbl_User objCust)
         {
@@ -98,7 +89,7 @@ namespace Society_8777.Repository
                 sqlpara[0] = new SqlParameter("@UID", objCust.UID);
                 sqlpara[1] = new SqlParameter("@UName", objCust.UName ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
-                sqlpara[3] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass) ?? (object)DBNull.Value);
+                sqlpara[3] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(objCust.UPass ?? "") ?? (object)DBNull.Value);
                 sqlpara[4] = new SqlParameter("@UMobile", objCust.UMobile ?? (object)DBNull.Value);
                 sqlpara[5] = new SqlParameter("@IsDeleted", objCust.IsDeleted ?? (object)DBNull.Value);
                 sqlpara[6] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
@@ -115,11 +106,11 @@ namespace Society_8777.Repository
                 await _dbcontex.SaveChangesAsync();
                 return new OkObjectResult(_tbl_User);
             }
-            catch (Exception ex)
+            catch 
             {
-                //throw;
+                return new ObjectResult(new { Message = "Error while updating user", StatusCode = 500 });
             }
-            return null;
+            
         }
         
             public async Task<IActionResult> UpdateDeviceID(Tbl_User objCust)
@@ -140,11 +131,11 @@ namespace Society_8777.Repository
                 await _dbcontex.SaveChangesAsync();
                 return new OkObjectResult(_tbl_User);
             }
-            catch (Exception ex)
+            catch 
             {
-                //throw;
+               return new ObjectResult(new { Message = "Error while updating device ID", StatusCode = 500 });   
             }
-            return null;
+            
         }
         public async Task<IActionResult> DeleteUser(Tbl_User objCust)
         {
@@ -163,34 +154,33 @@ namespace Society_8777.Repository
                 await _dbcontex.SaveChangesAsync();
                 return new OkObjectResult(_tbl_User);
             }
-            catch (Exception ex)
+            catch
             {
-                //throw;
+                return new ObjectResult(new { Message = "Error while deleting user", StatusCode = 500 });
             }
-            return null;
+            
         }
-        public async Task<IActionResult> GetAllUsers(Tbl_User objcust)
+        
+
+public async Task<IActionResult> GetAllUsers(Tbl_User objcust)
+    {
+        try
         {
-            try
-            {
-                if (_dbcontex.tbl_User == null)
-                {
-                    return null;
-                }
-                SqlParameter[] sqlpara = new SqlParameter[2];
-                sqlpara[0] = new SqlParameter("@UID", objcust.UID);
-                sqlpara[1] = new SqlParameter("@Flag", objcust.Flag ?? (object)DBNull.Value);
-                var _tbl_User = _dbcontex.tbl_User.FromSqlRaw(
-                    "EXEC USP_Tbl_User @UID=@UID, @Flag=@Flag", sqlpara)
-                     .AsEnumerable().ToList();
-                
-                return new OkObjectResult(_tbl_User);
+            SqlParameter[] sqlpara = new SqlParameter[2];
+            sqlpara[0] = new SqlParameter("@UID", objcust.UID);
+            sqlpara[1] = new SqlParameter("@Flag", objcust.Flag ?? (object)DBNull.Value);
+
+            var users = await _dbcontex.tbl_User!
+                .FromSqlRaw("EXEC USP_Tbl_User @UID=@UID, @Flag=@Flag", sqlpara)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return new ObjectResult(users);
             }
-            catch (Exception ex)
-            {
-                //throw;
+        catch
+        {
+            return new ObjectResult(new { Message = "Error while retrieving users", StatusCode = 500 });
             }
-            return null;
-        }
     }
+}
 }

@@ -259,10 +259,10 @@ namespace Society_8777.Controllers
 
                 // 2️⃣ Hash the decoded token
                 var refreshTokenHash = Convert.ToBase64String(
-                    SHA256.HashData(Encoding.UTF8.GetBytes(decodedToken))
+                    SHA256.HashData(Encoding.UTF8.GetBytes(decodedToken ?? ""))
                 );
 
-                var existingToken = await _Context.tbl_RefreshTokens
+                var existingToken = await _Context.tbl_RefreshTokens!
                     .FirstOrDefaultAsync(t => t.UserId == request.UserId
                                            && t.TokenHash == refreshTokenHash
                                            && !t.IsRevoked
@@ -279,10 +279,10 @@ namespace Society_8777.Controllers
                 // 2️⃣ Revoke the old refresh token
                 existingToken.IsRevoked = true;
                 existingToken.RevokedAt = DateTime.UtcNow;
-                _Context.tbl_RefreshTokens.Update(existingToken);
+                _Context.tbl_RefreshTokens!.Update(existingToken);
 
                 // 3️⃣ Generate a new JWT
-                var user = await _Context.tbl_User
+                var user = await _Context.tbl_User!
       .Where(u => u.UID == request.UserId)
       .Select(u => new
       {
@@ -303,13 +303,13 @@ namespace Society_8777.Controllers
 
                 var claims = new[]
                 {
-            new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
+            new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"] ?? ""),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim("UID", user.UID.ToString()),
-            new Claim("UEmail", user.UEmail)
+            new Claim("UEmail", user.UEmail ?? "")
         };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var jwtToken = new JwtSecurityToken(

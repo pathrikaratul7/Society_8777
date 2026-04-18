@@ -7,7 +7,7 @@ namespace Society_8777.Interface
         /// <summary>
         /// Get active refresh token for a user
         /// </summary>
-        Task<Tbl_RefreshTokens> GetActiveRefreshTokenAsync(long userId, string token);
+        Task<Tbl_RefreshTokens?> GetActiveRefreshTokenAsync(long userId, string token);
 
         /// <summary>
         /// Generate a new refresh token for a user
