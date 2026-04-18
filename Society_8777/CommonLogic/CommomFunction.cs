@@ -44,12 +44,21 @@ namespace Society_8777.CommonLogic
             private const string initVector = EncDyckeyMain;
             // This constant is used to determine the keysize of the encryption algorithm
             private const int keysize = 256;
-            static string passPhrase = ""; static byte[] cipherTextBytes = null; static byte[] initVectorBytes = null;
-            static byte[] plainTextBytes = null; static byte[] keyBytes = null;
-            static int decryptedByteCount;
-            static MemoryStream memoryStream = null; static CryptoStream cryptoStream = null;
-            static ICryptoTransform encryptor = null, decryptor = null; static RijndaelManaged symmetricKey = null;
-            static PasswordDeriveBytes password = null;
+            static string passPhrase = ""; 
+
+static byte[]? cipherTextBytes = null;
+static byte[]? initVectorBytes = null;
+static byte[]? plainTextBytes = null;
+static byte[]? keyBytes = null;
+
+static MemoryStream? memoryStream = null;
+static CryptoStream? cryptoStream = null;
+
+static ICryptoTransform? encryptor = null;
+//static ICryptoTransform? decryptor = null;
+
+            static Aes? symmetricKey = null;
+            static PasswordDeriveBytes? password = null;
             public static string EncryptString(string plainText)
             {
                 try
@@ -59,7 +68,7 @@ namespace Society_8777.CommonLogic
                     plainTextBytes = Encoding.UTF8.GetBytes(plainText);
                     password = new PasswordDeriveBytes(passPhrase, null);
                     keyBytes = password.GetBytes(keysize / 8);
-                    symmetricKey = new RijndaelManaged();
+                    symmetricKey = Aes.Create();
                     symmetricKey.Mode = CipherMode.CBC;
                     encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
                     memoryStream = new MemoryStream();
@@ -70,13 +79,13 @@ namespace Society_8777.CommonLogic
                     memoryStream.Close();
                     cryptoStream.Close();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    
                 }
                 finally
                 {
-                    passPhrase = null;
+                    passPhrase = string.Empty;
                     initVectorBytes = null;
                     plainTextBytes = null;
                     password = null;
@@ -87,7 +96,7 @@ namespace Society_8777.CommonLogic
                     cryptoStream = null;
 
                 }
-                return Convert.ToBase64String(cipherTextBytes);
+                return Convert.ToBase64String(cipherTextBytes ?? Array.Empty<byte>());
             }
             public static string DecryptString(string cipherText)
             {
@@ -105,7 +114,7 @@ namespace Society_8777.CommonLogic
                 {
                     byte[] keyBytes = password.GetBytes(keysize / 8);
 
-                    using (var symmetricKey = new RijndaelManaged())
+                    using (var symmetricKey = Aes.Create())
                     {
                         symmetricKey.Mode = CipherMode.CBC;
                         symmetricKey.Padding = PaddingMode.PKCS7; // important!

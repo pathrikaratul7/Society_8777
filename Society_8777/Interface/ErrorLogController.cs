@@ -28,7 +28,7 @@ namespace Society_8777.Interface
 
                 throw;
             }
-            return null;
+            
 
         }
         [HttpPost("GetAllError")]
@@ -45,7 +45,7 @@ namespace Society_8777.Interface
                 throw;
             }
 
-            return null;
+           
         
         }
     }

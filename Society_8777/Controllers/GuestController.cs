@@ -138,7 +138,7 @@ namespace Society_8777.Controllers
 
                 return destinationPath;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }

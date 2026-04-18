@@ -26,7 +26,7 @@ namespace Society_8777.Repository
                 p[4]= new SqlParameter("@ErrorLoggedByName", tbl_ErrorLogs.ErrorLoggedByName ?? (object)DBNull.Value);
                 p[5] = new SqlParameter("@Flag", tbl_ErrorLogs.Flag ?? (object)DBNull.Value);
 
-                var _tbl_ErrorLogs =  _context.Tbl_ErrorLogs
+                var _tbl_ErrorLogs =  _context.Tbl_ErrorLogs!
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_ErrorLogs] @ErrorPage=@ErrorPage,@ErrorStack=@ErrorStack,@ErrorMessage=@ErrorMessage," +
                     "@ErrorLoggedByID=@ErrorLoggedByID,@ErrorLoggedByName=@ErrorLoggedByName , @Flag=@Flag"
                     , p).AsNoTracking()
@@ -41,27 +41,30 @@ namespace Society_8777.Repository
 
                 throw;
             }
-            return null;
+            
         }
-        public async Task<IActionResult> GetAllError(Tbl_ErrorLogs tbl_ErrorLogs)
+        
+
+public async Task<IActionResult> GetAllError(Tbl_ErrorLogs tbl_ErrorLogs)
+    {
+        try
         {
-            try
+            var p = new[]
             {
-                SqlParameter[] p = new SqlParameter[1];
-                p[0] = new SqlParameter("@Flag", tbl_ErrorLogs.Flag ?? (object)DBNull.Value);
+            new SqlParameter("@Flag", tbl_ErrorLogs.Flag ?? (object)DBNull.Value)
+        };
 
-                var _tbl_ErrorList =  _context.Tbl_ErrorLogs
-                    .FromSqlRaw("EXEC USP_Tbl_ErrorLogs @Flag=@Flag",p).AsEnumerable().ToList();
-            return new OkObjectResult(_tbl_ErrorList);
-                    }
-            catch (Exception)
-            {
+            var result = await _context.Tbl_ErrorLogs!
+                .FromSqlRaw("EXEC USP_Tbl_ErrorLogs @Flag=@Flag", p)
+                .AsNoTracking()
+                .ToListAsync();
 
-                throw;
-            }
-
-            return null;
-
+            return new OkObjectResult(result);
+        }
+        catch (Exception ex)
+        {
+                return new StatusCodeResult(500);
         }
     }
+}
 }

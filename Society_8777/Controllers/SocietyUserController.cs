@@ -81,23 +81,22 @@ namespace Society_8777.Controllers
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
         }
+        
         [HttpPost("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers(Tbl_User objcust)
         {
-           
-
             try
             {
                 var result = await _repository.GetAllUsers(objcust);
                 return result ?? NotFound();
+
+
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return null;
+                return StatusCode(500, "Internal server error");
             }
-
-
         }
         [HttpPost("userimg")]
         public async Task<IActionResult> UploadGuestImage(IFormFile file)

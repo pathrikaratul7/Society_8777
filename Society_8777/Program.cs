@@ -116,7 +116,7 @@ builder.Services.AddSwaggerGen(c =>
     };
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. Example :\"Bearer {token}\"",
+        Description = "Developed by Atul JWT Authorization header using the Bearer scheme. Example :\"Bearer {token}\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,

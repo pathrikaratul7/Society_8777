@@ -123,7 +123,10 @@ namespace Society_8777.Controllers
             bool IsMiniprofileRequired = Convert.ToBoolean(_configuration["IsMiniprofileRequired"]);
             if (IsMiniprofileRequired)
             {
-                using (MiniProfiler.Current?.Step("Generating Token"));
+                using (MiniProfiler.Current?.Step("Generating Token"))
+                {
+
+                }
             }
            // {
                 var response = new Token();
@@ -136,7 +139,7 @@ namespace Society_8777.Controllers
                     return response;
                 }
 
-                var user = await GetUser(_userInfo.UEmail, _userInfo.UPass, _userInfo.Flag);
+                var user = await GetUser(_userInfo.UEmail, _userInfo.UPass, _userInfo.Flag ?? "");
                 if (user == null)
                 {
                     response.Message = "Invalid credentials or user not found";
@@ -148,13 +151,13 @@ namespace Society_8777.Controllers
                 // JWT
                 var claims = new[]
                 {
-        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
+        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"] ?? ""),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         new Claim("UID", user.UID.ToString()),
-        new Claim("UEmail", user.UEmail)
+        new Claim("UEmail", user.UEmail ?? "")
     };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var jwtToken = new JwtSecurityToken(
@@ -171,7 +174,7 @@ namespace Society_8777.Controllers
                 var refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
                 var refreshTokenHash = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(refreshToken)));
 
-                _Context.tbl_RefreshTokens.Add(new Tbl_RefreshTokens
+                _Context.tbl_RefreshTokens!.Add(new Tbl_RefreshTokens
                 {
                     Id = Guid.NewGuid(),
                     UserId = user.UID,
@@ -217,37 +220,33 @@ namespace Society_8777.Controllers
 
 
         [AllowAnonymous]
-        private async Task<Tbl_User> GetUser(string email, string password, string Flag)
+        private async Task<Tbl_User?> GetUser(string email, string password, string? Flag)
+    {
+        try
         {
-            //return await _Context.tbl_User.FirstOrDefaultAsync(u => u.UEmail == email && u.UPass == password);
-            try
+            var sqlpara = new[]
             {
-               
+            new SqlParameter("@UEmail", email ?? (object)DBNull.Value),
+            new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(password) ?? (object)DBNull.Value),
+            new SqlParameter("@Flag", Flag ?? (object)DBNull.Value)
+        };
 
-                SqlParameter[] sqlpara = new SqlParameter[3];
-                sqlpara[0] = new SqlParameter("@UEmail", email ?? (object)DBNull.Value);
-                sqlpara[1] = new SqlParameter("@UPass", CommomFunction.Encrypt_Dycrypt_Bank.EncryptString(password) ?? (object)DBNull.Value);
-                sqlpara[2] = new SqlParameter("@Flag", Flag ?? (object)DBNull.Value);
+                var user = await _Context.tbl_User!
+    .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass, @Flag=@Flag", sqlpara)
+    .AsNoTracking()
+    .ToListAsync();
 
-                var _tbl_User = _Context.tbl_User
-       .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass, @Flag=@Flag", sqlpara)
-       .AsNoTracking()
-       .AsEnumerable()
-       .FirstOrDefault();
+                return user.FirstOrDefault();
 
-                if (_tbl_User != null)
-                {
-                    return _tbl_User;
-                }
 
-            }
-            catch (Exception ex)
-            {
-                //throw;
-            }
-            return null;
+                
         }
-        [HttpPost("refresh")]
+        catch (Exception)
+        {
+            return null; // handled safely ✔
+        }
+    }
+    [HttpPost("refresh")]
         [AllowAnonymous]
         public async Task<Token> Refresh([FromBody] RefreshRequestDTO request)
         {
