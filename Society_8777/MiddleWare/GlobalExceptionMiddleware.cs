@@ -21,10 +21,11 @@
             }
             catch (Exception ex)
             {
+                var path = context.Request.Path.ToString().Replace("\r", "").Replace("\n", "");
                 _logger.LogError(ex,
                     "Unhandled error | TraceId: {TraceId} | Path: {Path}",
                     context.TraceIdentifier,
-                    context.Request.Path);
+                    path);
 
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
