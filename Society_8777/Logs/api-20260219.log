@@ -1,0 +1,103 @@
+2026-02-19 13:59:37.062 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-19 14:00:43.761 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 14:00:46.478 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Decimal' to type 'System.String'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_String()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetString(Int32 i)
+   at lambda_method32(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+System.InvalidCastException: Unable to cast object of type 'System.Decimal' to type 'System.String'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_String()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetString(Int32 i)
+   at lambda_method32(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+2026-02-19 14:02:18.301 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Decimal' to type 'System.String'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_String()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetString(Int32 i)
+   at lambda_method32(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+System.InvalidCastException: Unable to cast object of type 'System.Decimal' to type 'System.String'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_String()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetString(Int32 i)
+   at lambda_method32(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+2026-02-19 14:03:16.458 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Decimal' to type 'System.String'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_String()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetString(Int32 i)
+   at lambda_method32(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+System.InvalidCastException: Unable to cast object of type 'System.Decimal' to type 'System.String'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_String()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetString(Int32 i)
+   at lambda_method32(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+2026-02-19 14:04:12.335 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-19 14:06:24.735 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 14:06:24.746 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 14:06:24.749 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 14:06:24.752 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 14:06:24.754 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 14:56:11.158 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-19 15:01:22.827 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:01:22.868 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:01:22.872 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:01:22.877 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:01:22.880 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:07:34.672 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Decimal'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Decimal()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetDecimal(Int32 i)
+   at lambda_method135(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Decimal'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Decimal()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetDecimal(Int32 i)
+   at lambda_method135(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+2026-02-19 15:12:46.465 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Decimal'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Decimal()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetDecimal(Int32 i)
+   at lambda_method135(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Decimal'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Decimal()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetDecimal(Int32 i)
+   at lambda_method135(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+2026-02-19 15:13:36.364 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-19 15:17:57.725 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:17:57.747 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:17:57.748 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:17:57.750 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:17:57.753 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:18:00.439 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Decimal'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Decimal()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetDecimal(Int32 i)
+   at lambda_method40(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Decimal'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Decimal()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetDecimal(Int32 i)
+   at lambda_method40(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+2026-02-19 15:20:40.450 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-19 15:23:13.952 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:23:13.960 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:23:13.963 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:23:13.967 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:23:13.969 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-19 15:23:16.577 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Decimal'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Decimal()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetDecimal(Int32 i)
+   at lambda_method40(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Decimal'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Decimal()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetDecimal(Int32 i)
+   at lambda_method40(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.Enumerator.MoveNext()

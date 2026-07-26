@@ -1,0 +1,476 @@
+2026-02-24 14:23:14.023 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 14:29:02.372 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 14:32:21.412 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 14:34:29.110 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 14:34:57.599 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:34:57.605 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:34:57.609 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:34:57.611 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:34:57.613 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:36:53.251 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 14:38:17.996 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 14:38:55.403 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:38:55.410 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:38:55.414 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:38:55.417 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:38:55.419 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:38:58.259 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidOperationException: The required column 'KeywordID' was not present in the results of a 'FromSql' operation.
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: The required column 'KeywordID' was not present in the results of a 'FromSql' operation.
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 14:41:43.049 +05:30 [ERR] Unhandled error | TraceId: 0HNJJGH06KN7Q:00000009 | Path: /api/MySocChatBot/MySocApp7GenerateResponse
+System.InvalidOperationException: The required column 'KeywordID' was not present in the results of a 'FromSql' operation.
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Society_8777.Repository.BotRepo.GetIntentKeywordsAsync() in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 20
+   at Society_8777.Repository.BotRepo.DetectIntentAsync(String message) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 34
+   at Society_8777.Repository.BotRepo.GenerateResponseAsync(String message, String userId) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 80
+   at lambda_method7(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at StackExchange.Profiling.MiniProfilerMiddleware.Invoke(HttpContext context) in C:\projects\dotnet\src\MiniProfiler.AspNetCore\MiniProfilerMiddleware.cs:line 94
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Society_8777.MiddleWare.GlobalExceptionMiddleware.Invoke(HttpContext context) in D:\vs 2019 Repos\Society_8777\Society_8777\MiddleWare\GlobalExceptionMiddleware.cs:line 20
+2026-02-24 14:41:55.633 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidOperationException: The required column 'IntentId' was not present in the results of a 'FromSql' operation.
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: The required column 'IntentId' was not present in the results of a 'FromSql' operation.
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 14:42:50.154 +05:30 [ERR] Unhandled error | TraceId: 0HNJJGH06KN7Q:0000000B | Path: /api/MySocChatBot/MySocApp7GenerateResponse
+System.InvalidOperationException: The required column 'IntentId' was not present in the results of a 'FromSql' operation.
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Society_8777.Repository.BotRepo.GetIntentKeywordsAsync() in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 20
+   at Society_8777.Repository.BotRepo.DetectIntentAsync(String message) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 34
+   at Society_8777.Repository.BotRepo.GenerateResponseAsync(String message, String userId) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 80
+   at lambda_method7(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at StackExchange.Profiling.MiniProfilerMiddleware.Invoke(HttpContext context) in C:\projects\dotnet\src\MiniProfiler.AspNetCore\MiniProfilerMiddleware.cs:line 94
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Society_8777.MiddleWare.GlobalExceptionMiddleware.Invoke(HttpContext context) in D:\vs 2019 Repos\Society_8777\Society_8777\MiddleWare\GlobalExceptionMiddleware.cs:line 20
+2026-02-24 14:43:23.448 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method36(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method36(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 14:44:35.965 +05:30 [ERR] Unhandled error | TraceId: 0HNJJGH06KN7Q:0000000D | Path: /api/MySocChatBot/MySocApp7GenerateResponse
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method36(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Society_8777.Repository.BotRepo.GetIntentKeywordsAsync() in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 20
+   at Society_8777.Repository.BotRepo.DetectIntentAsync(String message) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 34
+   at Society_8777.Repository.BotRepo.GenerateResponseAsync(String message, String userId) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 80
+   at lambda_method7(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at StackExchange.Profiling.MiniProfilerMiddleware.Invoke(HttpContext context) in C:\projects\dotnet\src\MiniProfiler.AspNetCore\MiniProfilerMiddleware.cs:line 94
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Society_8777.MiddleWare.GlobalExceptionMiddleware.Invoke(HttpContext context) in D:\vs 2019 Repos\Society_8777\Society_8777\MiddleWare\GlobalExceptionMiddleware.cs:line 20
+2026-02-24 14:44:46.296 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Int64'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int64()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt64(Int32 i)
+   at lambda_method36(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidCastException: Unable to cast object of type 'System.Int32' to type 'System.Int64'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int64()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt64(Int32 i)
+   at lambda_method36(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 14:46:35.590 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 14:47:14.831 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:47:14.837 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:47:14.839 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:47:14.842 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:47:14.844 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:47:17.592 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method36(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method36(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 14:48:45.574 +05:30 [ERR] Unhandled error | TraceId: 0HNJJGLKFTVTN:00000009 | Path: /api/MySocChatBot/MySocApp7GenerateResponse
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method36(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Society_8777.Repository.BotRepo.GetIntentKeywordsAsync() in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 20
+   at Society_8777.Repository.BotRepo.DetectIntentAsync(String message) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 34
+   at Society_8777.Repository.BotRepo.GenerateResponseAsync(String message, String userId) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 80
+   at lambda_method7(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at StackExchange.Profiling.MiniProfilerMiddleware.Invoke(HttpContext context) in C:\projects\dotnet\src\MiniProfiler.AspNetCore\MiniProfilerMiddleware.cs:line 94
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Society_8777.MiddleWare.GlobalExceptionMiddleware.Invoke(HttpContext context) in D:\vs 2019 Repos\Society_8777\Society_8777\MiddleWare\GlobalExceptionMiddleware.cs:line 20
+2026-02-24 14:49:22.016 +05:30 [ERR] Failed executing DbCommand (426ms) [Parameters=[@__intentId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [t].[SqlQuery]
+FROM [Tbl_BotIntentActions] AS [t]
+WHERE [t].[IntentId] = @__intentId_0
+2026-02-24 14:49:22.034 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Tbl_BotIntentActions'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:07b1b928-50cc-4271-aacd-752ab795ec2b
+Error Number:208,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Tbl_BotIntentActions'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:07b1b928-50cc-4271-aacd-752ab795ec2b
+Error Number:208,State:1,Class:16
+2026-02-24 14:51:25.443 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 14:52:26.058 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:52:26.064 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:52:26.066 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:52:26.068 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:52:26.070 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 14:53:14.002 +05:30 [ERR] Failed executing DbCommand (371ms) [Parameters=[@__intentId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [t].[SqlQuery]
+FROM [Tbl_BotIntentAction] AS [t]
+WHERE [t].[IntentId] = @__intentId_0
+2026-02-24 14:53:14.059 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'SqlQuery'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:52c1238f-0655-45ed-920b-9f458711b18e
+Error Number:207,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'SqlQuery'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:52c1238f-0655-45ed-920b-9f458711b18e
+Error Number:207,State:1,Class:16
+2026-02-24 15:02:59.275 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 15:03:16.601 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:03:16.608 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:03:16.611 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:03:16.616 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:03:16.619 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:04:11.101 +05:30 [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+2026-02-24 15:04:11.234 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidOperationException: 'FromSql' or 'SqlQuery' was called with non-composable SQL and with a query composing over it. Consider calling 'AsEnumerable' after the method to perform the composition on the client side.
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.CheckComposableSqlTrimmed(ReadOnlySpan`1 sql)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.CheckComposableSqlTrimmed(ReadOnlySpan`1 sql)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.CheckComposableSql(String sql)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.VisitFromSql(FromSqlExpression fromSqlExpression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressionVisitor.VisitExtension(Expression extensionExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.VisitExtension(Expression extensionExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.<GenerateFrom>b__51_0(TableExpressionBase e)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateList[T](IReadOnlyList`1 items, Action`1 generationAction, Action`1 joinAction)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateFrom(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.GenerateFrom(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.VisitSelect(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.VisitSelect(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateRootCommand(Expression queryExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GetCommand(Expression queryExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.RelationalCommandCache.GetRelationalCommandTemplate(IReadOnlyDictionary`2 parameters)
+   at Microsoft.EntityFrameworkCore.Internal.RelationalCommandResolverExtensions.RentAndPopulateRelationalCommand(RelationalCommandResolver relationalCommandResolver, RelationalQueryContext queryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: 'FromSql' or 'SqlQuery' was called with non-composable SQL and with a query composing over it. Consider calling 'AsEnumerable' after the method to perform the composition on the client side.
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.CheckComposableSqlTrimmed(ReadOnlySpan`1 sql)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.CheckComposableSqlTrimmed(ReadOnlySpan`1 sql)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.CheckComposableSql(String sql)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.VisitFromSql(FromSqlExpression fromSqlExpression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressionVisitor.VisitExtension(Expression extensionExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.VisitExtension(Expression extensionExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.<GenerateFrom>b__51_0(TableExpressionBase e)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateList[T](IReadOnlyList`1 items, Action`1 generationAction, Action`1 joinAction)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateFrom(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.GenerateFrom(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.VisitSelect(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.VisitSelect(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateRootCommand(Expression queryExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GetCommand(Expression queryExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.RelationalCommandCache.GetRelationalCommandTemplate(IReadOnlyDictionary`2 parameters)
+   at Microsoft.EntityFrameworkCore.Internal.RelationalCommandResolverExtensions.RentAndPopulateRelationalCommand(RelationalCommandResolver relationalCommandResolver, RelationalQueryContext queryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 15:05:50.542 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 15:07:06.546 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:07:06.553 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:07:06.557 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:07:06.560 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:07:06.562 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:07:16.343 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidOperationException: The required column 'IntentId' was not present in the results of a 'FromSql' operation.
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: The required column 'IntentId' was not present in the results of a 'FromSql' operation.
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.BuildIndexMap(IReadOnlyList`1 columnNames, DbDataReader dataReader)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 15:09:09.639 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 15:09:41.716 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:09:41.741 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:09:41.747 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:09:41.750 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:09:41.754 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:09:49.055 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method48(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method48(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 15:10:50.789 +05:30 [ERR] Unhandled error | TraceId: 0HNJJH27VA2T5:00000009 | Path: /api/MySocChatBot/MySocApp7GenerateResponse
+System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.Int32'.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method48(Closure, QueryContext, DbDataReader, Int32[])
+   at Microsoft.EntityFrameworkCore.Query.Internal.FromSqlQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Society_8777.Repository.BotRepo.ExecuteActionAsync(Int32 intentId, Int32 U) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 50
+   at Society_8777.Repository.BotRepo.GenerateResponseAsync(String message, String userId) in D:\vs 2019 Repos\Society_8777\Society_8777\Repository\BotRepo.cs:line 88
+   at lambda_method7(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at StackExchange.Profiling.MiniProfilerMiddleware.Invoke(HttpContext context) in C:\projects\dotnet\src\MiniProfiler.AspNetCore\MiniProfilerMiddleware.cs:line 94
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Society_8777.MiddleWare.GlobalExceptionMiddleware.Invoke(HttpContext context) in D:\vs 2019 Repos\Society_8777\Society_8777\MiddleWare\GlobalExceptionMiddleware.cs:line 20
+2026-02-24 15:11:21.872 +05:30 [ERR] Failed executing DbCommand (361ms) [Parameters=[@__intentId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [t].[Template]
+FROM [Tbl_BotResponseTemplates] AS [t]
+WHERE [t].[IntentId] = @__intentId_0
+2026-02-24 15:11:21.895 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Tbl_BotResponseTemplates'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:0acf458c-4687-4e36-bde3-951d9e603033
+Error Number:208,State:1,Class:16
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Tbl_BotResponseTemplates'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__195_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:0acf458c-4687-4e36-bde3-951d9e603033
+Error Number:208,State:1,Class:16
+2026-02-24 15:12:05.792 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 15:12:33.746 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:12:33.752 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:12:33.755 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:12:33.758 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:12:33.760 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:15:41.475 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 15:16:24.804 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:16:24.810 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:16:24.813 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:16:24.815 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:16:24.818 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:16:31.933 +05:30 [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+2026-02-24 15:16:31.993 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Society_8777.DataBaseContext.DataBaseContext'.
+System.InvalidOperationException: 'FromSql' or 'SqlQuery' was called with non-composable SQL and with a query composing over it. Consider calling 'AsEnumerable' after the method to perform the composition on the client side.
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.CheckComposableSqlTrimmed(ReadOnlySpan`1 sql)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.CheckComposableSqlTrimmed(ReadOnlySpan`1 sql)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.CheckComposableSql(String sql)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.VisitFromSql(FromSqlExpression fromSqlExpression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressionVisitor.VisitExtension(Expression extensionExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.VisitExtension(Expression extensionExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.<GenerateFrom>b__51_0(TableExpressionBase e)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateList[T](IReadOnlyList`1 items, Action`1 generationAction, Action`1 joinAction)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateFrom(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.GenerateFrom(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.VisitSelect(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.VisitSelect(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateRootCommand(Expression queryExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GetCommand(Expression queryExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.RelationalCommandCache.GetRelationalCommandTemplate(IReadOnlyDictionary`2 parameters)
+   at Microsoft.EntityFrameworkCore.Internal.RelationalCommandResolverExtensions.RentAndPopulateRelationalCommand(RelationalCommandResolver relationalCommandResolver, RelationalQueryContext queryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: 'FromSql' or 'SqlQuery' was called with non-composable SQL and with a query composing over it. Consider calling 'AsEnumerable' after the method to perform the composition on the client side.
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.CheckComposableSqlTrimmed(ReadOnlySpan`1 sql)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.CheckComposableSqlTrimmed(ReadOnlySpan`1 sql)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.CheckComposableSql(String sql)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.VisitFromSql(FromSqlExpression fromSqlExpression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressionVisitor.VisitExtension(Expression extensionExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.VisitExtension(Expression extensionExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.<GenerateFrom>b__51_0(TableExpressionBase e)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateList[T](IReadOnlyList`1 items, Action`1 generationAction, Action`1 joinAction)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateFrom(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.GenerateFrom(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.VisitSelect(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.SqlServer.Query.Internal.SqlServerQuerySqlGenerator.VisitSelect(SelectExpression selectExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GenerateRootCommand(Expression queryExpression)
+   at Microsoft.EntityFrameworkCore.Query.QuerySqlGenerator.GetCommand(Expression queryExpression)
+   at Microsoft.EntityFrameworkCore.Query.Internal.RelationalCommandCache.GetRelationalCommandTemplate(IReadOnlyDictionary`2 parameters)
+   at Microsoft.EntityFrameworkCore.Internal.RelationalCommandResolverExtensions.RentAndPopulateRelationalCommand(RelationalCommandResolver relationalCommandResolver, RelationalQueryContext queryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-02-24 15:17:42.887 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 15:18:15.550 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:18:15.555 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:18:15.557 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:18:15.559 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:18:15.561 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 15:58:26.545 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 16:24:12.718 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 16:24:12.765 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 16:24:12.773 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 16:24:12.777 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 16:24:12.783 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 17:09:35.588 +05:30 [WRN] The WebRootPath was not found: D:\vs 2019 Repos\Society_8777\Society_8777\wwwroot. Static files may be unavailable.
+2026-02-24 17:10:25.199 +05:30 [WRN] No store type was specified for the decimal property 'Amount' on entity type 'Tbl_PaymentTransaction'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 17:10:25.208 +05:30 [WRN] No store type was specified for the decimal property 'OverallFailedTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 17:10:25.212 +05:30 [WRN] No store type was specified for the decimal property 'OverallTotalReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 17:10:25.216 +05:30 [WRN] No store type was specified for the decimal property 'OwnFailedReconcile' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-02-24 17:10:25.218 +05:30 [WRN] No store type was specified for the decimal property 'OwnReconcileAmt' on entity type 'Tbl_User'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
