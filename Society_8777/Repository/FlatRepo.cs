@@ -13,7 +13,7 @@ namespace Society_8777.Repository
         {
             _dbcontex = dataBaseContext;
         }
-        public async Task<IActionResult> AddFlat(Tbl_Flat objFlat)
+        public async Task<IActionResult> AddFlat(Tbl_Flat objFlat, CancellationToken cancellationToken)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Society_8777.Repository
                     " @CreatedBy=@CreatedBy, @CreatedDateTime=@CreatedDateTime," +
                     " @LoginID=@LoginID, @Flag=@Flag", p)
                     .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync();
+                await _dbcontex.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Flat);
             }
             catch (Exception)
@@ -48,7 +48,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> GetAllFlat(Tbl_Flat objFlat)
+        public async Task<IActionResult> GetAllFlat(Tbl_Flat objFlat, CancellationToken cancellationToken)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Society_8777.Repository
                 var _tbl_Flat = await _dbcontex.tbl_Flat
                    .FromSqlRaw("EXEC USP_Tbl_Flat @UID=@UID,  @Flag=@Flag", p)
                    .AsNoTracking()
-                   .ToListAsync();
+                   .ToListAsync(cancellationToken);
                 if (_tbl_Flat != null && _tbl_Flat.Count > 0)
                 {
                     return new OkObjectResult(_tbl_Flat);
@@ -81,7 +81,7 @@ namespace Society_8777.Repository
 
 
         }
-        public async Task<IActionResult> UpdateFlat(Tbl_Flat objFlat)
+        public async Task<IActionResult> UpdateFlat(Tbl_Flat objFlat, CancellationToken cancellationToken)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace Society_8777.Repository
                     " @UpdatedBy=@UpdatedBy," +
                     " @UpdatedDateTime=@UpdatedDateTime,@LoginID=@LoginID, @Flag=@Flag", p)
                     .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync();
+                await _dbcontex.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Flat);
             }
             catch (Exception)
@@ -114,7 +114,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> DeleteFlat(Tbl_Flat objFlat)
+        public async Task<IActionResult> DeleteFlat(Tbl_Flat objFlat, CancellationToken cancellationToken)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace Society_8777.Repository
                 var _tbl_Flat = _dbcontex.tbl_Flat!
                     .FromSqlRaw("EXEC USP_Tbl_Flat @FID=@FID, @Flag=@Flag, @IsDeleted=@IsDeleted", p)
                     .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync();
+                await _dbcontex.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Flat);
             }
             catch (Exception)

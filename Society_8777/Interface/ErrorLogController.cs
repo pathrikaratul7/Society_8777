@@ -16,11 +16,11 @@ namespace Society_8777.Interface
                 _errorLog = errorLog;
         }
         [HttpPost("LogError")]
-        public async Task<IActionResult> LogError(Tbl_ErrorLogs tbl_ErrorLogs)
+        public async Task<IActionResult> LogError(Tbl_ErrorLogs tbl_ErrorLogs, CancellationToken cancellationToken)
         {
             try
             {
-                var res = await _errorLog.LogError(tbl_ErrorLogs);
+                var res = await _errorLog.LogError(tbl_ErrorLogs, cancellationToken);
                 return res ?? NotFound();
             }
             catch (Exception)
@@ -32,11 +32,11 @@ namespace Society_8777.Interface
 
         }
         [HttpPost("GetAllError")]
-        public async Task<IActionResult> GetAllError(Tbl_ErrorLogs tbl_Error)
+        public async Task<IActionResult> GetAllError(Tbl_ErrorLogs tbl_Error, CancellationToken cancellationToken)
         {
             try
             {
-                var list = await _errorLog.GetAllError(tbl_Error);
+                var list = await _errorLog.GetAllError(tbl_Error, cancellationToken);
                 return list ?? NotFound();
             }
             catch (Exception)

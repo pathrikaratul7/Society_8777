@@ -5,10 +5,10 @@ namespace Society_8777.Interface
 {
     public interface IFlat
     {
-        Task<IActionResult> AddFlat(Tbl_Flat objFlat);
-        Task<IActionResult> GetAllFlat(Tbl_Flat objFlat);
-        Task<IActionResult> UpdateFlat(Tbl_Flat objFlat);
-        Task<IActionResult> DeleteFlat(Tbl_Flat objFlat);
+        Task<IActionResult> AddFlat(Tbl_Flat objFlat, CancellationToken cancellationToken);
+        Task<IActionResult> GetAllFlat(Tbl_Flat objFlat, CancellationToken cancellationToken);
+        Task<IActionResult> UpdateFlat(Tbl_Flat objFlat, CancellationToken cancellationToken);
+        Task<IActionResult> DeleteFlat(Tbl_Flat objFlat, CancellationToken cancellationToken);
         
         
     }

@@ -2,6 +2,6 @@
 {
     public interface IFireBaseNotification
     {
-        Task SendGuestNotificationAsync(string guestName, string flatNumber);
+        Task SendGuestNotificationAsync(string guestName, string flatNumber, CancellationToken cancellationToken);
     }
 }

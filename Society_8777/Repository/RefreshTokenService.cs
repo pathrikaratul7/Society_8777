@@ -17,7 +17,7 @@ namespace Society_8777.Repository
             _context = context;
         }
 
-        public async Task<Tbl_RefreshTokens?> GetActiveRefreshTokenAsync(long userId, string token)
+        public async Task<Tbl_RefreshTokens?> GetActiveRefreshTokenAsync(long userId, string token, CancellationToken cancellationToken)
         {
             var tokenHash = ComputeHash(token);
 
@@ -26,10 +26,10 @@ namespace Society_8777.Repository
                             t.TokenHash == tokenHash &&
                             !t.IsRevoked &&
                             t.ExpiresAt > DateTime.UtcNow)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<Tbl_RefreshTokens> GenerateRefreshTokenAsync(long userId, int daysValid = 30)
+        public async Task<Tbl_RefreshTokens> GenerateRefreshTokenAsync(long userId, CancellationToken cancellationToken, int daysValid = 30)
         {
             var token = GenerateRandomToken();
             var refreshToken = new Tbl_RefreshTokens
@@ -43,18 +43,18 @@ namespace Society_8777.Repository
             };
 
             _context.tbl_RefreshTokens!.Add(refreshToken);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             refreshToken.TokenHash = token; // return plain token for client
             return refreshToken;
         }
 
-        public async Task RevokeTokenAsync(Tbl_RefreshTokens token)
+        public async Task RevokeTokenAsync(Tbl_RefreshTokens token, CancellationToken cancellationToken)
         {
             token.IsRevoked = true;
             token.RevokedAt = DateTime.UtcNow;
             _context.tbl_RefreshTokens!.Update(token);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         // ---------------- Helpers ----------------

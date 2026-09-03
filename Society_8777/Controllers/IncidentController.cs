@@ -20,11 +20,11 @@ namespace Society_8777.Controllers
             
         }
         [HttpPost("GetNotification")]
-        public async Task<IActionResult> GetNotification(Models.Tbl_Incident tbl_INC)
+        public async Task<IActionResult> GetNotification(Models.Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             try
             {
-                var getNoti = await _IInc.GetNotification(tbl_INC);
+                var getNoti = await _IInc.GetNotification(tbl_INC, cancellationToken);
                 return getNoti ?? NotFound();
             }
             catch (Exception ex)
@@ -33,14 +33,14 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("AddIncident")]
-        public async Task<IActionResult> AddIncident(Models.Tbl_Incident tbl_INC)
+        public async Task<IActionResult> AddIncident(Models.Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             string fullpath = string.Empty;
             try
             {
                
                 
-                var addInc = await _IInc.AddIncident(tbl_INC);
+                var addInc = await _IInc.AddIncident(tbl_INC, cancellationToken);
                 return addInc ?? NotFound();
             }
             catch (Exception ex)
@@ -49,13 +49,13 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("UpdateIncident")]
-        public async Task<IActionResult> UpdateIncident(Models.Tbl_Incident tbl_INC)
+        public async Task<IActionResult> UpdateIncident(Models.Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             string FullPath = string.Empty;
             try
             {
                 
-                var updateInc = await _IInc.UpdateIncident(tbl_INC);
+                var updateInc = await _IInc.UpdateIncident(tbl_INC, cancellationToken);
                
                 return updateInc ?? NotFound();
             }
@@ -66,11 +66,11 @@ namespace Society_8777.Controllers
         }
 
         [HttpPost("DeleteIncident")]
-        public async Task<IActionResult> DeleteIncident(Models.Tbl_Incident tbl_INC)
+        public async Task<IActionResult> DeleteIncident(Models.Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             try
             {
-                var deleteInc = await _IInc.DeleteIncident(tbl_INC);
+                var deleteInc = await _IInc.DeleteIncident(tbl_INC, cancellationToken);
                 return deleteInc ?? NotFound();
             }
             catch (Exception ex)
@@ -79,11 +79,11 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("GetAllIncidentList")]
-        public async Task<IActionResult> GetAllIncidentList(Models.Tbl_Incident tbl_INC)
+        public async Task<IActionResult> GetAllIncidentList(Models.Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             try
             {
-                var getAllInc = await _IInc.GetAllIncidentList(tbl_INC);
+                var getAllInc = await _IInc.GetAllIncidentList(tbl_INC, cancellationToken);
                 return getAllInc ?? NotFound();
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("upload")]
-        public string  UploadImage([FromBody] Tbl_Incident request)
+        public string  UploadImage([FromBody] Tbl_Incident request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.INCImagePath))
             {
@@ -128,7 +128,7 @@ namespace Society_8777.Controllers
             return string.Empty;
         }
         [HttpPost("incimg")]
-        public async Task<IActionResult> UploadGuestImage(IFormFile file)
+        public async Task<IActionResult> UploadGuestImage(IFormFile file, CancellationToken cancellationToken)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
@@ -142,7 +142,7 @@ namespace Society_8777.Controllers
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                await file.CopyToAsync(stream, cancellationToken);
             }
 
             return Ok(new { filePath });

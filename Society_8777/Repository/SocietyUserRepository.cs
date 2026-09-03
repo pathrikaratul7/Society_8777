@@ -18,7 +18,7 @@ namespace Society_8777.Repository
             _dbcontex = dataBaseContext;
 
         }
-        public async Task<IActionResult> GetLogin(Tbl_User objCust)
+        public async Task<IActionResult> GetLogin(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Society_8777.Repository
                 var user = await _dbcontex.tbl_User!
                     .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
                     .AsNoTracking()
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(cancellationToken);
 
                 return new ObjectResult(user);
             }
@@ -43,7 +43,7 @@ namespace Society_8777.Repository
             }
         }
 
-        public async Task<IActionResult> AddUser(Tbl_User objCust)
+        public async Task<IActionResult> AddUser(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace Society_8777.Repository
                     ", @Flag=@Flag", sqlpara)
                      .AsEnumerable().FirstOrDefault();
 
-                await _dbcontex.SaveChangesAsync();
+                await _dbcontex.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_User);
             }
             catch 
@@ -77,7 +77,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> UpdateUser(Tbl_User objCust)
+        public async Task<IActionResult> UpdateUser(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace Society_8777.Repository
                     " @UMobile=@UMobile, @IsDeleted=@IsDeleted,@DeviceID=@DeviceID,@PrivList=@PrivList," +
                     "@UpdatedBy=@UpdatedBy,@ImagePath=@ImagePath,@UserType=@UserType, @Flag=@Flag", sqlpara)
                      .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync();
+                await _dbcontex.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_User);
             }
             catch 
@@ -113,8 +113,8 @@ namespace Society_8777.Repository
             
         }
         
-            public async Task<IActionResult> UpdateDeviceID(Tbl_User objCust)
-        {
+            public async Task<IActionResult> UpdateDeviceID(Tbl_User objCust, CancellationToken cancellationToken)
+          {
             try
             {
                 if (_dbcontex.tbl_User == null)
@@ -128,7 +128,7 @@ namespace Society_8777.Repository
                 var _tbl_User = _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UID=@UID,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
                      .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync();
+                await _dbcontex.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_User);
             }
             catch 
@@ -137,7 +137,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> DeleteUser(Tbl_User objCust)
+        public async Task<IActionResult> DeleteUser(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
@@ -151,7 +151,7 @@ namespace Society_8777.Repository
                 var _tbl_User = _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UID=@UID, @Flag=@Flag", sqlpara)
                      .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync();
+                await _dbcontex.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_User);
             }
             catch
@@ -162,7 +162,7 @@ namespace Society_8777.Repository
         }
         
 
-public async Task<IActionResult> GetAllUsers(Tbl_User objcust)
+public async Task<IActionResult> GetAllUsers(Tbl_User objcust, CancellationToken cancellationToken)
     {
         try
         {
@@ -173,7 +173,7 @@ public async Task<IActionResult> GetAllUsers(Tbl_User objcust)
             var users = await _dbcontex.tbl_User!
                 .FromSqlRaw("EXEC USP_Tbl_User @UID=@UID, @Flag=@Flag", sqlpara)
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return new ObjectResult(users);
             }

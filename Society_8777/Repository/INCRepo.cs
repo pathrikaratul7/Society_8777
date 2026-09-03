@@ -14,7 +14,7 @@ namespace Society_8777.Repository
             _context = context;
         }
 
-        public async Task<IActionResult> AddIncident(Tbl_Incident tbl_INC)
+        public async Task<IActionResult> AddIncident(Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Society_8777.Repository
                     "  @INCImagePath=@INCImagePath, @INCReportedBy=@INCReportedBy," +
                     " @IsDeleted=@IsDeleted, @INCStatus=@INCStatus," +
                     " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(data);
             }
             catch (Exception )
@@ -45,7 +45,7 @@ namespace Society_8777.Repository
             
         }
        
-        public async Task<IActionResult> GetNotification(Tbl_Incident tbl_INC)
+        public async Task<IActionResult> GetNotification(Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Society_8777.Repository
                 p[0] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
 
                 var data = await _context.Tbl_Incidents!
-                    .FromSqlRaw("EXEC USP_Tbl_Incident  @Flag=@Flag", p).FirstOrDefaultAsync();
+                    .FromSqlRaw("EXEC USP_Tbl_Incident  @Flag=@Flag", p).FirstOrDefaultAsync(cancellationToken);
                 return new OkObjectResult(data);
 
             }
@@ -67,7 +67,7 @@ namespace Society_8777.Repository
         }
 
 
-        public async Task<IActionResult> UpdateIncident(Tbl_Incident tbl_INC)
+        public async Task<IActionResult> UpdateIncident(Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
 
 
@@ -90,7 +90,7 @@ namespace Society_8777.Repository
                    " @IsDeleted=@IsDeleted, @INCStatus=@INCStatus," +
                    " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p)
                     .AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(data);
 
             }
@@ -102,7 +102,7 @@ namespace Society_8777.Repository
 
         }
 
-        public async Task<IActionResult> DeleteIncident(Tbl_Incident tbl_INC)
+        public async Task<IActionResult> DeleteIncident(Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace Society_8777.Repository
                 p[1] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
                 var data = _context.Tbl_Incidents!
                     .FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @Flag=@Flag", p).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(data);
             }
             catch
@@ -121,7 +121,7 @@ namespace Society_8777.Repository
             
         }
 
-        public async Task<IActionResult> GetAllIncidentList(Tbl_Incident tbl_INC)
+        public async Task<IActionResult> GetAllIncidentList(Tbl_Incident tbl_INC, CancellationToken cancellationToken)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Society_8777.Repository
                 p[0] = new SqlParameter("@UID", tbl_INC.UID);
                 p[1] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
                 var data = await _context.Tbl_Incidents!
-                    .FromSqlRaw("EXEC USP_Tbl_Incident @UID=@UID,  @Flag=@Flag", p).ToListAsync();
+                    .FromSqlRaw("EXEC USP_Tbl_Incident @UID=@UID,  @Flag=@Flag", p).ToListAsync(cancellationToken);
                 return new OkObjectResult(data);
             }
             catch 
@@ -139,7 +139,7 @@ namespace Society_8777.Repository
             
         }
 
-        public byte[] ConvertImageToByteArray(string imagePath)
+        public byte[] ConvertImageToByteArray(string imagePath, CancellationToken cancellationToken)
         {
             try
             {

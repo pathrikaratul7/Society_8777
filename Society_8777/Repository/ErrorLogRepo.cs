@@ -14,7 +14,7 @@ namespace Society_8777.Repository
             _context = context;
         }
 
-        public async Task<IActionResult> LogError(Tbl_ErrorLogs tbl_ErrorLogs)
+        public async Task<IActionResult> LogError(Tbl_ErrorLogs tbl_ErrorLogs, CancellationToken cancellationToken)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Society_8777.Repository
         }
         
 
-public async Task<IActionResult> GetAllError(Tbl_ErrorLogs tbl_ErrorLogs)
+        public async Task<IActionResult> GetAllError(Tbl_ErrorLogs tbl_ErrorLogs, CancellationToken cancellationToken)
     {
         try
         {
@@ -57,14 +57,16 @@ public async Task<IActionResult> GetAllError(Tbl_ErrorLogs tbl_ErrorLogs)
             var result = await _context.Tbl_ErrorLogs!
                 .FromSqlRaw("EXEC USP_Tbl_ErrorLogs @Flag=@Flag", p)
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return new OkObjectResult(result);
         }
         catch (Exception)
         {
-                return new ObjectResult("An error occurred while retrieving error logs.") { StatusCode = 500 };
-            }
+           return new ObjectResult("An error occurred while retrieving error logs.") { StatusCode = 500 };
+        }
     }
-}
+
+      
+    }
 }

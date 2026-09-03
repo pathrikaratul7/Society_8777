@@ -14,7 +14,7 @@ namespace Society_8777.Repository
 
         }
 
-        public async Task<IActionResult> AddPaymentTransaction(Tbl_PaymentTransaction objPaymentTransaction)
+        public async Task<IActionResult> AddPaymentTransaction(Tbl_PaymentTransaction objPaymentTransaction, CancellationToken cancellationToken)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Society_8777.Repository
 
                 var result = _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @Amount=@Amount, @Utr=@Utr," +
                     " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId,@TranStatus=@TranStatus, @Flag=@Flag,@UID=@UID", p).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(result);
             }
             catch (Exception)
@@ -42,7 +42,7 @@ namespace Society_8777.Repository
             }
         }
 
-        public async Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag, long UID)
+        public async Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag, long UID, CancellationToken cancellationToken)
         {
             try
             {
@@ -51,7 +51,9 @@ namespace Society_8777.Repository
                 p[1] = new SqlParameter("@Flag", Flag);
                 p[2] = new SqlParameter("@UID", UID);
 
-                var result = await _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @FlatID=@FlatID, @Flag=@Flag,@UID=@UID", p).ToListAsync();
+                var result = await _context.Tbl_PaymentTransactions
+                    .FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @FlatID=@FlatID, @Flag=@Flag,@UID=@UID", p)
+                    .ToListAsync(cancellationToken);
                 return new OkObjectResult(result);
             }
             catch (Exception)
@@ -61,7 +63,7 @@ namespace Society_8777.Repository
             }
         }
 
-        public async Task<IActionResult> UpdatePayment(Tbl_PaymentTransaction objPaymentTransaction)
+        public async Task<IActionResult> UpdatePayment(Tbl_PaymentTransaction objPaymentTransaction, CancellationToken cancellationToken)
         {
             try
             {
@@ -80,7 +82,7 @@ namespace Society_8777.Repository
                 p[11] = new SqlParameter("@Remark", objPaymentTransaction.Remark ?? (object)DBNull.Value);
                 var result = _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @Amount=@Amount, @Utr=@Utr," +
                     " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId, @Flag=@Flag,@Id=@Id,@TranStatus=@TranStatus,@UID=@UID,@Remark=@Remark", p).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(result);
             }
             catch (Exception)

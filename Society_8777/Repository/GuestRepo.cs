@@ -13,7 +13,7 @@ namespace Society_8777.Repository
         {
             _context = context;
         }
-        public async Task<IActionResult> GetNotification(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> GetNotification(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace Society_8777.Repository
 
                 var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw
                     ("EXEC [dbo].[USP_Tbl_Guest] @FID=@FID,@Flag=@Flag", sp)
-                    .AsNoTracking().ToListAsync();
+                    .AsNoTracking().ToListAsync(cancellationToken);
 
 
                 
@@ -37,7 +37,7 @@ namespace Society_8777.Repository
             
 
         }
-        public async Task<IActionResult> AddGuest(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> AddGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace Society_8777.Repository
                     "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID," +
                     "@GImagePath=@GImagePath,@Status=@Status,@CreatorMobile=@CreatorMobile,@Flag=@Flag"
                     , sp).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
@@ -69,7 +69,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace Society_8777.Repository
                     "@GEmail=@GEmail,@OutDateTime=@OutDateTime,@FID=@FID,@UpdatedBy=@UpdatedBy,@LoginID=@LoginID," +
                     "@GImagePath=@GImagePath,@Status=@Status,@Flag=@Flag", sp)
                     .AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync();  
+                await _context.SaveChangesAsync(cancellationToken);  
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
@@ -101,7 +101,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> DeleteGuest(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> DeleteGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace Society_8777.Repository
                 sp[1] = new SqlParameter("@IsDeleted", tbl_Guest.IsDeleted ?? (object)DBNull.Value);
                 sp[2] = new SqlParameter("@UpdatedBy", tbl_Guest.UpdatedBy ?? (object)DBNull.Value);
                 sp[3] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@IsDeleted=@IsDeleted,@UpdatedBy=@UpdatedBy,@Flag=@Flag", sp).ToListAsync();
+                var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@IsDeleted=@IsDeleted,@UpdatedBy=@UpdatedBy,@Flag=@Flag", sp).ToListAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
@@ -119,7 +119,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> GetAllGuestList(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> GetAllGuestList(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace Society_8777.Repository
                 sp[0] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
                 var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest]" +
-                    " @LoginID=@LoginID,@Flag=@Flag", sp).ToListAsync();
+                    " @LoginID=@LoginID,@Flag=@Flag", sp).ToListAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
@@ -136,7 +136,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public byte[] ConvertImageToByteArray(string imagePath)
+        public byte[] ConvertImageToByteArray(string imagePath, CancellationToken cancellationToken)
         {
             return File.ReadAllBytes(imagePath);
         }

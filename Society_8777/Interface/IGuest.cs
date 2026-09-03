@@ -5,11 +5,11 @@ namespace Society_8777.Interface
 {
     public interface IGuest
     {
-        Task<IActionResult> GetNotification(Tbl_Guest tbl_Guest);
-        Task<IActionResult> AddGuest(Tbl_Guest tbl_Guest);
-        Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest);
-        Task<IActionResult> DeleteGuest(Tbl_Guest tbl_Guest);
-        Task<IActionResult> GetAllGuestList(Tbl_Guest tbl_Guest);
-        byte[] ConvertImageToByteArray(string imagePath);
+        Task<IActionResult> GetNotification(Tbl_Guest tbl_Guest, CancellationToken cancellationToken);
+        Task<IActionResult> AddGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken);
+        Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken);
+        Task<IActionResult> DeleteGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken);
+        Task<IActionResult> GetAllGuestList(Tbl_Guest tbl_Guest, CancellationToken cancellationToken);
+        byte[] ConvertImageToByteArray(string imagePath, CancellationToken cancellationToken);
     }
 }

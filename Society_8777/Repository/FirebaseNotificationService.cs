@@ -27,7 +27,7 @@ namespace Society_8777.Repository
             }
         }
 
-        public async Task SendGuestNotificationAsync(string guestName, string flatNumber)
+        public async Task SendGuestNotificationAsync(string guestName, string flatNumber, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(flatNumber) || string.IsNullOrEmpty(guestName))
                 throw new ArgumentException("Guest name and flat number cannot be empty.");
@@ -49,7 +49,7 @@ namespace Society_8777.Repository
             };
 
             // Send the message via Firebase Messaging
-            string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
+            string response = await FirebaseMessaging.DefaultInstance.SendAsync(message, cancellationToken);
 
             Console.WriteLine($"Successfully sent message: {response}");
         }

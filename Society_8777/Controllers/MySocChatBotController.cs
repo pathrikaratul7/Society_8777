@@ -18,9 +18,9 @@ namespace Society_8777.Controllers
                 _botService = botService;
         }
         [HttpGet("MySocApp7GenerateResponse")]
-        public async Task<BotResponse> GenerateResponse(string message, string userId)
+        public async Task<BotResponse> GenerateResponse(string message, string userId, CancellationToken cancellationToken)
         {
-            var response = await _botService.GenerateResponseAsync(message, userId);
+            var response = await _botService.GenerateResponseAsync(message, userId, cancellationToken);
             return response;
         }
     }

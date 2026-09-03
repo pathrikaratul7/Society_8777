@@ -18,13 +18,13 @@ namespace Society_8777.Controllers
             _repository = repository;
         }
         [HttpPost("GetLogin")]
-        public async Task<IActionResult> GetLogin(Tbl_User objCust)
+        public async Task<IActionResult> GetLogin(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
                  // Replace with actual repository initialization
-                var result = await _repository.GetLogin(objCust);
+                var result = await _repository.GetLogin(objCust, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -34,13 +34,13 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("AddUser")]
-        public async Task<IActionResult> AddUser(Tbl_User objCust)
+        public async Task<IActionResult> AddUser(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
                  // Replace with actual repository initialization
-                var result = await _repository.AddUser(objCust);
+                var result = await _repository.AddUser(objCust, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -50,13 +50,13 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(Tbl_User objCust)
+        public async Task<IActionResult> UpdateUser(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
                  // Replace with actual repository initialization
-                var result = await _repository.UpdateUser(objCust);
+                var result = await _repository.UpdateUser(objCust, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -66,13 +66,13 @@ namespace Society_8777.Controllers
             }
         }
         [HttpDelete("DeleteUser")]
-        public async Task<IActionResult> DeleteUser(Tbl_User objCust)
+        public async Task<IActionResult> DeleteUser(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
                  // Replace with actual repository initialization
-                var result = await _repository.DeleteUser(objCust);
+                var result = await _repository.DeleteUser(objCust, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -83,11 +83,11 @@ namespace Society_8777.Controllers
         }
         
         [HttpPost("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers(Tbl_User objcust)
+        public async Task<IActionResult> GetAllUsers(Tbl_User objcust, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _repository.GetAllUsers(objcust);
+                var result = await _repository.GetAllUsers(objcust, cancellationToken);
                 return result ?? NotFound();
 
 
@@ -99,7 +99,7 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("userimg")]
-        public async Task<IActionResult> UploadGuestImage(IFormFile file)
+        public async Task<IActionResult> UploadGuestImage(IFormFile file, CancellationToken cancellationToken)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
@@ -113,19 +113,19 @@ namespace Society_8777.Controllers
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                await file.CopyToAsync(stream, cancellationToken);
             }
 
             return Ok(new { filePath });
         }
         [HttpPost("UpdateDeviceID")]
-        public async Task<IActionResult> UpdateDeviceID(Tbl_User objCust)
+        public async Task<IActionResult> UpdateDeviceID(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
                  // Replace with actual repository initialization
-                var result = await _repository.UpdateDeviceID(objCust);
+                var result = await _repository.UpdateDeviceID(objCust, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)

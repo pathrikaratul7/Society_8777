@@ -13,7 +13,7 @@ namespace Society_8777.Repository
         { 
             _context = dataBaseContext;
         }
-        public async Task<IActionResult> SaveToken([FromBody] Tbl_FCMToken request)
+        public async Task<IActionResult> SaveToken([FromBody] Tbl_FCMToken request, CancellationToken cancellationToken)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Society_8777.Repository
                 else
                 {
 
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
                     return new OkObjectResult(tbl_fcm);
                 }
             }

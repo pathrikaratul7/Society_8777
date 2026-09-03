@@ -14,7 +14,7 @@ namespace Society_8777.Repository
         {
             _context = context;
         }
-        public async Task<IActionResult> AddParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> AddParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Society_8777.Repository
                      "@CreatedBy=@CreatedBy,@CreatedDateTime=@CreatedDateTime," +
                      "@LoginID=@LoginID,@VImagePath=@VImagePath,@Flag=@Flag"
                     , sp).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Parking);
             }
             catch
@@ -50,7 +50,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> GetAllParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> GetAllParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace Society_8777.Repository
                 var _tbl_Parking = await _context.Tbl_Parking
                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking]  @Flag=@Flag", sp)
                    .AsNoTracking()
-                   .ToListAsync();
+                   .ToListAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Parking);
             }
             catch
@@ -71,7 +71,7 @@ namespace Society_8777.Repository
                 return new ObjectResult(new { Message = "Error while retrieving parking details", StatusCode = 500 });
             }
         }
-        public async Task<IActionResult> GetParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> GetParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace Society_8777.Repository
                 sp[1] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
                 var _tbl_Parking = await _context.Tbl_Parking!.FromSqlRaw
                     ("EXEC [dbo].[USP_Tbl_Parking] @UID=@UID,@Flag=@Flag", sp)
-                    .AsNoTracking().ToListAsync();
+                    .AsNoTracking().ToListAsync(cancellationToken);
                 
                     return new OkObjectResult(_tbl_Parking);
                 
@@ -96,7 +96,7 @@ namespace Society_8777.Repository
             
         }
 
-        public async Task<IActionResult> DeleteParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> DeleteParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Society_8777.Repository
                 sp[1] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
                 var _tbl_Parking = await _context.Tbl_Parking.FromSqlRaw
                     ("EXEC [dbo].[USP_Tbl_Parking] @ParkingID=@ParkingID,@Flag=@Flag", sp)
-                    .AsNoTracking().FirstOrDefaultAsync();
+                    .AsNoTracking().FirstOrDefaultAsync(cancellationToken);
                 
                     return new OkObjectResult(_tbl_Parking);
                 
@@ -121,7 +121,7 @@ namespace Society_8777.Repository
             
         }
 
-        public async Task<IActionResult> UpdateParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> UpdateParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace Society_8777.Repository
                      "@VImagePath=@VImagePath," +
                      "@Flag=@Flag", sp).AsEnumerable().
                         FirstOrDefault();
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Parking);
 
             }
@@ -160,7 +160,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> GetParkingSlot(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> GetParkingSlot(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace Society_8777.Repository
                 var _tbl_Parking = await _context.Tbl_Parking
                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking]  @FID=@FID, @Flag=@Flag", sp)
                    .AsNoTracking()
-                   .ToListAsync();
+                   .ToListAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Parking);
             }
             catch 
@@ -183,7 +183,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> GetAllParkingList(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> GetAllParkingList(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
@@ -196,7 +196,7 @@ namespace Society_8777.Repository
                 var _tbl_Parking = await _context.Tbl_Parking
                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Parking]  @Flag=@Flag", sp)
                    .AsNoTracking()
-                   .ToListAsync();
+                   .ToListAsync(cancellationToken);
                 return new OkObjectResult(_tbl_Parking);
             }
             catch
@@ -205,7 +205,7 @@ namespace Society_8777.Repository
             }
             
         }
-        public async Task<IActionResult> GetParkingDetailsById(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> GetParkingDetailsById(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
             {
             try
             {
@@ -217,7 +217,8 @@ namespace Society_8777.Repository
                 sp[0] = new SqlParameter("@FID", tbl_Parking.FID ?? (object)DBNull.Value);
                 sp[1] = new SqlParameter("@Flag", tbl_Parking.Flag ?? (object)DBNull.Value);
                 var _tbl_Parking = await _context.Tbl_Parking.FromSqlRaw
-                    ("EXEC [dbo].[USP_Tbl_Parking] @FID=@FID,@Flag=@Flag", sp).AsNoTracking().FirstOrDefaultAsync();
+                    ("EXEC [dbo].[USP_Tbl_Parking] @FID=@FID,@Flag=@Flag", sp)
+                    .AsNoTracking().FirstOrDefaultAsync(cancellationToken);
                 
                     return new OkObjectResult(_tbl_Parking);
                 

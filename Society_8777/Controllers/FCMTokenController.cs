@@ -18,9 +18,9 @@ namespace Society_8777.Controllers
         }
         [HttpPost("SaveToken")]
         [AllowAnonymous]
-        public async Task<IActionResult> SaveToken([FromBody] Tbl_FCMToken request)
+        public async Task<IActionResult> SaveToken([FromBody] Tbl_FCMToken request, CancellationToken cancellationToken)
         {
-            return await  _FCM.SaveToken(request);
+            return await  _FCM.SaveToken(request, cancellationToken);
         }
 
     }

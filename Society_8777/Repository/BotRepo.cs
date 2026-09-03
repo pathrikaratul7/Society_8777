@@ -31,14 +31,14 @@ namespace Society_8777.Repository
         public async Task AutoLearnAsync(
     string message,
     int detectedIntentId,
-    double confidence,
+    double confidence,CancellationToken cancellationToken,
     int? correctIntentId = null)
         {
             var tokens = Tokenize(Normalize(message));
 
             var keywords = await _context.Tbl_BotIntentKeywords
                 .Where(x => x.IntentId == detectedIntentId)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             if (!keywords.Any())
                 return;
@@ -78,7 +78,7 @@ namespace Society_8777.Repository
                 CreatedDate = DateTime.UtcNow
             });
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
         #region TEXT HELPERS
 
@@ -100,36 +100,37 @@ namespace Society_8777.Repository
 
         #region LOAD DATA
 
-        private async Task<List<Tbl_BotIntentKeywords>> GetKeywordsAsync()
+        private async Task<List<Tbl_BotIntentKeywords>> GetKeywordsAsync(CancellationToken cancellationToken)
         {
             return await _context.Tbl_BotIntentKeywords
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        private async Task<Dictionary<int, List<string>>> GetContextsAsync()
+        private async Task<Dictionary<int, List<string>>> GetContextsAsync(CancellationToken cancellationToken)
         {
             return await _context.Tbl_BotIntentContext
                 .AsNoTracking()
                 .GroupBy(x => x.IntentId)
                 .ToDictionaryAsync(
                     g => g.Key,
-                    g => g.Select(x => x.ContextWord.ToLower()).ToList()
+                    g => g.Select(x => x.ContextWord.ToLower()).ToList(),
+                    cancellationToken
                 );
         }
 
-        private async Task<Dictionary<long, int>> GetIntentPrioritiesAsync()
+        private async Task<Dictionary<long, int>> GetIntentPrioritiesAsync(CancellationToken cancellationToken)
         {
             return await _context.Tbl_BotIntentMaster
                 .AsNoTracking()
-                .ToDictionaryAsync(x => x.IntentId, x => x.IntentPriority);
+                .ToDictionaryAsync(x => x.IntentId, x => x.IntentPriority, cancellationToken);
         }
 
         #endregion
 
         #region INTENT DETECTION
 
-        public async Task<IntentResult?> DetectIntentAsync(string message)
+        public async Task<IntentResult?> DetectIntentAsync(string message, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(message))
                 return null;
@@ -137,9 +138,9 @@ namespace Society_8777.Repository
             message = Normalize(message);
             var tokens = Tokenize(message);
 
-            var keywords = await GetKeywordsAsync();
-            var contexts = await GetContextsAsync();
-            var priorities = await GetIntentPrioritiesAsync();
+            var keywords = await GetKeywordsAsync(cancellationToken);
+            var contexts = await GetContextsAsync(cancellationToken);
+            var priorities = await GetIntentPrioritiesAsync(cancellationToken);
 
             var scores = new List<IntentScore>();
 
@@ -241,7 +242,7 @@ namespace Society_8777.Repository
 
         #region EXECUTE ACTION
 
-        public async Task<string> ExecuteActionAsync(int intentId, int userId)
+        public async Task<string> ExecuteActionAsync(int intentId, int userId, CancellationToken cancellationToken)
         {
             var action = await (
                 from ia in _context.Tbl_BotIntentAction
@@ -249,7 +250,7 @@ namespace Society_8777.Repository
                 on ia.ActionId equals a.ActionId
                 where ia.IntentId == intentId
                 select a
-            ).AsNoTracking().FirstOrDefaultAsync();
+            ).AsNoTracking().FirstOrDefaultAsync(cancellationToken);
 
             if (action == null)
                 return "⚠️ Action not configured.";
@@ -264,7 +265,7 @@ namespace Society_8777.Repository
 
             await connection.OpenAsync();
 
-            var result = await command.ExecuteScalarAsync();
+            var result = await command.ExecuteScalarAsync(cancellationToken);
 
             return result?.ToString() ?? "0";
         }
@@ -273,12 +274,12 @@ namespace Society_8777.Repository
 
         #region RESPONSE TEMPLATE
 
-        public async Task<string> BuildResponseAsync(int intentId, string value)
+        public async Task<string> BuildResponseAsync(int intentId, string value, CancellationToken cancellationToken)
         {
             var template = await _context.Tbl_BotResponseTemplate
                 .Where(x => x.IntentId == intentId)
                 .Select(x => x.Template)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (string.IsNullOrWhiteSpace(template))
                 return value;
@@ -290,25 +291,26 @@ namespace Society_8777.Repository
 
         #region FINAL
 
-        public async Task<BotResponse> GenerateResponseAsync(string message, string userId)
+        public async Task<BotResponse> GenerateResponseAsync(string message, string userId, CancellationToken cancellationToken)
         {
             if (!int.TryParse(userId, out int uid))
                 return new BotResponse("⚠️ Invalid user session.", 0);
 
-            var intent = await DetectIntentAsync(message);
+            var intent = await DetectIntentAsync(message, cancellationToken);
 
             if (intent == null)
                 return new BotResponse("🤖 Sorry, I couldn’t understand your request.", 0);
 
-            var value = await ExecuteActionAsync(intent.IntentId, uid);
+            var value = await ExecuteActionAsync(intent.IntentId, uid, cancellationToken);
 
-            var response = await BuildResponseAsync(intent.IntentId, value);
+            var response = await BuildResponseAsync(intent.IntentId, value, cancellationToken);
 
             // Auto learning
             await AutoLearnAsync(
                 message,
                 intent.IntentId,
                 intent.Confidence,
+                cancellationToken,
                 null
             );
 

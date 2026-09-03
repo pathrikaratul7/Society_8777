@@ -118,7 +118,7 @@ namespace Society_8777.Controllers
         [HttpPost]
         [AllowAnonymous]
         
-        public async Task<Token> Post(Tbl_User _userInfo, [FromHeader] string clientType = "web") //, CancellationToken cancellationToken=default
+        public async Task<Token> Post(Tbl_User _userInfo, CancellationToken cancellationToken, [FromHeader] string clientType = "web") //, CancellationToken cancellationToken=default
         {
             bool IsMiniprofileRequired = Convert.ToBoolean(_configuration["IsMiniprofileRequired"]);
             if (IsMiniprofileRequired)
@@ -139,7 +139,7 @@ namespace Society_8777.Controllers
                     return response;
                 }
 
-                var user = await GetUser(_userInfo.UEmail, _userInfo.UPass, _userInfo.Flag ?? "");
+                var user = await GetUser(_userInfo.UEmail, _userInfo.UPass, _userInfo.Flag ?? "", cancellationToken);
                 if (user == null)
                 {
                     response.Message = "Invalid credentials or user not found";
@@ -151,11 +151,11 @@ namespace Society_8777.Controllers
                 // JWT
                 var claims = new[]
                 {
-        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"] ?? ""),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim("UID", user.UID.ToString()),
-        new Claim("UEmail", user.UEmail ?? "")
-    };
+                        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"] ?? ""),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim("UID", user.UID.ToString()),
+                        new Claim("UEmail", user.UEmail ?? "")
+                };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -220,7 +220,7 @@ namespace Society_8777.Controllers
 
 
         [AllowAnonymous]
-        private async Task<Tbl_User?> GetUser(string email, string password, string? Flag)
+        private async Task<Tbl_User?> GetUser(string email, string password, string? Flag, CancellationToken cancellationToken)
     {
         try
         {
@@ -232,9 +232,9 @@ namespace Society_8777.Controllers
         };
 
                 var user = await _Context.tbl_User!
-    .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass, @Flag=@Flag", sqlpara)
-    .AsNoTracking()
-    .ToListAsync();
+                                  .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass, @Flag=@Flag", sqlpara)
+                                  .AsNoTracking()
+                                  .ToListAsync(cancellationToken);
 
                 return user.FirstOrDefault();
 
@@ -243,12 +243,12 @@ namespace Society_8777.Controllers
         }
         catch (Exception)
         {
-            return null; // handled safely ✔
+            return null; 
         }
     }
     [HttpPost("refresh")]
         [AllowAnonymous]
-        public async Task<Token> Refresh([FromBody] RefreshRequestDTO request)
+        public async Task<Token> Refresh([FromBody] RefreshRequestDTO request, CancellationToken cancellationToken)
         {
             var response = new Token();
 
@@ -266,7 +266,7 @@ namespace Society_8777.Controllers
                     .FirstOrDefaultAsync(t => t.UserId == request.UserId
                                            && t.TokenHash == refreshTokenHash
                                            && !t.IsRevoked
-                                           && t.ExpiresAt > DateTime.UtcNow);
+                                           && t.ExpiresAt > DateTime.UtcNow, cancellationToken);
 
                 if (existingToken == null)
                 {
@@ -283,17 +283,17 @@ namespace Society_8777.Controllers
 
                 // 3️⃣ Generate a new JWT
                 var user = await _Context.tbl_User!
-      .Where(u => u.UID == request.UserId)
-      .Select(u => new
-      {
-          u.UID,
-          u.UEmail,
-          u.UName,
-          u.UPass,
-          u.UMobile
-      })
-      .FirstOrDefaultAsync();
-                if (user == null)
+                             .Where(u => u.UID == request.UserId)
+                             .Select(u => new
+                             {
+                                 u.UID,
+                                 u.UEmail,
+                                 u.UName,
+                                 u.UPass,
+                                 u.UMobile
+                             })
+                             .FirstOrDefaultAsync(cancellationToken);
+                                       if (user == null)
                 {
                     response.Message = "User not found";
                     response.Status = "Un-success";
@@ -303,11 +303,11 @@ namespace Society_8777.Controllers
 
                 var claims = new[]
                 {
-            new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"] ?? ""),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim("UID", user.UID.ToString()),
-            new Claim("UEmail", user.UEmail ?? "")
-        };
+                    new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"] ?? ""),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("UID", user.UID.ToString()),
+                    new Claim("UEmail", user.UEmail ?? "")
+                };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -322,7 +322,7 @@ namespace Society_8777.Controllers
 
                 var accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
-                // 4️⃣ Generate a new refresh token
+                // 4️ Generate a new refresh token
                 var newRefreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
                 var newRefreshTokenHash = Convert.ToBase64String(
                     SHA256.HashData(Encoding.UTF8.GetBytes(newRefreshToken))
@@ -338,9 +338,9 @@ namespace Society_8777.Controllers
                     CreatedAt = DateTime.UtcNow
                 });
 
-                await _Context.SaveChangesAsync();
+                await _Context.SaveChangesAsync(cancellationToken);
 
-                // 5️⃣ Send new refresh token as HttpOnly cookie
+                // 5️ Send new refresh token as HttpOnly cookie
                 Response.Cookies.Append("refreshToken", newRefreshToken, new CookieOptions
                 {
                     HttpOnly = true,
@@ -349,7 +349,7 @@ namespace Society_8777.Controllers
                     Expires = DateTime.UtcNow.AddDays(7)
                 });
 
-                // 6️⃣ Return new JWT info
+                // 6️ Return new JWT info
                 response.token = accessToken;
                 response.tokenexpiry = jwtToken.ValidTo;
                 response.Message = "Token refreshed successfully";

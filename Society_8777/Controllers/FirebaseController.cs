@@ -14,7 +14,7 @@ namespace Society_8777.Controllers
                 _firebaseNotification = fireBaseNotification;
         }
       [HttpPost("SendGuestNotification")]
-        public async Task<IActionResult> SendGuestNotification(string guestName, string flatNumber)
+        public async Task<IActionResult> SendGuestNotification(string guestName, string flatNumber, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(guestName) || string.IsNullOrEmpty(flatNumber))
             {
@@ -22,7 +22,7 @@ namespace Society_8777.Controllers
             }
             try
             {
-                await _firebaseNotification.SendGuestNotificationAsync(guestName, flatNumber);
+                await _firebaseNotification.SendGuestNotificationAsync(guestName, flatNumber,cancellationToken);
                 return Ok("Notification sent successfully.");
             }
             catch (Exception ex)

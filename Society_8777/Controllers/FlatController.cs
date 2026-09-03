@@ -17,14 +17,14 @@ namespace Society_8777.Controllers
 
         }
         [HttpPost("AddFlat")]
-        public async Task<IActionResult> AddFlat(Models.Tbl_Flat objFlat)
+        public async Task<IActionResult> AddFlat(Models.Tbl_Flat objFlat, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                  // Replace with actual repository initialization
 
-                var result = await _repository.AddFlat(objFlat);
+                var result = await _repository.AddFlat(objFlat, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -34,13 +34,13 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("GetAllFlat")]
-        public async Task<IActionResult> GetAllFlat(Models.Tbl_Flat objFlat)
+        public async Task<IActionResult> GetAllFlat(Models.Tbl_Flat objFlat, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                  // Replace with actual repository initialization
-                var result = await _repository.GetAllFlat(objFlat);
+                var result = await _repository.GetAllFlat(objFlat, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -50,14 +50,14 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("UpdateFlat")]
-        public async Task<IActionResult> UpdateFlat(Models.Tbl_Flat objFlat)
+        public async Task<IActionResult> UpdateFlat(Models.Tbl_Flat objFlat, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                 // Replace with actual repository initialization
          
-        var result = await _repository.UpdateFlat(objFlat);
+                var result = await _repository.UpdateFlat(objFlat, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -67,13 +67,13 @@ namespace Society_8777.Controllers
             }
         }
         [HttpDelete("DeleteFlat")]
-        public async Task<IActionResult> DeleteFlat(Models.Tbl_Flat objFlat)
+        public async Task<IActionResult> DeleteFlat(Models.Tbl_Flat objFlat, CancellationToken cancellationToken)
         {
             try
             {
                 // Assuming you have a repository instance (e.g., _repository) that implements IFlat
                  // Replace with actual repository initialization
-                var result = await _repository.DeleteFlat(objFlat);
+                var result = await _repository.DeleteFlat(objFlat, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)

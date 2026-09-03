@@ -17,12 +17,12 @@ namespace Society_8777.Controllers
                 _guest = guest;
         }
         [HttpPost]
-     [Route("GetNotification")]
-        public async Task<IActionResult> GetNotification(Tbl_Guest tbl_Guest)
+        [Route("GetNotification")]
+        public async Task<IActionResult> GetNotification(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _guest.GetNotification(tbl_Guest);
+                var result = await _guest.GetNotification(tbl_Guest, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -34,7 +34,7 @@ namespace Society_8777.Controllers
         }
         [HttpPost]
         [Route("AddGuest")]
-        public async Task<IActionResult> AddGuest(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> AddGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             string FullPath = string.Empty;
             try
@@ -47,7 +47,7 @@ namespace Society_8777.Controllers
 
                 //}
                 //tbl_Guest.GImagePath = FullPath;
-                var result = await _guest.AddGuest(tbl_Guest);
+                var result = await _guest.AddGuest(tbl_Guest, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace Society_8777.Controllers
         }
         [HttpPost]
         [Route("UpdateGuest")]
-        public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             string Fullpath = string.Empty;
             
@@ -66,7 +66,7 @@ namespace Society_8777.Controllers
             {
                
                
-                var result = await _guest.UpdateGuest(tbl_Guest);
+                var result = await _guest.UpdateGuest(tbl_Guest, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -77,12 +77,12 @@ namespace Society_8777.Controllers
         }
         [HttpDelete]
         [Route("DeleteGuest")]
-        public async Task<IActionResult> DeleteGuest(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> DeleteGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             
             try
             {
-                var result = await _guest.DeleteGuest(tbl_Guest);
+                var result = await _guest.DeleteGuest(tbl_Guest, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -93,12 +93,12 @@ namespace Society_8777.Controllers
         }
         [HttpPost]
         [Route("GetAllGuestList")]
-        public async Task<IActionResult> GetAllGuestList(Tbl_Guest tbl_Guest)
+        public async Task<IActionResult> GetAllGuestList(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             
             try
             {
-                var result = await _guest.GetAllGuestList(tbl_Guest);
+                var result = await _guest.GetAllGuestList(tbl_Guest, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -109,7 +109,7 @@ namespace Society_8777.Controllers
         }
 
         [HttpPost("upload")]
-        public string UploadImage([FromBody] Tbl_Guest request)
+        public string UploadImage([FromBody] Tbl_Guest request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.GImagePath))
             {
@@ -145,7 +145,7 @@ namespace Society_8777.Controllers
             return string.Empty;
         }
         [HttpPost("guestimg")]
-        public async Task<IActionResult> UploadGuestImage(IFormFile file)
+        public async Task<IActionResult> UploadGuestImage(IFormFile file, CancellationToken cancellationToken)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
@@ -159,7 +159,7 @@ namespace Society_8777.Controllers
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                await file.CopyToAsync(stream,cancellationToken);
             }
 
             return Ok(new { filePath });

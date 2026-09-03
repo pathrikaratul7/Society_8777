@@ -18,11 +18,11 @@ namespace Society_8777.Controllers
         }
         [Route("AddPaymentTransaction")]
         [HttpPost]
-        public async Task<IActionResult> AddPaymentTransaction([FromBody] Tbl_PaymentTransaction objPaymentTransaction)
+        public async Task<IActionResult> AddPaymentTransaction([FromBody] Tbl_PaymentTransaction objPaymentTransaction, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _paymentTransaction.AddPaymentTransaction(objPaymentTransaction);
+                var result = await _paymentTransaction.AddPaymentTransaction(objPaymentTransaction, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -32,11 +32,11 @@ namespace Society_8777.Controllers
         }
         [Route("UpdatePayment")]
         [HttpPost]
-        public async Task<IActionResult> UpdatePayment([FromBody] Tbl_PaymentTransaction objPaymentTransaction)
+        public async Task<IActionResult> UpdatePayment([FromBody] Tbl_PaymentTransaction objPaymentTransaction, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _paymentTransaction.UpdatePayment(objPaymentTransaction);
+                var result = await _paymentTransaction.UpdatePayment(objPaymentTransaction, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)
@@ -46,11 +46,11 @@ namespace Society_8777.Controllers
         }
         [Route("GetAllPaymentTransaction")]
         [HttpGet]
-        public async Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag, long UID)
+        public async Task<IActionResult> GetAllPaymentTransaction(long FlatID, string Flag, long UID, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _paymentTransaction.GetAllPaymentTransaction(FlatID, Flag, UID);
+                var result = await _paymentTransaction.GetAllPaymentTransaction(FlatID, Flag, UID, cancellationToken);
                 return result ?? NotFound();
             }
             catch (Exception ex)

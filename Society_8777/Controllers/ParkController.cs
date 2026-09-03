@@ -19,11 +19,11 @@ namespace Society_8777.Controllers
        
         [HttpPost("AddParking")]
         
-        public async Task<IActionResult> AddParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> AddParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
-                var addPark = await _Ipark.AddParking(tbl_Parking);
+                var addPark = await _Ipark.AddParking(tbl_Parking, cancellationToken);
                 return addPark ?? NotFound();
 
             }
@@ -35,11 +35,11 @@ namespace Society_8777.Controllers
             
         }
         [HttpPost("UpdateParking")]
-        public async Task<IActionResult> UpdateParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> UpdateParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
-                var updatePark = await _Ipark.UpdateParking(tbl_Parking);
+                var updatePark = await _Ipark.UpdateParking(tbl_Parking, cancellationToken);
                 return updatePark ?? NotFound();
             }
             catch (Exception ex)
@@ -49,11 +49,11 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("DeleteParking")]
-        public async Task<IActionResult> DeleteParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> DeleteParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
-                var DeletePark = await _Ipark.DeleteParking(tbl_Parking);
+                var DeletePark = await _Ipark.DeleteParking(tbl_Parking, cancellationToken);
                 return DeletePark ?? NotFound();
             }
             catch (Exception ex)
@@ -64,11 +64,11 @@ namespace Society_8777.Controllers
         }
         [HttpPost("GetAllParkingList")]
         
-        public async Task<IActionResult> GetAllParkingList(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> GetAllParkingList(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             try
             {
-                var GetAllPark = await _Ipark.GetAllParkingList(tbl_Parking);
+                var GetAllPark = await _Ipark.GetAllParkingList(tbl_Parking, cancellationToken);
                 return GetAllPark ?? NotFound();
             }
             catch (Exception ex)
@@ -79,12 +79,12 @@ namespace Society_8777.Controllers
         }
         [HttpPost("GetParkingDetailsById")]
         
-        public async Task<IActionResult> GetParkingDetailsById(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> GetParkingDetailsById(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
             
             try
             {
-                var GetParkingDetails =  await _Ipark.GetParkingDetailsById(tbl_Parking);
+                var GetParkingDetails =  await _Ipark.GetParkingDetailsById(tbl_Parking, cancellationToken);
                 return GetParkingDetails ?? NotFound();
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace Society_8777.Controllers
             }
         }
         [HttpPost("Parkimg")]
-        public async Task<IActionResult> UploadGuestImage(IFormFile file)
+        public async Task<IActionResult> UploadGuestImage(IFormFile file, CancellationToken cancellationToken)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
@@ -108,19 +108,19 @@ namespace Society_8777.Controllers
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await file.CopyToAsync(stream);
+                await file.CopyToAsync(stream, cancellationToken);
             }
 
             return Ok(new { filePath });
         }
         [HttpPost("GetParking")]
 
-        public async Task<IActionResult> GetParking(Tbl_Parking tbl_Parking)
+        public async Task<IActionResult> GetParking(Tbl_Parking tbl_Parking, CancellationToken cancellationToken)
         {
 
             try
             {
-                var GetParkingDetails = await _Ipark.GetParking(tbl_Parking);
+                var GetParkingDetails = await _Ipark.GetParking(tbl_Parking, cancellationToken);
                 return GetParkingDetails ?? NotFound();
             }
             catch (Exception ex)

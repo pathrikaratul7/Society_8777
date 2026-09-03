@@ -6,14 +6,14 @@ namespace Society_8777.Interface
 {
     public interface IBotService
     {
-        Task<IntentResult?> DetectIntentAsync(string message);
-        Task<string> ExecuteActionAsync(int intentId, int userId);
-        Task<string> BuildResponseAsync(int intentId, string value);
-        Task<BotResponse> GenerateResponseAsync(string message, string userId);
+        Task<IntentResult?> DetectIntentAsync(string message, CancellationToken cancellationToken);
+        Task<string> ExecuteActionAsync(int intentId, int userId, CancellationToken cancellationToken);
+        Task<string> BuildResponseAsync(int intentId, string value, CancellationToken cancellationToken);
+        Task<BotResponse> GenerateResponseAsync(string message, string userId, CancellationToken cancellationToken);
         Task AutoLearnAsync(
     string message,
     int detectedIntentId,
-    double confidence,
+    double confidence, CancellationToken cancellationToken,
     int? correctIntentId = null);
     }
 }
