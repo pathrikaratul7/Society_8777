@@ -1,6 +1,24 @@
-@Society_8777_HostAddress = http://localhost:5053
+@baseurl = https://localhost:7083
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJKV1RTZXJ2aWNlQWNjZXNzVG9rZW4iLCJqdGkiOiJkODMzMmRlZC0wY2NjLTQ4M2ItYjg2OC03Mzg2YjM2ODE1YjYiLCJVSUQiOiIxIiwiVUVtYWlsIjoiUGF0aHJpa2FyYXR1bDdAZ21haWwuY29tIiwiZXhwIjoxNzg4NDQ3MTkwLCJpc3MiOiJKV1RBdXRoZW50aWNhdGlvblNlcnZlciIsImF1ZCI6IkpXVFNlcnZpY2VBbnlDbGllbnQifQ.Embo6Kx5vLbxQVKYqOmGZLaXGlv3okxOb9PSr33GhAc
 
-GET {{Society_8777_HostAddress}}/weatherforecast/
-Accept: application/json
+### generate new token
+POST {{baseurl}}/api/token
+Content-Type : application/json
+{
+  "uemail" :"Pathrikaratul7@gmail.com",
+  "upass":"8777",
+  "flag":"LOG"
 
-###
+}
+### GET ALL FLATS
+
+POST {{baseurl}}/api/flat/getallflat
+Content-type: application/json
+Authorization : Bearer {{token}}
+{
+"uid":1,
+"flag": "Report"
+
+}
+
+
