@@ -30,9 +30,11 @@ namespace Society_8777.Repository
                 p[8] = new SqlParameter("@Flag", objPaymentTransaction.Flag ?? (object)DBNull.Value);
                 p[9] = new SqlParameter("@UID", objPaymentTransaction.UID ?? (object)DBNull.Value);
 
-                var result = _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @Amount=@Amount, @Utr=@Utr," +
-                    " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId,@TranStatus=@TranStatus, @Flag=@Flag,@UID=@UID", p).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync(cancellationToken);
+                var result = (await _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @Amount=@Amount, @Utr=@Utr," +
+                    " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId,@TranStatus=@TranStatus, @Flag=@Flag,@UID=@UID", p)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(result);
             }
             catch (Exception)
@@ -80,9 +82,11 @@ namespace Society_8777.Repository
                 p[9] = new SqlParameter("@TranStatus", objPaymentTransaction.TranStatus ?? (object)DBNull.Value);
                 p[10] = new SqlParameter("@UID", objPaymentTransaction.UID ?? (object)DBNull.Value);
                 p[11] = new SqlParameter("@Remark", objPaymentTransaction.Remark ?? (object)DBNull.Value);
-                var result = _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @Amount=@Amount, @Utr=@Utr," +
-                    " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId, @Flag=@Flag,@Id=@Id,@TranStatus=@TranStatus,@UID=@UID,@Remark=@Remark", p).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync(cancellationToken);
+                var result = (await _context.Tbl_PaymentTransactions.FromSqlRaw("EXEC usp_Tbl_PaymentTransactions @Amount=@Amount, @Utr=@Utr," +
+                    " @PaidTo=@PaidTo, @PaymentDate=@PaymentDate, @SourceApp=@SourceApp, @RawText=@RawText, @FlatId=@FlatId, @Flag=@Flag,@Id=@Id,@TranStatus=@TranStatus,@UID=@UID,@Remark=@Remark", p)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(result);
             }
             catch (Exception)

@@ -30,9 +30,9 @@ namespace Society_8777.Repository
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_ErrorLogs] @ErrorPage=@ErrorPage,@ErrorStack=@ErrorStack,@ErrorMessage=@ErrorMessage," +
                     "@ErrorLoggedByID=@ErrorLoggedByID,@ErrorLoggedByName=@ErrorLoggedByName , @Flag=@Flag"
                     , p).AsNoTracking()
-       .AsEnumerable()
-       .FirstOrDefault();
-                await _context.SaveChangesAsync();
+                           .AsEnumerable()
+                           .FirstOrDefault();
+                await _context.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_ErrorLogs);
 
             }
@@ -54,10 +54,10 @@ namespace Society_8777.Repository
             new SqlParameter("@Flag", tbl_ErrorLogs.Flag ?? (object)DBNull.Value)
         };
 
-            var result = await _context.Tbl_ErrorLogs!
+            var result = (await _context.Tbl_ErrorLogs!
                 .FromSqlRaw("EXEC USP_Tbl_ErrorLogs @Flag=@Flag", p)
                 .AsNoTracking()
-                .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken));
 
             return new OkObjectResult(result);
         }

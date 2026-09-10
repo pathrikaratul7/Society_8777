@@ -54,12 +54,14 @@ namespace Society_8777.Repository
                 sp[9] = new SqlParameter("@CreatorMobile",tbl_Guest.CreatorMobile ?? (object)DBNull.Value);
 
                 sp[10] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest =  _context.Tbl_Guest!
+                var _tbl_Guest = (await _context.Tbl_Guest!
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail," +
                     "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID," +
                     "@GImagePath=@GImagePath,@Status=@Status,@CreatorMobile=@CreatorMobile,@Flag=@Flag"
-                    , sp).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync(cancellationToken);
+                    , sp)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)
@@ -87,12 +89,13 @@ namespace Society_8777.Repository
                 
 
                 sp[10] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
-                var _tbl_Guest = _context.Tbl_Guest!
+                var _tbl_Guest = (await _context.Tbl_Guest!
                     .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@GName=@GName,@GMobile=@GMobile," +
                     "@GEmail=@GEmail,@OutDateTime=@OutDateTime,@FID=@FID,@UpdatedBy=@UpdatedBy,@LoginID=@LoginID," +
                     "@GImagePath=@GImagePath,@Status=@Status,@Flag=@Flag", sp)
-                    .AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync(cancellationToken);  
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(_tbl_Guest);
             }
             catch (Exception)

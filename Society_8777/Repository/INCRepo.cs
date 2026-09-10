@@ -30,11 +30,13 @@ namespace Society_8777.Repository
                 p[8] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
 
 
-                var data = _context.Tbl_Incidents!.FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @INCType=@INCType," +
+                var data = (await _context.Tbl_Incidents!.FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @INCType=@INCType," +
                     "  @INCImagePath=@INCImagePath, @INCReportedBy=@INCReportedBy," +
                     " @IsDeleted=@IsDeleted, @INCStatus=@INCStatus," +
-                    " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync(cancellationToken);
+                    " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(data);
             }
             catch (Exception )
@@ -53,8 +55,11 @@ namespace Society_8777.Repository
 
                 p[0] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
 
-                var data = await _context.Tbl_Incidents!
-                    .FromSqlRaw("EXEC USP_Tbl_Incident  @Flag=@Flag", p).FirstOrDefaultAsync(cancellationToken);
+                var data = (await _context.Tbl_Incidents!
+                    .FromSqlRaw("EXEC USP_Tbl_Incident  @Flag=@Flag", p)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(data);
 
             }
@@ -84,13 +89,14 @@ namespace Society_8777.Repository
                 p[7] = new SqlParameter("@INCAssignTo", tbl_INC.INCAssignTo ?? (object)DBNull.Value);
                 p[8] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
 
-                var data = _context.Tbl_Incidents!
+                var data = (await _context.Tbl_Incidents!
                     .FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @INCType=@INCType," +
                    " @INCImagePath=@INCImagePath, @INCReportedBy=@INCReportedBy," +
                    " @IsDeleted=@IsDeleted, @INCStatus=@INCStatus," +
                    " @INCReportedDateTime=@INCReportedDateTime, @INCAssignTo=@INCAssignTo, @Flag=@Flag", p)
-                    .AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync(cancellationToken);
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(data);
 
             }
@@ -109,9 +115,11 @@ namespace Society_8777.Repository
                 SqlParameter[] p = new SqlParameter[2];
                 p[0] = new SqlParameter("@INCID", tbl_INC.INCID ?? (object)DBNull.Value);
                 p[1] = new SqlParameter("@Flag", tbl_INC.Flag ?? (object)DBNull.Value);
-                var data = _context.Tbl_Incidents!
-                    .FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @Flag=@Flag", p).AsEnumerable().FirstOrDefault();
-                await _context.SaveChangesAsync(cancellationToken);
+                var data = (await _context.Tbl_Incidents!
+                    .FromSqlRaw("EXEC USP_Tbl_Incident @INCID=@INCID, @Flag=@Flag", p)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(data);
             }
             catch

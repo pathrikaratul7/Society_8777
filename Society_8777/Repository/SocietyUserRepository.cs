@@ -22,7 +22,7 @@ namespace Society_8777.Repository
         {
             try
             {
-                
+
 
                 SqlParameter[] sqlpara = new SqlParameter[4];
                 sqlpara[0] = new SqlParameter("@UEmail", objCust.UEmail ?? (object)DBNull.Value);
@@ -30,10 +30,11 @@ namespace Society_8777.Repository
                 sqlpara[2] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
                 sqlpara[3] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
 
-                var user = await _dbcontex.tbl_User!
+                var user = (await _dbcontex.tbl_User!
                     .FromSqlRaw("EXEC USP_Tbl_User @UEmail=@UEmail, @UPass=@UPass,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(cancellationToken);
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
 
                 return new ObjectResult(user);
             }
@@ -62,13 +63,14 @@ namespace Society_8777.Repository
                 sqlpara[7] = new SqlParameter("@ImagePath", objCust.ImagePath ?? (object)DBNull.Value);
                 sqlpara[8] = new SqlParameter("@UserType", objCust.UserType ?? (object)DBNull.Value);
                 sqlpara[9] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
-                var _tbl_User =  _dbcontex.tbl_User.FromSqlRaw(
+                var _tbl_User = (await _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UName=@UName, @UEmail=@UEmail, @UPass=@UPass, @UMobile=@UMobile," +
                     " @IsDeleted=@IsDeleted,@DeviceID=@DeviceID,@PrivList=@PrivList ,@ImagePath=@ImagePath,@UserType=@UserType" +
                     ", @Flag=@Flag", sqlpara)
-                     .AsEnumerable().FirstOrDefault();
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
 
-                await _dbcontex.SaveChangesAsync(cancellationToken);
                 return new OkObjectResult(_tbl_User);
             }
             catch 
@@ -98,12 +100,13 @@ namespace Society_8777.Repository
                 sqlpara[9] = new SqlParameter("@ImagePath", objCust.ImagePath ?? (object)DBNull.Value);
                 sqlpara[10] = new SqlParameter("@UserType", objCust.UserType ?? (object)DBNull.Value);
                 sqlpara[11] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
-                var _tbl_User = _dbcontex.tbl_User.FromSqlRaw(
+                var _tbl_User = (await _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UID=@UID, @UName=@UName, @UEmail=@UEmail, @UPass=@UPass," +
                     " @UMobile=@UMobile, @IsDeleted=@IsDeleted,@DeviceID=@DeviceID,@PrivList=@PrivList," +
                     "@UpdatedBy=@UpdatedBy,@ImagePath=@ImagePath,@UserType=@UserType, @Flag=@Flag", sqlpara)
-                     .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync(cancellationToken);
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(_tbl_User);
             }
             catch 
@@ -125,10 +128,11 @@ namespace Society_8777.Repository
                 sqlpara[0] = new SqlParameter("@UID", objCust.UID);
                 sqlpara[1] = new SqlParameter("@DeviceID", objCust.DeviceID ?? (object)DBNull.Value);
                 sqlpara[2] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
-                var _tbl_User = _dbcontex.tbl_User.FromSqlRaw(
+                var _tbl_User = (await _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UID=@UID,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
-                     .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync(cancellationToken);
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(_tbl_User);
             }
             catch 
@@ -148,10 +152,11 @@ namespace Society_8777.Repository
                 SqlParameter[] sqlpara = new SqlParameter[2];
                 sqlpara[0] = new SqlParameter("@UID", objCust.UID);
                 sqlpara[1] = new SqlParameter("@Flag", objCust.Flag ?? (object)DBNull.Value);
-                var _tbl_User = _dbcontex.tbl_User.FromSqlRaw(
+                var _tbl_User = (await _dbcontex.tbl_User.FromSqlRaw(
                     "EXEC USP_Tbl_User @UID=@UID, @Flag=@Flag", sqlpara)
-                     .AsEnumerable().FirstOrDefault();
-                await _dbcontex.SaveChangesAsync(cancellationToken);
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
                 return new OkObjectResult(_tbl_User);
             }
             catch
