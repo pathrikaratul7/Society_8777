@@ -9,9 +9,12 @@ namespace Society_8777.Repository
     public class GuestRepo : IGuest
     {
         readonly private DataBaseContext.DataBaseContext _context;
-        public GuestRepo(DataBaseContext.DataBaseContext context)
+        private readonly IFireBaseNotification _firebaseNotification;
+
+        public GuestRepo(DataBaseContext.DataBaseContext context, IFireBaseNotification firebaseNotification)
         {
             _context = context;
+            _firebaseNotification = firebaseNotification;
         }
         public async Task<IActionResult> GetNotification(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
@@ -62,14 +65,28 @@ namespace Society_8777.Repository
                     .AsNoTracking()
                     .ToListAsync(cancellationToken))
                     .FirstOrDefault();
+
+                // Send Firebase notification to flat owner if guest was added successfully
+                if (_tbl_Guest != null && tbl_Guest.FID.HasValue && !string.IsNullOrEmpty(tbl_Guest.GName))
+                {
+                    try
+                    {
+                        await _firebaseNotification.SendGuestArrivalNotificationByFlatAsync(tbl_Guest.FID.Value, tbl_Guest.GName, cancellationToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error sending notification: {ex.Message}");
+                    }
+                }
+
                 return new OkObjectResult(_tbl_Guest);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return new ObjectResult(new { Message = "An error occurred while retrieving notifications." }) { StatusCode = 500 };
             }
-            
+
         }
         public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {

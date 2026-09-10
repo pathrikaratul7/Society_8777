@@ -12,9 +12,12 @@ namespace Society_8777.Controllers
     public class GuestController : ControllerBase
     {
         private readonly IGuest _guest;
-        public GuestController(IGuest guest)
+        private readonly IFCMToken _fcmTokenRepo;
+
+        public GuestController(IGuest guest, IFCMToken fcmTokenRepo)
         {
                 _guest = guest;
+                _fcmTokenRepo = fcmTokenRepo;
         }
         [HttpPost]
         [Route("GetNotification")]
