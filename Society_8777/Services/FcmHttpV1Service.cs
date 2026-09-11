@@ -7,7 +7,7 @@ namespace Society_8777.Services
 {
     /// <summary>
     /// FCM service wrapper using Firebase Admin SDK for sending notifications via HTTP v1 API.
-    /// Supports text, data, and image notifications.
+    /// Supports text, data, and image notifications across Android, iOS, and Web.
     /// </summary>
     public class FcmHttpV1Service
     {
@@ -47,6 +47,7 @@ namespace Society_8777.Services
                     body = "You have a new notification";
                 }
 
+                // Base notification for all platforms
                 var notification = new Notification
                 {
                     Title = title,
@@ -54,41 +55,66 @@ namespace Society_8777.Services
                     ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl
                 };
 
+                // Prepare data dictionary
+                var messageData = data ?? new Dictionary<string, string>();
+
                 var message = new Message
                 {
                     Token = fcmToken,
                     Notification = notification,
-                    Data = data ?? new Dictionary<string, string>()
+                    Data = messageData
                 };
 
-                // Add platform-specific configurations if image is provided
+                // Android-specific configuration with image support
+                message.Android = new AndroidConfig
+                {
+                    Priority = Priority.High,
+                    Notification = new AndroidNotification
+                    {
+                        Title = title,
+                        Body = body,
+                        ChannelId = "guest_arrival",
+                        Icon = "icon",
+                        Sound = "default",
+                        Color = "#FF6B6B", // Red color for guest arrival
+                        // Image will be loaded from the notification's ImageUrl
+                        ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
+                        ClickAction = "FLUTTER_NOTIFICATION_CLICK"
+                    },
+                    Data = messageData,
+                    FcmOptions = new AndroidFcmOptions
+                    {
+                        AnalyticsLabel = "guest_arrival_notification"
+                    }
+                };
+
+                // Webpush configuration for web browsers
+                message.Webpush = new WebpushConfig
+                {
+                    Headers = new Dictionary<string, string>
+                    {
+                        { "TTL", "86400" } // 24 hours in seconds
+                    },
+                    Data = messageData,
+                    Notification = new WebpushNotification
+                    {
+                        Title = title,
+                        Body = body,
+                        Icon = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
+                        Image = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
+                        Badge = string.IsNullOrEmpty(imageUrl) ? null : imageUrl
+                    }
+                };
+
+                // APNs configuration for iOS
                 if (!string.IsNullOrEmpty(imageUrl))
                 {
-                    // Webpush configuration for web browsers
-                    message.Webpush = new WebpushConfig
+                    message.Apns = new ApnsConfig
                     {
-                        Data = data,
-                        Notification = new WebpushNotification
+                        Headers = new Dictionary<string, string>
                         {
-                            Title = title,
-                            Body = body,
-                            Icon = imageUrl,
-                            Image = imageUrl,
-                            Badge = imageUrl
+                            { "apns-priority", "10" }
                         }
-                    };
-
-                    // Android configuration
-                    message.Android = new AndroidConfig
-                    {
-                        Notification = new AndroidNotification
-                        {
-                            Title = title,
-                            Body = body,
-                            Icon = "ic_launcher",
-                            ChannelId = "guest_arrival"
-                        },
-                        Data = data
                     };
                 }
 
@@ -145,39 +171,47 @@ namespace Society_8777.Services
                     ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl
                 };
 
+                var messageData = data ?? new Dictionary<string, string>();
+
                 var message = new Message
                 {
                     Topic = topic,
                     Notification = notification,
-                    Data = data ?? new Dictionary<string, string>()
+                    Data = messageData
                 };
 
-                // Add platform-specific configurations if image is provided
-                if (!string.IsNullOrEmpty(imageUrl))
+                // Android-specific configuration with image support
+                message.Android = new AndroidConfig
                 {
-                    message.Webpush = new WebpushConfig
+                    Priority = Priority.High,
+                    Notification = new AndroidNotification
                     {
-                        Notification = new WebpushNotification
-                        {
-                            Title = title,
-                            Body = body,
-                            Icon = imageUrl,
-                            Image = imageUrl
-                        }
-                    };
+                        Title = title,
+                        Body = body,
+                        ChannelId = "guest_arrival",
+                        Icon = "icon",
+                        Sound = "default",
+                        ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
+                        ClickAction = "FLUTTER_NOTIFICATION_CLICK"
+                    },
+                    Data = messageData,
+                    FcmOptions = new AndroidFcmOptions
+                    {
+                        AnalyticsLabel = "guest_arrival_notification"
+                    }
+                };
 
-                    message.Android = new AndroidConfig
+                // Webpush configuration for web browsers
+                message.Webpush = new WebpushConfig
+                {
+                    Notification = new WebpushNotification
                     {
-                        Notification = new AndroidNotification
-                        {
-                            Title = title,
-                            Body = body,
-                            Icon = "ic_launcher",
-                            ChannelId = "guest_arrival"
-                        },
-                        Data = data
-                    };
-                }
+                        Title = title,
+                        Body = body,
+                        Icon = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
+                        Image = string.IsNullOrEmpty(imageUrl) ? null : imageUrl
+                    }
+                };
 
                 var response = await FirebaseMessaging.DefaultInstance.SendAsync(message, cancellationToken);
 
