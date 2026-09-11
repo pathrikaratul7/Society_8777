@@ -36,10 +36,20 @@ namespace Society_8777.Repository
                     new SqlParameter("@UpdatedOn", request.UpdatedOn)
                 };
 
-                var tbl_fcm = _context.tbl_FCMToken!
+                var tbl_fcm = (await _context.tbl_FCMToken!
                     .FromSqlRaw("EXEC dbo.USP_Tbl_FCMToken @FCID=@FCID,@FcmToken=@FcmToken,@FlatID=@FlatID,@UpdatedOn=@UpdatedOn", parameters)
-                    .AsNoTracking()
+                    .AsNoTracking().
+                    ToListAsync(cancellationToken))
                     .FirstOrDefault();
+
+                //var _tbl_Guest = (await _context.Tbl_Guest!
+                //   .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail," +
+                //   "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID," +
+                //   "@GImagePath=@GImagePath,@Status=@Status,@CreatorMobile=@CreatorMobile,@Flag=@Flag"
+                //   , sp)
+                //   .AsNoTracking()
+                //   .ToListAsync(cancellationToken))
+                //   .FirstOrDefault();
 
                 if (tbl_fcm == null)
                 {
