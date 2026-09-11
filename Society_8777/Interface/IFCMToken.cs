@@ -5,6 +5,9 @@ namespace Society_8777.Interface
 {
     public interface IFCMToken
     {
-        Task<IActionResult> SaveToken(Tbl_FCMToken request,CancellationToken cancellationToken);
+        Task<IActionResult> SaveToken(Tbl_FCMToken request, CancellationToken cancellationToken);
+        Task<IActionResult> GetTokensByFlatIdAsync(int flatId, CancellationToken cancellationToken);
+        Task<IActionResult> GetLatestTokenByFlatIdAsync(int flatId, CancellationToken cancellationToken);
+        Task<IActionResult> GetAllTokensAsync(CancellationToken cancellationToken);
     }
 }

@@ -21,7 +21,7 @@ namespace Society_8777.Repository
             {
                 _firebaseApp = FirebaseApp.Create(new AppOptions()
                 {
-                    Credential = GoogleCredential.FromFile("society8777-firebase-adminsdk8777.json")
+                    Credential = GoogleCredential.FromFile("mysocietynewapp7-firebase-adminsdk-fbsvc-08926dc04f.json")
                 });
             }
             else

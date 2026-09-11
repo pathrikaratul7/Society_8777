@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,7 @@ using Society_8777.Interface;
 using Society_8777.MiddleWare;
 using Society_8777.Models;
 using Society_8777.Repository;
+using Society_8777.Services;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Text;
@@ -21,6 +24,24 @@ using static Serilog.Sinks.MSSqlServer.ColumnOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 var sqlcon = builder.Configuration.GetConnectionString("Con");
+
+// Initialize Firebase App BEFORE adding services
+if (FirebaseApp.DefaultInstance == null)
+{
+    var serviceAccountPath = builder.Configuration["Firebase:ServiceAccountPath"];
+
+    if (!string.IsNullOrEmpty(serviceAccountPath) && File.Exists(serviceAccountPath))
+    {
+        FirebaseApp.Create(new AppOptions()
+        {
+            Credential = GoogleCredential.FromFile(serviceAccountPath)
+        });
+    }
+    else
+    {
+        Console.WriteLine("Warning: Firebase service account file not found at: " + serviceAccountPath);
+    }
+}
 
 builder.Services.AddDbContext<DataBaseContext>
 (options => options.UseSqlServer(CommomFunction.Encrypt_Dycrypt_Bank.DecryptString(sqlcon?? "")));
@@ -39,6 +60,9 @@ builder.Services.AddTransient<IErrorLog, ErrorLogRepo>();
 builder.Services.AddTransient<IFCMToken, FCMTokenRepo>();
 builder.Services.AddTransient<IPaymentTransaction, PaymentRepo>();
 builder.Services.AddTransient<IBotService, BotRepo>();
+// Add HttpClient and FcmHttpV1Service
+builder.Services.AddHttpClient<FcmHttpV1Service>();
+builder.Services.AddScoped<FcmHttpV1Service>();
 
 var columnOptions = new ColumnOptions();
 
