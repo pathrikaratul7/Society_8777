@@ -116,6 +116,12 @@ namespace Society_8777.Controllers
                 if (!string.IsNullOrEmpty(request.FlatNumber))
                     data["FlatNumber"] = request.FlatNumber;
 
+                if (!string.IsNullOrWhiteSpace(request.GuestImageUrl))
+                {
+                    data["guestImageUrl"] = request.GuestImageUrl;
+                }
+
+
                 if (request.CustomData != null)
                 {
                     foreach (var item in request.CustomData)
