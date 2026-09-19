@@ -135,6 +135,7 @@ namespace Society_8777.Controllers
             }
         }
         [HttpGet("GetDeviceIDAsync")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetDeviceIDAsync(string DeviceID, CancellationToken cancellationToken)
         {
             try {
