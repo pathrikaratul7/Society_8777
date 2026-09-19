@@ -210,5 +210,30 @@ public async Task<IActionResult> GetAllUsers(Tbl_User objcust, CancellationToken
         
         
         }
+        public async Task<IActionResult> RemoveDeviceIDAsync(string DeviceID, long UserID, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (_dbcontex.tbl_User == null)
+                {
+                    return new NotFoundResult();
+                }
+                SqlParameter[] sqlpara = new SqlParameter[3];
+                sqlpara[0] = new SqlParameter("@UID", UserID);
+                sqlpara[1] = new SqlParameter("@DeviceID", DeviceID ?? (object)DBNull.Value);
+                sqlpara[2] = new SqlParameter("@Flag", "DIDUP" ?? (object)DBNull.Value);
+                var _tbl_User = (await _dbcontex.tbl_User.FromSqlRaw(
+                    "EXEC USP_Tbl_User @UID=@UID,@DeviceID=@DeviceID, @Flag=@Flag", sqlpara)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
+                return new OkObjectResult(_tbl_User);
+            }
+            catch
+            {
+                return new ObjectResult(new { Message = "Error while updating device ID", StatusCode = 500 });
+            }
+
+        }
     }
 }

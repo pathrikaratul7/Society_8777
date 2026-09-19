@@ -149,5 +149,21 @@ namespace Society_8777.Controllers
             }
         
         }
+        [HttpPatch("RemoveDeviceIDAsync")]
+        public async Task<IActionResult> RemoveDeviceIDAsync(long UserID, CancellationToken cancellationToken, string DeviceID = null)
+        {
+            try
+            {
+                // Assuming you have a repository instance (e.g., _repository) that implements ISocietyUser
+                // Replace with actual repository initialization
+                var result = await _repository.RemoveDeviceIDAsync(DeviceID,UserID, cancellationToken);
+                return result ?? NotFound();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (ex) as needed
+                return StatusCode(500, $"Internal server error=>> {ex.Message}");
+            }
+        }
     }
 }

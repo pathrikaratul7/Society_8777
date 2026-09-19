@@ -24,7 +24,7 @@ namespace Society_8777.Models
         public string? FlatNumber { get; set; }
         
         public string? FlatType { get; set; }
-        public string? DeviceID { get; set; }
+        public string? DeviceID { get; set; } 
 	    public string? PrivList { get; set; }
         [NotMapped]
         

@@ -14,5 +14,6 @@ namespace Society_8777.Interface
         Task<IActionResult> UpdateDeviceID(Tbl_User objCust, CancellationToken cancellationToken);
 
         Task<IActionResult> GetDeviceIDAsync(string DeviceID, CancellationToken cancellationToken);
+        Task<IActionResult> RemoveDeviceIDAsync(string DeviceID, long UserID, CancellationToken cancellationToken);
     }
 }
