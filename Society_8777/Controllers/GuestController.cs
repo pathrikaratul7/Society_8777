@@ -59,6 +59,7 @@ namespace Society_8777.Controllers
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
         }
+        
         [HttpPost]
         [Route("UpdateGuest")]
         public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
@@ -166,6 +167,27 @@ namespace Society_8777.Controllers
             }
 
             return Ok(new { filePath });
+        }
+        
+       [HttpPatch]
+       [Route("PartialApproveReject")]
+        public async Task<IActionResult> PartialApproveReject(long GID, string Status, string UpdatedBy,
+            CancellationToken cancellationToken)
+        {
+            string Fullpath = string.Empty;
+
+            try
+            {
+
+
+                var result = await _guest.PartialApproveReject(GID,Status,UpdatedBy, cancellationToken);
+                return result ?? NotFound();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (ex) as needed
+                return StatusCode(500, $"Internal server error=>> {ex.Message}");
+            }
         }
 
     }

@@ -92,7 +92,7 @@ namespace Society_8777.Repository
                 return new ObjectResult(new { Message = "An error occurred while retrieving notifications." }) { StatusCode = 500 };
             }
         }
-
+        
         public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             try
@@ -172,5 +172,34 @@ namespace Society_8777.Repository
         {
             return File.ReadAllBytes(imagePath);
         }
+        
+        public async Task<IActionResult> PartialApproveReject(long GID, string Status, string UpdatedBy,
+           CancellationToken cancellationToken)
+        {
+            try
+            {
+                var para = new SqlParameter[]
+                    {
+                       new SqlParameter("@GID", GID),
+                new SqlParameter("@UpdatedBy", UpdatedBy ?? (object)DBNull.Value),
+                new SqlParameter("@Status", Status ?? (object)DBNull.Value),
+                new SqlParameter("@Flag", "PATCH" ?? (object)DBNull.Value)
+                       };
+                var _tbl_Guest = (await _context.Tbl_Guest!
+                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GID=@GID, " +
+                    "@UpdatedBy=@UpdatedBy," +
+                    "@Status=@Status,@Flag=@Flag", para)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
+
+                return new OkObjectResult(_tbl_Guest);
+            }
+            catch (Exception)
+            {
+                return new ObjectResult(new { Message = "An error occurred while updating the guest." }) { StatusCode = 500 };
+            }
+        }
+
     }
 }
