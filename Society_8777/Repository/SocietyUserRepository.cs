@@ -187,5 +187,28 @@ public async Task<IActionResult> GetAllUsers(Tbl_User objcust, CancellationToken
             return new ObjectResult(new { Message = "Error while retrieving users", StatusCode = 500 });
             }
     }
-}
+        public async Task<IActionResult> GetDeviceIDAsync(string DeviceID, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var parameter = new SqlParameter[]
+                {
+                    new SqlParameter("@DeviceID", DeviceID),
+                    new SqlParameter("@Flag","DID")
+
+                };
+                var DeviceData = (await _dbcontex.tbl_User!
+                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_User] @DeviceID=@DeviceID ,@Flag=@Flag", parameter)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken));
+                return new ObjectResult(DeviceData);
+            }
+            catch {
+                return new ObjectResult(new { Message = "Error while retrieving Device ID", StatusCode = 500 });
+            }
+        
+        
+        
+        }
+    }
 }

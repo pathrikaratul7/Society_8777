@@ -12,5 +12,7 @@ namespace Society_8777.Interface
         Task<IActionResult> DeleteUser(Tbl_User objCust, CancellationToken cancellationToken);
         Task<IActionResult> GetAllUsers(Tbl_User objcust, CancellationToken cancellationToken);
         Task<IActionResult> UpdateDeviceID(Tbl_User objCust, CancellationToken cancellationToken);
+
+        Task<IActionResult> GetDeviceIDAsync(string DeviceID, CancellationToken cancellationToken);
     }
 }

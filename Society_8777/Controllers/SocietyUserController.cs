@@ -118,7 +118,7 @@ namespace Society_8777.Controllers
 
             return Ok(new { filePath });
         }
-        [HttpPost("UpdateDeviceID")]
+        [HttpPatch("UpdateDeviceID")]
         public async Task<IActionResult> UpdateDeviceID(Tbl_User objCust, CancellationToken cancellationToken)
         {
             try
@@ -133,6 +133,20 @@ namespace Society_8777.Controllers
                 // Log the exception (ex) as needed
                 return StatusCode(500, $"Internal server error=>> {ex.Message}");
             }
+        }
+        [HttpGet("GetDeviceIDAsync")]
+        public async Task<IActionResult> GetDeviceIDAsync(string DeviceID, CancellationToken cancellationToken)
+        {
+            try {
+                var Data = await _repository.GetDeviceIDAsync(DeviceID,cancellationToken);
+                return new OkObjectResult(Data);
+            }
+            catch
+            {
+
+                return StatusCode(500, $"Internal server error=>>");
+            }
+        
         }
     }
 }
