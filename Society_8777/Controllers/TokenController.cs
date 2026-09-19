@@ -248,7 +248,7 @@ namespace Society_8777.Controllers
     }
     [HttpPost("refresh")]
         [AllowAnonymous]
-        public async Task<Token> Refresh([FromBody] RefreshRequestDTO request, CancellationToken cancellationToken)
+        public async Task<Token> Refresh([FromBody] RefreshRequestDTO request, CancellationToken cancellationToken, string ClientType = "Web")
         {
             var response = new Token();
 
@@ -341,16 +341,23 @@ namespace Society_8777.Controllers
                 await _Context.SaveChangesAsync(cancellationToken);
 
                 // 5️ Send new refresh token as HttpOnly cookie
-                Response.Cookies.Append("refreshToken", newRefreshToken, new CookieOptions
+                if (ClientType == "Web")
                 {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddDays(7)
-                });
+                    Response.Cookies.Append("refreshToken", newRefreshToken, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        Expires = DateTime.UtcNow.AddDays(7)
+                    });
+                }
+                else
+                {
+                    response.refreshToken = newRefreshToken;
+                }
 
-                // 6️ Return new JWT info
-                response.token = accessToken;
+                    // 6️ Return new JWT info
+                    response.token = accessToken;
                 response.tokenexpiry = jwtToken.ValidTo;
                 response.Message = "Token refreshed successfully";
                 response.Status = "Success";
