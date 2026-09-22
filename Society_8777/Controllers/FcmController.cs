@@ -102,7 +102,7 @@ namespace Society_8777.Controllers
         {
             try
             {
-                _logger.LogInformation("SendGuestNotification called with token: {token}", 
+                _logger.LogInformation("SendGuestNotification called with token: {token}",
                     request?.FcmToken?.Substring(0, Math.Min(20, request.FcmToken?.Length ?? 0)) + "...");
 
                 if (request == null || string.IsNullOrWhiteSpace(request.FcmToken))
@@ -134,13 +134,19 @@ namespace Society_8777.Controllers
                         data[item.Key] = item.Value;
                 }
 
+                // dataOnlyAndroid: true — guest-approval taps need custom routing
+                // (type/guestId extras) to work whether the app is foreground,
+                // backgrounded, or fully killed. A notification+data payload gets
+                // auto-displayed by Android itself in the latter two states and
+                // OnMessageReceived (which builds the tap intent) never runs.
                 var result = await _fcmService.SendNotificationToDeviceAsync(
                     request.FcmToken,
                     request.Title ?? "Guest Arrival",
                     request.Body ?? $"Guest {request.GuestName} has arrived",
                     data,
                     request.GuestImageUrl,
-                    cancellationToken);
+                    dataOnlyAndroid: true,
+                    cancellationToken: cancellationToken);
 
                 if (result)
                     return Ok(new { Message = "Notification sent successfully" });
@@ -172,7 +178,8 @@ namespace Society_8777.Controllers
                     request.Body ?? "You have a new notification",
                     request.Data,
                     null,
-                    cancellationToken);
+                    dataOnlyAndroid: false,
+                    cancellationToken: cancellationToken);
 
                 if (result)
                     return Ok(new { Message = "Notification sent to topic successfully" });

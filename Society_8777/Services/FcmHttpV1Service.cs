@@ -21,12 +21,24 @@ namespace Society_8777.Services
         /// <summary>
         /// Sends a notification to a single device using FCM token with optional image.
         /// </summary>
+        /// <param name="dataOnlyAndroid">
+        /// When true (default), Android receives a DATA-ONLY message — no top-level
+        /// Notification and no AndroidConfig.Notification block. This is required for
+        /// custom-handled notifications (e.g. guest approval) so that
+        /// FirebaseMessagingService.OnMessageReceived fires reliably in EVERY app state
+        /// (foreground, background, killed). If a notification block is present, Android
+        /// auto-displays it from the system tray whenever the app isn't in the foreground
+        /// and OnMessageReceived is never called, so custom tap-routing extras are lost.
+        /// Set to false only for plain notifications you want the OS to handle by default
+        /// (no custom click routing needed).
+        /// </param>
         public async Task<bool> SendNotificationToDeviceAsync(
             string fcmToken,
             string title,
             string body,
             Dictionary<string, string>? data = null,
             string? imageUrl = null,
+            bool dataOnlyAndroid = true,
             CancellationToken cancellationToken = default)
         {
             try
@@ -47,16 +59,29 @@ namespace Society_8777.Services
                     body = "You have a new notification";
                 }
 
-                // Base notification for all platforms
-                var notification = new Notification
-                {
-                    Title = title,
-                    Body = body,
-                    ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl
-                };
-
                 // Prepare data dictionary
                 var messageData = data ?? new Dictionary<string, string>();
+
+                // For data-only Android delivery, the client reads title/body out of the
+                // data payload itself (see MyFirebaseMessagingService fallback logic), so
+                // make sure they're always present there.
+                if (dataOnlyAndroid)
+                {
+                    messageData["title"] = title;
+                    messageData["body"] = body;
+                }
+
+                // Base notification — only attached when NOT doing data-only Android delivery.
+                // Webpush/APNs below still get their own notification blocks regardless,
+                // since this data-only behavior is specifically an Android tray-handling issue.
+                var notification = dataOnlyAndroid
+                    ? null
+                    : new Notification
+                    {
+                        Title = title,
+                        Body = body,
+                        ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl
+                    };
 
                 var message = new Message
                 {
@@ -69,18 +94,21 @@ namespace Society_8777.Services
                 message.Android = new AndroidConfig
                 {
                     Priority = Priority.High,
-                    Notification = new AndroidNotification
-                    {
-                        Title = title,
-                        Body = body,
-                        ChannelId = "guest_arrival",
-                        Icon = "icon",
-                        Sound = "default",
-                        Color = "#FF6B6B", // Red color for guest arrival
-                        // Image will be loaded from the notification's ImageUrl
-                        ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
-                        ClickAction = "FLUTTER_NOTIFICATION_CLICK"
-                    },
+                    // Omitting this is what actually stops Android auto-displaying the
+                    // notification and skipping OnMessageReceived when backgrounded/killed.
+                    Notification = dataOnlyAndroid
+                        ? null
+                        : new AndroidNotification
+                        {
+                            Title = title,
+                            Body = body,
+                            ChannelId = "guest_arrival",
+                            Icon = "icon",
+                            Sound = "default",
+                            Color = "#FF6B6B", // Red color for guest arrival
+                            ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
+                            ClickAction = "FLUTTER_NOTIFICATION_CLICK"
+                        },
                     Data = messageData,
                     FcmOptions = new AndroidFcmOptions
                     {
@@ -120,7 +148,7 @@ namespace Society_8777.Services
 
                 var response = await FirebaseMessaging.DefaultInstance.SendAsync(message, cancellationToken);
 
-                _logger.LogInformation($"Notification sent successfully. MessageId: {response}, Token: {fcmToken.Substring(0, Math.Min(20, fcmToken.Length))}..., ImageUrl: {imageUrl}");
+                _logger.LogInformation($"Notification sent successfully. MessageId: {response}, Token: {fcmToken.Substring(0, Math.Min(20, fcmToken.Length))}..., ImageUrl: {imageUrl}, DataOnlyAndroid: {dataOnlyAndroid}");
                 return true;
             }
             catch (NullReferenceException nrex)
@@ -144,6 +172,7 @@ namespace Society_8777.Services
             string body,
             Dictionary<string, string>? data = null,
             string? imageUrl = null,
+            bool dataOnlyAndroid = false,
             CancellationToken cancellationToken = default)
         {
             try
@@ -164,14 +193,22 @@ namespace Society_8777.Services
                     body = "You have a new notification";
                 }
 
-                var notification = new Notification
-                {
-                    Title = title,
-                    Body = body,
-                    ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl
-                };
-
                 var messageData = data ?? new Dictionary<string, string>();
+
+                if (dataOnlyAndroid)
+                {
+                    messageData["title"] = title;
+                    messageData["body"] = body;
+                }
+
+                var notification = dataOnlyAndroid
+                    ? null
+                    : new Notification
+                    {
+                        Title = title,
+                        Body = body,
+                        ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl
+                    };
 
                 var message = new Message
                 {
@@ -184,16 +221,18 @@ namespace Society_8777.Services
                 message.Android = new AndroidConfig
                 {
                     Priority = Priority.High,
-                    Notification = new AndroidNotification
-                    {
-                        Title = title,
-                        Body = body,
-                        ChannelId = "guest_arrival",
-                        Icon = "icon",
-                        Sound = "default",
-                        ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
-                        ClickAction = "FLUTTER_NOTIFICATION_CLICK"
-                    },
+                    Notification = dataOnlyAndroid
+                        ? null
+                        : new AndroidNotification
+                        {
+                            Title = title,
+                            Body = body,
+                            ChannelId = "guest_arrival",
+                            Icon = "icon",
+                            Sound = "default",
+                            ImageUrl = string.IsNullOrEmpty(imageUrl) ? null : imageUrl,
+                            ClickAction = "FLUTTER_NOTIFICATION_CLICK"
+                        },
                     Data = messageData,
                     FcmOptions = new AndroidFcmOptions
                     {
@@ -239,6 +278,7 @@ namespace Society_8777.Services
             string body,
             Dictionary<string, string>? data = null,
             string? imageUrl = null,
+            bool dataOnlyAndroid = true,
             CancellationToken cancellationToken = default)
         {
             var result = new SendMulticastResult();
@@ -256,7 +296,7 @@ namespace Society_8777.Services
 
                 try
                 {
-                    var success = await SendNotificationToDeviceAsync(token, title, body, data, imageUrl, cancellationToken);
+                    var success = await SendNotificationToDeviceAsync(token, title, body, data, imageUrl, dataOnlyAndroid, cancellationToken);
                     if (success)
                         result.SuccessCount++;
                     else
