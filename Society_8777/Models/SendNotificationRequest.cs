@@ -8,6 +8,9 @@ namespace Society_8777.Models
         public string? Title { get; set; }
         public string? Body { get; set; }
         public string? GuestImageUrl { get; set; }
+        public long GID { get; set; }
+        public string ?GuestMobile { get; set; }
+        public string? FlatId { get; set; }
         public Dictionary<string, string>? CustomData { get; set; }
     }
 }

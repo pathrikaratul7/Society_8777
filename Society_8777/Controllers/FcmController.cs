@@ -109,25 +109,29 @@ namespace Society_8777.Controllers
                     return new BadRequestObjectResult(new { Message = "Invalid request. FCM token is required." });
 
                 var data = new Dictionary<string, string>();
-                
+
+                data["type"] = "GUEST_APPROVAL";
+                data["guestId"] = request.GID.ToString();
+
                 if (!string.IsNullOrEmpty(request.GuestName))
-                    data["GuestName"] = request.GuestName;
-                    
+                    data["guestName"] = request.GuestName;
+
+                if (!string.IsNullOrEmpty(request.GuestMobile))
+                    data["guestMobile"] = request.GuestMobile;
+
                 if (!string.IsNullOrEmpty(request.FlatNumber))
                     data["FlatNumber"] = request.FlatNumber;
 
-                if (!string.IsNullOrWhiteSpace(request.GuestImageUrl))
-                {
-                    data["guestImageUrl"] = request.GuestImageUrl;
-                }
+                if (!string.IsNullOrEmpty(request.FlatId))
+                    data["flatId"] = request.FlatId;
 
+                if (!string.IsNullOrWhiteSpace(request.GuestImageUrl))
+                    data["guestImageUrl"] = request.GuestImageUrl;
 
                 if (request.CustomData != null)
                 {
                     foreach (var item in request.CustomData)
-                    {
                         data[item.Key] = item.Value;
-                    }
                 }
 
                 var result = await _fcmService.SendNotificationToDeviceAsync(
