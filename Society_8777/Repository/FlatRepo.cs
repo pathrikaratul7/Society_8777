@@ -6,7 +6,7 @@ using Society_8777.Models;
 
 namespace Society_8777.Repository
 {
-    public class FlatRepo : IFlat
+    public class FlatRepo : IFlat, IPreFlatOwner
     {
         readonly DataBaseContext.DataBaseContext _dbcontex = new();
         public FlatRepo(DataBaseContext.DataBaseContext dataBaseContext)
@@ -137,5 +137,39 @@ namespace Society_8777.Repository
             }
             
         }
+        public async Task<IActionResult> PreGetAllFlat(Tbl_Flat objFlat, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (_dbcontex.tbl_Flat == null)
+                {
+                    return new NotFoundResult();
+                }
+                SqlParameter[] p = new SqlParameter[2];
+                p[0] = new SqlParameter("@UID", objFlat.UID ?? (object)DBNull.Value);
+                p[1] = new SqlParameter("@Flag", objFlat.Flag ?? (object)DBNull.Value);
+                var _tbl_Flat = await _dbcontex.tbl_Flat
+                   .FromSqlRaw("EXEC USP_Tbl_Flat @UID=@UID,  @Flag=@Flag", p)
+                   .AsNoTracking()
+                   .ToListAsync(cancellationToken);
+                if (_tbl_Flat != null && _tbl_Flat.Count > 0)
+                {
+                    return new OkObjectResult(_tbl_Flat);
+                }
+                else
+                {
+                    return new NotFoundResult();
+                }
+            }
+            catch (Exception)
+            {
+                return new ObjectResult(new { Message = "Error loading flat." }) { StatusCode = 500 };
+
+            }
+
+
+
+        }
+
     }
 }
