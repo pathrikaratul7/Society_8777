@@ -7,7 +7,7 @@ using Society_8777.Services;
 
 namespace Society_8777.Repository
 {
-    public class GuestRepo : IGuest
+    public class GuestRepo : IGuest , IPreGuest
     {
         readonly private DataBaseContext.DataBaseContext _context;
         private readonly IFireBaseNotification _firebaseNotification;
@@ -198,6 +198,56 @@ namespace Society_8777.Repository
             catch (Exception)
             {
                 return new ObjectResult(new { Message = "An error occurred while updating the guest." }) { StatusCode = 500 };
+            }
+        }
+
+        public async Task<IActionResult> PreGuestAdd(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
+        {
+            try
+            {
+                SqlParameter[] sp = new SqlParameter[11];
+                sp[0] = new SqlParameter("@GName", tbl_Guest.GName ?? (object)DBNull.Value);
+                sp[1] = new SqlParameter("@GMobile", tbl_Guest.GMobile ?? (object)DBNull.Value);
+                sp[2] = new SqlParameter("@GEmail", tbl_Guest.GEmail ?? (object)DBNull.Value);
+                sp[3] = new SqlParameter("@InDateTime", tbl_Guest.InDateTime ?? (object)DBNull.Value);
+                sp[4] = new SqlParameter("@FID", tbl_Guest.FID ?? (object)DBNull.Value);
+                sp[5] = new SqlParameter("@CreatedBy", tbl_Guest.CreatedBy ?? (object)DBNull.Value);
+                sp[6] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
+                sp[7] = new SqlParameter("@GImagePath", tbl_Guest.GImagePath ?? (object)DBNull.Value);
+                sp[8] = new SqlParameter("@Status", tbl_Guest.Status ?? (object)DBNull.Value);
+                sp[9] = new SqlParameter("@CreatorMobile", tbl_Guest.CreatorMobile ?? (object)DBNull.Value);
+                sp[10] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
+
+                var _tbl_Guest = (await _context.Tbl_Guest!
+                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail," +
+                    "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID," +
+                    "@GImagePath=@GImagePath,@Status=@Status,@CreatorMobile=@CreatorMobile,@Flag=@Flag"
+                    , sp)
+                    .AsNoTracking()
+                    .ToListAsync(cancellationToken))
+                    .FirstOrDefault();
+
+                // Send Firebase notification to flat owner if guest was added successfully
+                if (_tbl_Guest != null && tbl_Guest.FID.HasValue && !string.IsNullOrEmpty(tbl_Guest.GName))
+                {
+                    try
+                    {
+                        await _firebaseNotification.SendGuestArrivalNotificationByFlatAsync(
+                            tbl_Guest.FID.Value,
+                            tbl_Guest.GName,
+                            cancellationToken);
+                    }
+                    catch (Exception)
+                    {
+                        // Log error or handle notification failure gracefully
+                    }
+                }
+
+                return new OkObjectResult(_tbl_Guest);
+            }
+            catch (Exception ex)
+            {
+                return new ObjectResult(new { Message = "An error occurred while retrieving notifications." }) { StatusCode = 500 };
             }
         }
 
