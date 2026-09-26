@@ -148,7 +148,9 @@ namespace Society_8777.Controllers
             }
             return string.Empty;
         }
+        [AllowAnonymous]
         [HttpPost("guestimg")]
+
         public async Task<IActionResult> UploadGuestImage(IFormFile file, CancellationToken cancellationToken)
         {
             if (file == null || file.Length == 0)
