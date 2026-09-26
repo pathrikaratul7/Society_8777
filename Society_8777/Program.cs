@@ -54,6 +54,7 @@ builder.Services.AddTransient<IFlat, FlatRepo>();
 builder.Services.AddTransient<IPreFlatOwner, FlatRepo>();
 builder.Services.AddTransient<IGuest, GuestRepo>();
 builder.Services.AddTransient<IPreGuest, GuestRepo>();
+
 builder.Services.AddTransient<IPark, ParkRepo>();
 builder.Services.AddTransient<IInc, INCRepo>();
 builder.Services.AddTransient<IFireBaseNotification, FirebaseNotificationService>();

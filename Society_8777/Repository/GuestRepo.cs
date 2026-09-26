@@ -4,23 +4,26 @@ using Microsoft.EntityFrameworkCore;
 using Society_8777.Interface;
 using Society_8777.Models;
 using Society_8777.Services;
+using System.Text.Json;
 
 namespace Society_8777.Repository
 {
-    public class GuestRepo : IGuest , IPreGuest
+    public class GuestRepo : IGuest, IPreGuest
     {
         readonly private DataBaseContext.DataBaseContext _context;
         private readonly IFireBaseNotification _firebaseNotification;
         private readonly FcmHttpV1Service _fcmHttpV1Service;
+        private readonly IFCMToken _fcmTokenRepo;
 
         public GuestRepo(
-            DataBaseContext.DataBaseContext context, 
+            DataBaseContext.DataBaseContext context,
             IFireBaseNotification firebaseNotification,
-            FcmHttpV1Service fcmHttpV1Service)
+            FcmHttpV1Service fcmHttpV1Service, IFCMToken fCMToken)
         {
             _context = context;
             _firebaseNotification = firebaseNotification;
             _fcmHttpV1Service = fcmHttpV1Service;
+            _fcmTokenRepo = fCMToken;
         }
 
         public async Task<IActionResult> GetNotification(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
@@ -75,8 +78,8 @@ namespace Society_8777.Repository
                     try
                     {
                         await _firebaseNotification.SendGuestArrivalNotificationByFlatAsync(
-                            tbl_Guest.FID.Value, 
-                            tbl_Guest.GName, 
+                            tbl_Guest.FID.Value,
+                            tbl_Guest.GName,
                             cancellationToken);
                     }
                     catch (Exception)
@@ -92,7 +95,7 @@ namespace Society_8777.Repository
                 return new ObjectResult(new { Message = "An error occurred while retrieving notifications." }) { StatusCode = 500 };
             }
         }
-        
+
         public async Task<IActionResult> UpdateGuest(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
         {
             try
@@ -137,7 +140,7 @@ namespace Society_8777.Repository
                 sp[3] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
 
                 var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw(
-                    "EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@IsDeleted=@IsDeleted,@UpdatedBy=@UpdatedBy,@Flag=@Flag", 
+                    "EXEC [dbo].[USP_Tbl_Guest] @GID=@GID,@IsDeleted=@IsDeleted,@UpdatedBy=@UpdatedBy,@Flag=@Flag",
                     sp).ToListAsync(cancellationToken);
 
                 return new OkObjectResult(_tbl_Guest);
@@ -157,7 +160,7 @@ namespace Society_8777.Repository
                 sp[1] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
 
                 var _tbl_Guest = await _context.Tbl_Guest!.FromSqlRaw(
-                    "EXEC [dbo].[USP_Tbl_Guest] @LoginID=@LoginID,@Flag=@Flag", 
+                    "EXEC [dbo].[USP_Tbl_Guest] @LoginID=@LoginID,@Flag=@Flag",
                     sp).ToListAsync(cancellationToken);
 
                 return new OkObjectResult(_tbl_Guest);
@@ -172,7 +175,7 @@ namespace Society_8777.Repository
         {
             return File.ReadAllBytes(imagePath);
         }
-        
+
         public async Task<IActionResult> PartialApproveReject(long GID, string Status, string UpdatedBy,
            CancellationToken cancellationToken)
         {
@@ -201,55 +204,294 @@ namespace Society_8777.Repository
             }
         }
 
-        public async Task<IActionResult> PreGuestAdd(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
+        //public async Task<IActionResult> PreGuestAdd(Tbl_Guest tbl_Guest, CancellationToken cancellationToken)
+        //{
+        //    try
+        //    {
+        //        SqlParameter[] sp = new SqlParameter[11];
+        //        sp[0] = new SqlParameter("@GName", tbl_Guest.GName ?? (object)DBNull.Value);
+        //        sp[1] = new SqlParameter("@GMobile", tbl_Guest.GMobile ?? (object)DBNull.Value);
+        //        sp[2] = new SqlParameter("@GEmail", tbl_Guest.GEmail ?? (object)DBNull.Value);
+        //        sp[3] = new SqlParameter("@InDateTime", tbl_Guest.InDateTime ?? (object)DBNull.Value);
+        //        sp[4] = new SqlParameter("@FID", tbl_Guest.FID ?? (object)DBNull.Value);
+        //        sp[5] = new SqlParameter("@CreatedBy", tbl_Guest.CreatedBy ?? (object)DBNull.Value);
+        //        sp[6] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
+        //        sp[7] = new SqlParameter("@GImagePath", tbl_Guest.GImagePath ?? (object)DBNull.Value);
+        //        sp[8] = new SqlParameter("@Status", tbl_Guest.Status ?? (object)DBNull.Value);
+        //        sp[9] = new SqlParameter("@CreatorMobile", tbl_Guest.CreatorMobile ?? (object)DBNull.Value);
+        //        sp[10] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
+
+        //        var _tbl_Guest = (await _context.Tbl_Guest!
+        //            .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail," +
+        //            "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID," +
+        //            "@GImagePath=@GImagePath,@Status=@Status,@CreatorMobile=@CreatorMobile,@Flag=@Flag"
+        //            , sp)
+        //            .AsNoTracking()
+        //            .ToListAsync(cancellationToken))
+        //            .FirstOrDefault();
+
+        //        // Send Firebase notification to flat owner if guest was added successfully
+        //        if (_tbl_Guest != null && tbl_Guest.FID.HasValue && !string.IsNullOrEmpty(tbl_Guest.GName))
+        //        {
+        //            try
+        //            {
+        //                await _firebaseNotification.SendGuestArrivalNotificationByFlatAsync(
+        //                    tbl_Guest.FID.Value,
+        //                    tbl_Guest.GName,
+        //                    cancellationToken);
+        //            }
+        //            catch (Exception)
+        //            {
+        //                // Log error or handle notification failure gracefully
+        //            }
+        //        }
+
+        //        return new OkObjectResult(_tbl_Guest);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new ObjectResult(new { Message = "An error occurred while retrieving notifications." }) { StatusCode = 500 };
+        //    }
+        //}
+
+        
+public async Task<IActionResult> PreGuestAdd(
+    Tbl_Guest tbl_Guest,
+    CancellationToken cancellationToken)
         {
             try
             {
-                SqlParameter[] sp = new SqlParameter[11];
-                sp[0] = new SqlParameter("@GName", tbl_Guest.GName ?? (object)DBNull.Value);
-                sp[1] = new SqlParameter("@GMobile", tbl_Guest.GMobile ?? (object)DBNull.Value);
-                sp[2] = new SqlParameter("@GEmail", tbl_Guest.GEmail ?? (object)DBNull.Value);
-                sp[3] = new SqlParameter("@InDateTime", tbl_Guest.InDateTime ?? (object)DBNull.Value);
-                sp[4] = new SqlParameter("@FID", tbl_Guest.FID ?? (object)DBNull.Value);
-                sp[5] = new SqlParameter("@CreatedBy", tbl_Guest.CreatedBy ?? (object)DBNull.Value);
-                sp[6] = new SqlParameter("@LoginID", tbl_Guest.LoginID ?? (object)DBNull.Value);
-                sp[7] = new SqlParameter("@GImagePath", tbl_Guest.GImagePath ?? (object)DBNull.Value);
-                sp[8] = new SqlParameter("@Status", tbl_Guest.Status ?? (object)DBNull.Value);
-                sp[9] = new SqlParameter("@CreatorMobile", tbl_Guest.CreatorMobile ?? (object)DBNull.Value);
-                sp[10] = new SqlParameter("@Flag", tbl_Guest.Flag ?? (object)DBNull.Value);
+                // ---------------------------------------------------------
+                // 1. Save Pre-Guest
+                // ---------------------------------------------------------
 
-                var _tbl_Guest = (await _context.Tbl_Guest!
-                    .FromSqlRaw("EXEC [dbo].[USP_Tbl_Guest] @GName=@GName,@GMobile=@GMobile,@GEmail=@GEmail," +
-                    "@InDateTime=@InDateTime,@FID=@FID,@CreatedBy=@CreatedBy,@LoginID=@LoginID," +
-                    "@GImagePath=@GImagePath,@Status=@Status,@CreatorMobile=@CreatorMobile,@Flag=@Flag"
-                    , sp)
+                SqlParameter[] sp = new SqlParameter[11];
+
+                sp[0] = new SqlParameter(
+                    "@GName",
+                    tbl_Guest.GName ?? (object)DBNull.Value);
+
+                sp[1] = new SqlParameter(
+                    "@GMobile",
+                    tbl_Guest.GMobile ?? (object)DBNull.Value);
+
+                sp[2] = new SqlParameter(
+                    "@GEmail",
+                    tbl_Guest.GEmail ?? (object)DBNull.Value);
+
+                sp[3] = new SqlParameter(
+                    "@InDateTime",
+                    tbl_Guest.InDateTime ?? (object)DBNull.Value);
+
+                sp[4] = new SqlParameter(
+                    "@FID",
+                    tbl_Guest.FID ?? (object)DBNull.Value);
+
+                sp[5] = new SqlParameter(
+                    "@CreatedBy",
+                    tbl_Guest.CreatedBy ?? (object)DBNull.Value);
+
+                sp[6] = new SqlParameter(
+                    "@LoginID",
+                    tbl_Guest.LoginID ?? (object)DBNull.Value);
+
+                sp[7] = new SqlParameter(
+                    "@GImagePath",
+                    tbl_Guest.GImagePath ?? (object)DBNull.Value);
+
+                sp[8] = new SqlParameter(
+                    "@Status",
+                    tbl_Guest.Status ?? (object)DBNull.Value);
+
+                sp[9] = new SqlParameter(
+                    "@CreatorMobile",
+                    tbl_Guest.CreatorMobile ?? (object)DBNull.Value);
+
+                sp[10] = new SqlParameter(
+                    "@Flag",
+                    tbl_Guest.Flag ?? (object)DBNull.Value);
+
+
+                var savedGuest = (await _context.Tbl_Guest!
+                    .FromSqlRaw(
+                        "EXEC [dbo].[USP_Tbl_Guest] " +
+                        "@GName=@GName," +
+                        "@GMobile=@GMobile," +
+                        "@GEmail=@GEmail," +
+                        "@InDateTime=@InDateTime," +
+                        "@FID=@FID," +
+                        "@CreatedBy=@CreatedBy," +
+                        "@LoginID=@LoginID," +
+                        "@GImagePath=@GImagePath," +
+                        "@Status=@Status," +
+                        "@CreatorMobile=@CreatorMobile," +
+                        "@Flag=@Flag",
+                        sp)
                     .AsNoTracking()
                     .ToListAsync(cancellationToken))
                     .FirstOrDefault();
 
-                // Send Firebase notification to flat owner if guest was added successfully
-                if (_tbl_Guest != null && tbl_Guest.FID.HasValue && !string.IsNullOrEmpty(tbl_Guest.GName))
+
+                // ---------------------------------------------------------
+                // 2. Guest must be successfully saved before notification
+                // ---------------------------------------------------------
+
+                if (savedGuest == null)
+                {
+                    return new ObjectResult(new
+                    {
+                        Message = "Guest could not be saved."
+                    })
+                    {
+                        StatusCode = 500
+                    };
+                }
+
+
+                // ---------------------------------------------------------
+                // 3. Send FCM notification to Flat Owner
+                // ---------------------------------------------------------
+
+                if (tbl_Guest.FID.HasValue)
                 {
                     try
                     {
-                        await _firebaseNotification.SendGuestArrivalNotificationByFlatAsync(
-                            tbl_Guest.FID.Value,
-                            tbl_Guest.GName,
-                            cancellationToken);
+                        // Get latest FCM token of flat owner
+                        var tokenResult =
+                            await _fcmTokenRepo.GetLatestTokenByFlatIdAsync(
+                                Convert.ToInt32(tbl_Guest.FID.Value),
+                                cancellationToken);
+
+
+                        // -------------------------------------------------
+                        // If repository returns IActionResult
+                        // -------------------------------------------------
+
+                        string? fcmToken = null;
+
+                        //if (tokenResult is OkObjectResult okResult)
+                        //{
+                        //    fcmToken = okResult.Value?.ToString();
+                        //}
+                        if (tokenResult is OkObjectResult okResult)
+                        {
+                            if (okResult.Value != null)
+                            {
+                                var json = System.Text.Json.JsonSerializer.Serialize(okResult.Value);
+
+                                var response = System.Text.Json.JsonSerializer.Deserialize<JsonElement>(json);
+
+                                if (response.TryGetProperty("Data", out var dataElement))
+                                {
+                                    var tokenData =
+                                        System.Text.Json.JsonSerializer.Deserialize<Tbl_FCMToken>(
+                                            dataElement.GetRawText());
+
+                                    if (tokenData != null)
+                                    {
+                                        fcmToken = tokenData.FcmToken;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(fcmToken))
+                        {
+                            // -------------------------------------------------
+                            // 4. Notification data
+                            // -------------------------------------------------
+
+                            var notificationData = new Dictionary<string, string>
+                            {
+                                ["type"] = "GUEST_APPROVAL",
+
+                                ["gid"] = savedGuest.GID?.ToString() ?? "",
+
+                                ["guestName"] = tbl_Guest.GName ?? "",
+
+                                ["guestMobile"] = tbl_Guest.GMobile ?? "",
+
+                                ["flatNumber"] = tbl_Guest.FlatNumber.ToString(),
+
+                                ["flatId"] = tbl_Guest.FID.ToString(),
+
+                                ["time"] = $"🕐 {DateTime.Now:hh:mm tt}"
+                            };
+
+                            if (!string.IsNullOrWhiteSpace(tbl_Guest.GImagePath))
+                            {
+                                notificationData["guestImageUrl"] = tbl_Guest.GImagePath;
+                            }
+
+                            // -------------------------------------------------
+                            // Send notification
+                            // -------------------------------------------------
+
+                            var notificationSent =
+                                await _fcmHttpV1Service.SendNotificationToDeviceAsync(
+                                    fcmToken,
+                                    "🔔 Guest Arrived",
+                                    $"👤 {tbl_Guest.GName} has arrived at your flat 🏠.\n📱 Mobile: {tbl_Guest.FlatOwnerMobile}",
+                                    notificationData,
+                                    tbl_Guest.GImagePath,
+                                    dataOnlyAndroid: true,
+                                    cancellationToken: cancellationToken);
+
+
+                            // -------------------------------------------------
+                            // Notification failure should NOT fail guest save
+                            // -------------------------------------------------
+
+                            if (!notificationSent)
+                            {
+                                // Log notification failure if required
+                                // _logger.LogWarning(
+                                //     "Guest saved but FCM notification failed.");
+                            }
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception notificationEx)
                     {
-                        // Log error or handle notification failure gracefully
+                        // Guest is already saved.
+                        // Do not return 500 because FCM failed.
+
+                        // Log notification exception if required
+                        // _logger.LogError(
+                        //     notificationEx,
+                        //     "Guest saved but FCM notification failed.");
                     }
                 }
 
-                return new OkObjectResult(_tbl_Guest);
+
+                // ---------------------------------------------------------
+                // 6. Return saved guest
+                // ---------------------------------------------------------
+
+                return new OkObjectResult(savedGuest);
+            }
+            catch (OperationCanceledException)
+            {
+                return new ObjectResult(new
+                {
+                    Message = "Request was cancelled."
+                })
+                {
+                    StatusCode = 499
+                };
             }
             catch (Exception ex)
             {
-                return new ObjectResult(new { Message = "An error occurred while retrieving notifications." }) { StatusCode = 500 };
+                return new ObjectResult(new
+                {
+                    Message = "An error occurred while adding pre-guest.",
+                    Details = ex.Message
+                })
+                {
+                    StatusCode = 500
+                };
             }
         }
+
 
     }
 }
