@@ -73,20 +73,245 @@ namespace Society_8777.Repository
                     .FirstOrDefault();
 
                 // Send Firebase notification to flat owner if guest was added successfully
-                if (_tbl_Guest != null && tbl_Guest.FID.HasValue && !string.IsNullOrEmpty(tbl_Guest.GName))
+                //if (_tbl_Guest != null && tbl_Guest.FID.HasValue && !string.IsNullOrEmpty(tbl_Guest.GName))
+                //{
+                //    try
+                //    {
+                //        await _firebaseNotification.SendGuestArrivalNotificationByFlatAsync(
+                //            tbl_Guest.FID.Value,
+                //            tbl_Guest.GName,
+                //            cancellationToken);
+                //    }
+                //    catch (Exception)
+                //    {
+                //        // Log error or handle notification failure gracefully
+                //    }
+                //}
+                // =========================================================
+                // 3. Send FCM Notification to Flat Owner
+                // =========================================================
+
+                if (_tbl_Guest.FID.HasValue)
                 {
                     try
                     {
-                        await _firebaseNotification.SendGuestArrivalNotificationByFlatAsync(
-                            tbl_Guest.FID.Value,
-                            tbl_Guest.GName,
-                            cancellationToken);
+                        int flatId = Convert.ToInt32(_tbl_Guest.FID.Value);
+
+                        //_logger.LogInformation(
+                        //    "PreGuest saved successfully. GuestID: {GuestId}, FlatID: {FlatId}",
+                        //    savedGuest.GID,
+                        //    flatId);
+
+
+                        // -----------------------------------------------------
+                        // Get latest FCM token of flat owner
+                        // -----------------------------------------------------
+
+                        var tokenResult =
+                            await _fcmTokenRepo.GetLatestTokenByFlatIdAsync(
+                                flatId,
+                                cancellationToken);
+
+
+                        string? fcmToken = null;
+
+
+                        // -----------------------------------------------------
+                        // Repository currently returns IActionResult:
+                        //
+                        // {
+                        //     Message = "...",
+                        //     FlatID = 53,
+                        //     Data = Tbl_FCMToken
+                        // }
+                        // -----------------------------------------------------
+
+                        if (tokenResult is OkObjectResult okResult &&
+                            okResult.Value != null)
+                        {
+                            var json =
+                                System.Text.Json.JsonSerializer.Serialize(
+                                    okResult.Value);
+
+                            var response =
+                                System.Text.Json.JsonSerializer.Deserialize<JsonElement>(
+                                    json);
+
+                            if (response.TryGetProperty(
+                                "Data",
+                                out JsonElement dataElement))
+                            {
+                                var tokenData =
+                                    System.Text.Json.JsonSerializer.Deserialize<Tbl_FCMToken>(
+                                        dataElement.GetRawText());
+
+                                fcmToken = tokenData?.FcmToken;
+                            }
+                        }
+
+
+                        // -----------------------------------------------------
+                        // No token found
+                        // -----------------------------------------------------
+
+                        if (string.IsNullOrWhiteSpace(fcmToken))
+                        {
+                            //_logger.LogWarning(
+                            //    "Guest saved but FCM token was not found. " +
+                            //    "GuestID: {GuestId}, FlatID: {FlatId}",
+                            //    savedGuest.GID,
+                            //    flatId);
+
+                            return new OkObjectResult(_tbl_Guest);
+                        }
+
+
+                        // =====================================================
+                        // 4. Prepare FCM Data
+                        // =====================================================
+
+                        // IMPORTANT:
+                        // These keys MUST match your MAUI Firebase receiver.
+                        //
+                        // Your working FcmController uses:
+                        //
+                        // type
+                        // guestId
+                        // guestName
+                        // guestMobile
+                        // FlatNumber
+                        // flatId
+                        // guestImageUrl
+                        // =====================================================
+
+                        var notificationData =
+                            new Dictionary<string, string>
+                            {
+                                ["type"] = "GUEST_APPROVAL",
+
+                                // IMPORTANT:
+                                // Use savedGuest.GID instead of tbl_Guest.GID
+                                // because database generated the Guest ID.
+                                ["guestId"] =
+                                    _tbl_Guest.GID?.ToString() ?? "",
+
+                                ["guestName"] =
+                                    _tbl_Guest.GName ?? tbl_Guest.GName ?? "",
+
+                                // IMPORTANT:
+                                // Guest mobile, NOT FlatOwnerMobile
+                                ["guestMobile"] =
+                                    _tbl_Guest.GMobile ?? tbl_Guest.GMobile ?? "",
+
+                                // Keep same casing as your working
+                                // FcmController.
+                                ["FlatNumber"] =
+                                    _tbl_Guest.FlatNumber?.ToString()
+                                    ?? tbl_Guest.FlatNumber?.ToString()
+                                    ?? "",
+
+                                ["flatId"] =
+                                    flatId.ToString(),
+
+                                ["time"] =
+                                    $"🕐 {DateTime.Now:hh:mm tt}"
+                            };
+
+
+                        // -----------------------------------------------------
+                        // Guest Image
+                        // -----------------------------------------------------
+
+                        if (!string.IsNullOrWhiteSpace(
+                            _tbl_Guest.GImagePath ??
+                            tbl_Guest.GImagePath))
+                        {
+                            notificationData["guestImageUrl"] =
+                                _tbl_Guest.GImagePath ??
+                                tbl_Guest.GImagePath ??
+                                "";
+                        }
+
+
+                        // =====================================================
+                        // 5. Send FCM
+                        // =====================================================
+
+                        //_logger.LogInformation(
+                        //    "Sending GUEST_APPROVAL FCM notification. " +
+                        //    "GuestID: {GuestId}, FlatID: {FlatId}, GuestName: {GuestName}",
+                        //    savedGuest.GID,
+                        //    flatId,
+                        //    savedGuest.GName);
+
+
+                        var notificationSent =
+                            await _fcmHttpV1Service.SendNotificationToDeviceAsync(
+                                fcmToken,
+
+                                "🔔 Guest Arrived",
+
+                                $"👤 {_tbl_Guest.GName} has arrived at your flat 🏠.\n" +
+                                $"📱 Mobile: {_tbl_Guest.GMobile}",
+
+                                notificationData,
+
+                                _tbl_Guest.GImagePath,
+
+                                // IMPORTANT:
+                                // Data-only allows MAUI FirebaseMessagingService
+                                // to receive GUEST_APPROVAL and perform custom
+                                // GuestApprovalPopup routing.
+                                dataOnlyAndroid: true,
+
+                                cancellationToken: cancellationToken);
+
+
+                        // =====================================================
+                        // 6. FCM Result
+                        // =====================================================
+
+                        if (notificationSent)
+                        {
+                            //_logger.LogInformation(
+                            //    "GUEST_APPROVAL FCM notification sent successfully. " +
+                            //    "GuestID: {GuestId}, FlatID: {FlatId}",
+                            //    savedGuest.GID,
+                            //    flatId);
+                        }
+                        else
+                        {
+                            //_logger.LogWarning(
+                            //    "Guest saved successfully but FCM notification failed. " +
+                            //    "GuestID: {GuestId}, FlatID: {FlatId}",
+                            //    savedGuest.GID,
+                            //    flatId);
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception notificationEx)
                     {
-                        // Log error or handle notification failure gracefully
+                        // =====================================================
+                        // IMPORTANT:
+                        // Guest is already saved.
+                        // FCM failure should NOT make PreGuestAdd return 500.
+                        // =====================================================
+
+                        //_logger.LogError(
+                        //    notificationEx,
+                        //    "Guest saved but FCM notification failed. " +
+                        //    "GuestID: {GuestId}, FlatID: {FlatId}",
+                        //    savedGuest.GID,
+                        //    savedGuest.FID);
                     }
                 }
+                else
+                {
+                    //_logger.LogWarning(
+                    //    "Guest saved but FID is null. " +
+                    //    "FCM notification cannot be sent. GuestID: {GuestId}",
+                    //    savedGuest.GID);
+                }
+
 
                 return new OkObjectResult(_tbl_Guest);
             }
