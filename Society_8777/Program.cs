@@ -127,6 +127,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
     });
+//builder.Services.AddAuthorization(policy =>
+//{
+//    policy.AddPolicy("", p => p.RequireClaim(""));
+
+//});
 builder.Services.AddSwaggerGen(c =>
 {
 
@@ -175,16 +180,16 @@ builder.Services.AddSwaggerGen(c =>
         Version = "Dev",
         Title = "Society 8777 API",
         Description = "Society7 API for Swagger integration",
-        TermsOfService = new Uri("http://sbank7.somee.com/"), // Add url of term of service details
+        TermsOfService = new Uri("https://myreact7.runasp.net/"), // Add url of term of service details
         Contact = new OpenApiContact
         {
             Name = "Society7 Web Application",
-            Url = new Uri("http://sbank7.somee.com/") // Add url of contact details
+            Url = new Uri("https://myreact7.runasp.net/") // Add url of contact details
         },
         License = new OpenApiLicense
         {
             Name = "Society7 License",
-            Url = new Uri("http://sbank7.somee.com/") // Add url of license details
+            Url = new Uri("https://myreact7.runasp.net/") // Add url of license details
         }
     });
 }
